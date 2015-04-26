@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">点滴记录</string>
+    <string name="record_title_hint">请输入这件事的标题</string>
+    <string name="record_title_label">标题</string>
+    <string name="record_details_label">内容</string>
+    <string name="record_solved_label">solved</string>
+    <string name="title_activity_record">RecorderActivity</string>
+	<string name="records_title">事件集合</string>
+	<string name="date_picker_title">事件日期:</string>
+	<string name="new_record">新事件</string>
+	<string name="show_subtitle">显示子标题</string>
+	<string name="hide_subtitle">隐藏子标题</string>
+	<string name="subtitle">用心记录每一件事</string>
+	<string name="delete_record">删除</string>
+	<string name="take">拍照</string>
+    <string name="records_linkman_choose">选择联系人</string>
+	<string name="records_report_text">分享</string>
+	<string name="records_report">%1$s!
+	    被记录于  %2$s. %3$s, 而且 %4$s</string>
+	<string name="records_report_solved">这件事已经被解决</string>
+	<string name="records_report_unsolved">这件事还没被解决</string>
+	<string name="records_report_no_suspect">这件事没有有相关的人</string>
+	<string name="records_report_suspect">这件事情相关的人是 %s.</string>
+	<string name="records_report_subject">事件报告</string>
+	<string name="send_report">发送报告</string>
+	
+
+</resources>
