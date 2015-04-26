@@ -158,6 +158,7 @@ public class WeatherActivity extends Activity implements OnClickListener{
 		currentDataText.setText(prefs.getString("current", ""));
 		weatherInfoLayout.setVisibility(View.VISIBLE);
 		cityNameText.setVisibility(View.VISIBLE);
+		publishText.setText("");
 		Intent intent=new Intent(this, AutoUpdateService.class);
 		startService(intent);
 	}
