@@ -28,6 +28,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="弹性滑动" />
+            <Button
+                android:id="@+id/commonMethod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="常用的方法" />
         </LinearLayout>
     </ScrollView>
 

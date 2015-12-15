@@ -26,6 +26,8 @@
         </activity>
         <activity android:name="com.example.testdemo.GestureDetectorTest" >
         </activity>
+        <activity android:name="com.example.testdemo.CommonCodeActivity" >
+        </activity>
     </application>
 
 </manifest>

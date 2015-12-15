@@ -14,6 +14,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button velocityTrackerTest;
 	private Button gestureDetectortest;
 	private Button scoller;
+	private Button commonMethod;
 	private Context mContext=MainActivity.this;
 
 	@Override
@@ -26,10 +27,12 @@ public class MainActivity extends Activity implements OnClickListener {
 	private void initUI() {
 		velocityTrackerTest= (Button) findViewById(R.id.velocityTrackerTest);
 		gestureDetectortest= (Button) findViewById(R.id.gestureDetectortest);
+		commonMethod= (Button) findViewById(R.id.commonMethod);
 		scoller= (Button) findViewById(R.id.scoller);
 		velocityTrackerTest.setOnClickListener(this);
 		gestureDetectortest.setOnClickListener(this);
 		scoller.setOnClickListener(this);
+		commonMethod.setOnClickListener(this);
 		
 	}
 
@@ -48,6 +51,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.scoller:
 			ScrollerTest.actionStart(mContext);
+			Log.d(TAG, "onClick R.id.scoller:");
+			break;
+		case R.id.commonMethod:
+			CommonCodeActivity.actionStart(mContext);
 			Log.d(TAG, "onClick R.id.scoller:");
 			break;
 
