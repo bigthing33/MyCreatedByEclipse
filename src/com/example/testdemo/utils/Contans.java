@@ -1,6 +1,8 @@
 package com.example.testdemo.utils;
 
 public class Contans {
+	public static final String VERSION_NAME = "VERSION_NAME";
+	public static final String VERSION_CODE = "VERSION_CODE";
 	/**
 	 * Unknown network class
 	 */

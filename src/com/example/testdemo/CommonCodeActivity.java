@@ -14,7 +14,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.SyncStateContract.Constants;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
@@ -25,13 +24,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.testdemo.utils.Contans;
+
 public class CommonCodeActivity extends Activity implements OnClickListener {
 	private static final String TAG = CommonCodeActivity.class.getName();
 	private Context mContext = CommonCodeActivity.this;
 	private EditText edittext;
 	private Button getDeviceInfo;
-	public static final String VERSION_NAME = "VERSION_NAME";
-	public static final String VERSION_CODE = "VERSION_CODE";
 	private Button hasSDCard;
 	private Button showkeyboard;
 	private Button hidekeyboard;
@@ -42,36 +41,13 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 	private Button getNetworkOperatorName;
 	private Button getNetWorkClass;
 	private Button getNetWorkStatus;
-	/**
-	 * Unknown network class
-	 */
-	public static final int NETWORK_CLASS_UNKNOWN = 0;
-
-	/**
-	 * wifi net work
-	 */
-	public static final int NETWORK_WIFI = 1;
-
-	/**
-	 * "2G" networks
-	 */
-	public static final int NETWORK_CLASS_2_G = 2;
-
-	/**
-	 * "3G" networks
-	 */
-	public static final int NETWORK_CLASS_3_G = 3;
-
-	/**
-	 * "4G" networks
-	 */
-	public static final int NETWORK_CLASS_4_G = 4;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_commoncode);
 		initUI();
+		hideSoftInput(this);
 	}
 
 	private void initUI() {
@@ -139,10 +115,34 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 			Log.d(TAG, "onClick R.id.getStatusBarHeight:");
 			break;
 		case R.id.getPhoneType:
+			/**
+			 * 	 * 11.返回移动终端类型 PHONE_TYPE_NONE :0 手机制式未知 PHONE_TYPE_GSM :1 手机制式为GSM，移动和联通
+	 * PHONE_TYPE_CDMA :2 手机制式为CDMA，电信 PHONE_TYPE_SIP:3
+			 */
+			String phone_typeString;
+			switch (getPhoneType(this)) {
+			case 0:
+				phone_typeString="手机制式未知 ";
+				break;
+			case 1:
+				phone_typeString="手机制式为GSM，移动和联通";
+				break;
+			case 2:
+				phone_typeString="手机制式为CDMA，电信 ";
+				break;
+
+			default:
+				phone_typeString="获取失败";
+				break;
+			}
+			Toast.makeText(mContext, phone_typeString,
+					Toast.LENGTH_LONG).show();
 			edittext.setText(getPhoneType(this) + "");
+			
 			Log.d(TAG, "onClick R.id.getStatusBarHeight:");
 			break;
 		case R.id.getNetworkOperatorName:
+			
 			edittext.setText(getNetworkOperatorName(this) + "");
 			Log.d(TAG, "onClick R.id.getStatusBarHeight:");
 			break;
@@ -151,6 +151,29 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 			Log.d(TAG, "onClick R.id.getStatusBarHeight:");
 			break;
 		case R.id.getNetWorkStatus:
+			String netWorkStatus = null ;
+			switch (getNetWorkStatus(this)) {
+			case 0:
+				netWorkStatus="未知 ";
+				break;
+			case Contans.NETWORK_WIFI:
+				netWorkStatus="wifi";
+				break;
+			case Contans.NETWORK_CLASS_2_G:
+				netWorkStatus="2G ";
+				break;
+			case Contans.NETWORK_CLASS_3_G:
+				netWorkStatus="3G ";
+				break;
+			case Contans.NETWORK_CLASS_4_G:
+				netWorkStatus="4G ";
+				break;
+			default:
+				netWorkStatus="获取失败";
+				break;
+			}
+			Toast.makeText(mContext, netWorkStatus+"",
+					Toast.LENGTH_LONG).show();
 			edittext.setText(getNetWorkStatus(this) + "");
 			Log.d(TAG, "onClick R.id.getStatusBarHeight:");
 			break;
@@ -178,9 +201,9 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 			PackageInfo pi = pm.getPackageInfo(context.getPackageName(),
 					PackageManager.GET_ACTIVITIES);
 			if (pi != null) {
-				mDeviceCrashInfo.put(VERSION_NAME,
+				mDeviceCrashInfo.put(Contans.VERSION_NAME,
 						pi.versionName == null ? "not set" : pi.versionName);
-				mDeviceCrashInfo.put(VERSION_CODE, pi.versionCode);
+				mDeviceCrashInfo.put(Contans.VERSION_CODE, pi.versionCode);
 			}
 		} catch (PackageManager.NameNotFoundException e) {
 			Log.e(TAG, "Error while collect package info", e);
@@ -338,7 +361,7 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 		case TelephonyManager.NETWORK_TYPE_CDMA:
 		case TelephonyManager.NETWORK_TYPE_1xRTT:
 		case TelephonyManager.NETWORK_TYPE_IDEN:
-			return NETWORK_CLASS_2_G;
+			return Contans.NETWORK_CLASS_2_G;
 
 		case TelephonyManager.NETWORK_TYPE_UMTS:
 		case TelephonyManager.NETWORK_TYPE_EVDO_0:
@@ -349,13 +372,13 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 		case TelephonyManager.NETWORK_TYPE_EVDO_B:
 		case TelephonyManager.NETWORK_TYPE_EHRPD:
 		case TelephonyManager.NETWORK_TYPE_HSPAP:
-			return NETWORK_CLASS_3_G;
+			return Contans.NETWORK_CLASS_3_G;
 
 		case TelephonyManager.NETWORK_TYPE_LTE:
-			return NETWORK_CLASS_4_G;
+			return Contans.NETWORK_CLASS_4_G;
 
 		default:
-			return NETWORK_CLASS_UNKNOWN;
+			return Contans.NETWORK_CLASS_UNKNOWN;
 		}
 	}
 
@@ -364,7 +387,7 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 	 */
 
 	public static int getNetWorkStatus(Context context) {
-		int netWorkType = NETWORK_CLASS_UNKNOWN;
+		int netWorkType = Contans.NETWORK_CLASS_UNKNOWN;
 
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -374,7 +397,7 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 			int type = networkInfo.getType();
 
 			if (type == ConnectivityManager.TYPE_WIFI) {
-				netWorkType = NETWORK_WIFI;
+				netWorkType = Contans.NETWORK_WIFI;
 			} else if (type == ConnectivityManager.TYPE_MOBILE) {
 				netWorkType = getNetWorkClass(context);
 			}
