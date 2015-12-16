@@ -10,29 +10,37 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" 
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/velocityTrackerTest"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="velocityTrackerTest" />
-            <Button
-                android:id="@+id/gestureDetectortest"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="gestureDetectortest" />
-            <Button
-                android:id="@+id/scoller"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="弹性滑动" />
             <Button
                 android:id="@+id/commonMethod"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="常用的方法" />
+
+            <Button
+                android:id="@+id/velocityTrackerTest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="滑动速度追踪" />
+
+            <Button
+                android:id="@+id/gestureDetectortest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="手势动作的检测" />
+
+            <Button
+                android:id="@+id/scoller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="弹性滑动" />
+            <Button
+                android:id="@+id/sendHttpRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="发送一个网络请求" />
         </LinearLayout>
     </ScrollView>
 

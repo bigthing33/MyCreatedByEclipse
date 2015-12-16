@@ -37,6 +37,26 @@ public class LogUtil {
 		if (LEVEL <= WARN)
 			Log.e(tag, createNewLogMessage(msg), t);
 	}
+	public static void v(String tag, String msg) {
+		if (LEVEL <= VERBOSE)
+			Log.v(tag, createNewLogMessage(msg));
+	}
+	public static void d(String tag, String msg) {
+		if (LEVEL <= DEBUG)
+			Log.d(tag, createNewLogMessage(msg));
+	}
+	public static void i(String tag, String msg) {
+		if (LEVEL <= INFO)
+			Log.i(tag, createNewLogMessage(msg));
+	}
+	public static void w(String tag, String msg) {
+		if (LEVEL <= WARN)
+			Log.w(tag, createNewLogMessage(msg));
+	}
+	public static void e(String tag, String msg) {
+		if (LEVEL <= WARN)
+			Log.e(tag, createNewLogMessage(msg));
+	}
 
 	private static String createNewLogMessage(String paramString) {
 		String str = getFunctionInfo();
