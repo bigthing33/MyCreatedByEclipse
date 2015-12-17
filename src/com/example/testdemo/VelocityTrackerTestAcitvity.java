@@ -9,7 +9,7 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.widget.TextView;
 
-public class VelocityTrackerTest extends Activity {
+public class VelocityTrackerTestAcitvity extends Activity {
 	private TextView xVelocity;
 	private TextView yVelocity;
 	private VelocityTracker vTracker;
@@ -24,7 +24,7 @@ public class VelocityTrackerTest extends Activity {
 	}
 
 	public static void actionStart(Context context) {
-		Intent intent = new Intent(context, VelocityTrackerTest.class);
+		Intent intent = new Intent(context, VelocityTrackerTestAcitvity.class);
 		context.startActivity(intent);
 	}
 

@@ -9,7 +9,7 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
-public class GestureDetectorTest extends Activity {
+public class GestureDetectorTestAcitvity extends Activity {
 	private TextView gesture;
 	private GestureDetector mGestureDetector;
 
@@ -71,7 +71,7 @@ public class GestureDetectorTest extends Activity {
 	}
 
 	public static void actionStart(Context context) {
-		Intent intent = new Intent(context, GestureDetectorTest.class);
+		Intent intent = new Intent(context, GestureDetectorTestAcitvity.class);
 		context.startActivity(intent);
 	}
 

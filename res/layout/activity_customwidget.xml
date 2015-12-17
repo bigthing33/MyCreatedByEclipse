@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cascade="http://schemas.android.com/apk/res/com.example.testdemo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <TextView 
+        android:id="@+id/sample_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sample"
+        />
+    <com.example.testdemo.widget.CascadeLayout
+        android:id="@+id/myCascadeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        cascade:horizontal_spacing="30dp"
+        cascade:vertical_spacing="20dp" >
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            cascade:layout_vertical_spacing="90dp"
+            android:background="#FF0000" />
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:background="#00FF00" />
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:background="#0000FF" />
+    </com.example.testdemo.widget.CascadeLayout>
+</LinearLayout>

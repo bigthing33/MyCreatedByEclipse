@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Scroller;
 import android.widget.TextView;
 
-public class ScrollerTest extends Activity {
+public class ScollerAcitvity extends Activity {
 	private Scroller mScroller;
 	private TextView scrollerTest;
 
@@ -23,7 +23,7 @@ public class ScrollerTest extends Activity {
 	}
 
 	public static void actionStart(Context context) {
-		Intent intent = new Intent(context, ScrollerTest.class);
+		Intent intent = new Intent(context, ScollerAcitvity.class);
 		context.startActivity(intent);
 	}
 

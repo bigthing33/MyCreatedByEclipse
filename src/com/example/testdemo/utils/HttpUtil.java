@@ -30,6 +30,7 @@ public class HttpUtil {
 						listener.onFinish(response.toString());
 					}
 				} catch (Exception e) {
+					e.printStackTrace();
 					if(listener!=null){
 						listener.onErro(e);
 					}

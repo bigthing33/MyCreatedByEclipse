@@ -16,6 +16,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button gestureDetectortest;
 	private Button scoller;
 	private Button sendHttpRequest;
+	private Button customWidget;
 	private Context mContext=MainActivity.this;
 
 	@Override
@@ -31,7 +32,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		commonMethod= (Button) findViewById(R.id.commonMethod);
 		scoller= (Button) findViewById(R.id.scoller);
 		sendHttpRequest= (Button) findViewById(R.id.sendHttpRequest);
+		customWidget= (Button) findViewById(R.id.customWidget);
 		sendHttpRequest.setOnClickListener(this);
+		customWidget.setOnClickListener(this);
 		velocityTrackerTest.setOnClickListener(this);
 		gestureDetectortest.setOnClickListener(this);
 		scoller.setOnClickListener(this);
@@ -45,15 +48,15 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		switch (v.getId()) {
 		case R.id.velocityTrackerTest:
-			VelocityTrackerTest.actionStart(mContext);
+			VelocityTrackerTestAcitvity.actionStart(mContext);
 			LogUtil.d(TAG, "onClick R.id.velocityTrackerTest:");
 			break;
 		case R.id.gestureDetectortest:
-			GestureDetectorTest.actionStart(mContext);
+			GestureDetectorTestAcitvity.actionStart(mContext);
 			LogUtil.d(TAG, "onClick R.id.gestureDetectortest:");
 			break;
 		case R.id.scoller:
-			ScrollerTest.actionStart(mContext);
+			ScollerAcitvity.actionStart(mContext);
 			LogUtil.d(TAG, "onClick R.id.scoller:");
 			break;
 		case R.id.commonMethod:
@@ -62,6 +65,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.sendHttpRequest:
 			SendHttpRequestActivity.actionStart(mContext);
+			LogUtil.d(TAG, "onClick R.id.scoller:");
+			break;
+		case R.id.customWidget:
+			CustomWidgetAcitvity.actionStart(mContext);
 			LogUtil.d(TAG, "onClick R.id.scoller:");
 			break;
 

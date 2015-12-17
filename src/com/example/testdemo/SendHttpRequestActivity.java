@@ -59,17 +59,11 @@ public class SendHttpRequestActivity extends BaseActivity implements OnClickList
 			public void onErro(Exception e) {
 				Message msg=new Message();
 				msg.what=1;
-				msg.obj="获取失败";
+				msg.obj=e;
 				mHandler.sendMessage(msg);
 
 			}
 		};
-
-	}
-
-	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
 
 	}
 
