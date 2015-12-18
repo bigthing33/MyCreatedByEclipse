@@ -49,7 +49,6 @@ public class VelocityTrackerTestAcitvity extends Activity {
 		case MotionEvent.ACTION_UP:
 		case MotionEvent.ACTION_CANCEL:
 			vTracker.clear();
-			vTracker.recycle();
 			break;
 		}
 		return true;

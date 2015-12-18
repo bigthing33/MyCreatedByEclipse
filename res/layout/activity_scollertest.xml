@@ -4,11 +4,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/scrollerTest"
+    <Button
+        android:id="@+id/scrollerBtn1"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="动画滑动" />
+
+    <Button
+        android:id="@+id/scrollerBtn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/abc_search_url_text_pressed"
-        android:text="滑动的内容" />
+        android:text="改变布局参数滑动" />
+
+    <Button
+        android:id="@+id/scrollerBtn3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="动画将view的内容向左滑动100" />
+
+    <Button
+        android:id="@+id/scrollerBtn4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="延时策略将view的内容向左滑动100" />
 
 </LinearLayout>

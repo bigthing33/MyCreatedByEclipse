@@ -36,6 +36,8 @@
         </activity>
         <activity android:name="com.example.testdemo.CustomWidgetAcitvity" >
         </activity>
+        <activity android:name="com.example.testdemo.ScollerAcitvity" >
+        </activity>
     </application>
 
 </manifest>
