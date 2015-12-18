@@ -13,13 +13,15 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.testdemo.base.BaseActivity;
 import com.example.testdemo.utils.LogUtil;
 
-public class ScollerAcitvity extends BaseActivity implements OnClickListener {
+public class ScollerAcitvity extends BaseActivity implements OnClickListener, OnLongClickListener {
 	private static final String TAG = ScollerAcitvity.class.getName();
 
 	private static final int MESSAGE_SCROLL_TO = 1;
@@ -30,6 +32,7 @@ public class ScollerAcitvity extends BaseActivity implements OnClickListener {
 	private Button scrollerBtn2;
 	private Button scrollerBtn3;
 	private Button scrollerBtn4;
+	private View scrollerBtn5;
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -155,7 +158,15 @@ public class ScollerAcitvity extends BaseActivity implements OnClickListener {
 		scrollerBtn3.setOnClickListener(this);
 		scrollerBtn4 = (Button) findViewById(R.id.scrollerBtn4);
 		scrollerBtn4.setOnClickListener(this);
+		scrollerBtn5 =  findViewById(R.id.scrollerBtn5);
+		scrollerBtn4.setOnLongClickListener(this);
 
+	}
+
+	@Override
+	public boolean onLongClick(View arg0) {
+		 Toast.makeText(this, "long click", Toast.LENGTH_SHORT).show();
+		return true;
 	}
 
 }
