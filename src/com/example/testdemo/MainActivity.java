@@ -15,6 +15,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button velocityTrackerTest;
 	private Button gestureDetectortest;
 	private Button scoller;
+	private Button inerIntercept;
 	private Button sendHttpRequest;
 	private Button customWidget;
 	private Context mContext=MainActivity.this;
@@ -34,6 +35,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		sendHttpRequest= (Button) findViewById(R.id.sendHttpRequest);
 		customWidget= (Button) findViewById(R.id.customWidget);
 		sendHttpRequest.setOnClickListener(this);
+		inerIntercept= (Button) findViewById(R.id.inerIntercept);
+		inerIntercept.setOnClickListener(this);
 		customWidget.setOnClickListener(this);
 		velocityTrackerTest.setOnClickListener(this);
 		gestureDetectortest.setOnClickListener(this);
@@ -68,6 +71,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			LogUtil.d(TAG, "onClick R.id.scoller:");
 			break;
 		case R.id.customWidget:
+			CustomWidgetAcitvity.actionStart(mContext);
+			LogUtil.d(TAG, "onClick R.id.scoller:");
+			break;
+		case R.id.inerIntercept:
 			CustomWidgetAcitvity.actionStart(mContext);
 			LogUtil.d(TAG, "onClick R.id.scoller:");
 			break;
