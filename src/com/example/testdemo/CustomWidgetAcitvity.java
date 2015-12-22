@@ -6,10 +6,12 @@ import android.os.Bundle;
 
 import com.example.testdemo.base.BaseActivity;
 import com.example.testdemo.widget.CascadeLayout;
+import com.example.testdemo.widget.CircleView;
 
 public class CustomWidgetAcitvity extends BaseActivity {
 	public static final String TAG=CustomWidgetAcitvity.class.getName();
 	private CascadeLayout myCascadeLayout;
+	private CircleView circleView;
 	
 	
 
@@ -17,13 +19,13 @@ public class CustomWidgetAcitvity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_customwidget);
-		myCascadeLayout=(CascadeLayout) findViewById(R.id.myCascadeLayout);
+		initUI();
 		
 	}
 	@Override
 	public void initUI() {
-		// TODO Auto-generated method stub
-
+		myCascadeLayout=(CascadeLayout) findViewById(R.id.myCascadeLayout);
+		circleView=(CircleView) findViewById(R.id.circleView);
 	}
 	public static void actionStart(Context context) {
 		Intent intent = new Intent(context, CustomWidgetAcitvity.class);

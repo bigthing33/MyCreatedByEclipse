@@ -51,6 +51,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="滑动冲突，外部拦截" />
+            <Button
+                android:id="@+id/notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="通知栏" />
         </LinearLayout>
     </ScrollView>
 
