@@ -12,6 +12,7 @@ public abstract class BaseActivity extends Activity   {
 	@Override
 	public  void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		initUI();
 	}
 	@Override
 	public void onDestroy(){

@@ -18,7 +18,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button inerIntercept;
 	private Button sendHttpRequest;
 	private Button customWidget;
-	private Context mContext=MainActivity.this;
+	private Button notification;
+	private Context mContext = MainActivity.this;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,23 +29,24 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private void initUI() {
-		velocityTrackerTest= (Button) findViewById(R.id.velocityTrackerTest);
-		gestureDetectortest= (Button) findViewById(R.id.gestureDetectortest);
-		commonMethod= (Button) findViewById(R.id.commonMethod);
-		scoller= (Button) findViewById(R.id.scoller);
-		sendHttpRequest= (Button) findViewById(R.id.sendHttpRequest);
-		customWidget= (Button) findViewById(R.id.customWidget);
-		sendHttpRequest.setOnClickListener(this);
-		inerIntercept= (Button) findViewById(R.id.inerIntercept);
+		velocityTrackerTest = (Button) findViewById(R.id.velocityTrackerTest);
+		gestureDetectortest = (Button) findViewById(R.id.gestureDetectortest);
+		commonMethod = (Button) findViewById(R.id.commonMethod);
+		scoller = (Button) findViewById(R.id.scoller);
+		sendHttpRequest = (Button) findViewById(R.id.sendHttpRequest);
+		customWidget = (Button) findViewById(R.id.customWidget);
+		inerIntercept = (Button) findViewById(R.id.inerIntercept);
+		notification = (Button) findViewById(R.id.notification);
+		notification.setOnClickListener(this);
 		inerIntercept.setOnClickListener(this);
 		customWidget.setOnClickListener(this);
+		sendHttpRequest.setOnClickListener(this);
 		velocityTrackerTest.setOnClickListener(this);
 		gestureDetectortest.setOnClickListener(this);
 		scoller.setOnClickListener(this);
 		commonMethod.setOnClickListener(this);
-		
-	}
 
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -64,19 +66,23 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.commonMethod:
 			CommonCodeActivity.actionStart(mContext);
-			LogUtil.d(TAG, "onClick R.id.scoller:");
+			LogUtil.d(TAG, "onClick R.id.commonMethod:");
 			break;
 		case R.id.sendHttpRequest:
 			SendHttpRequestActivity.actionStart(mContext);
-			LogUtil.d(TAG, "onClick R.id.scoller:");
+			LogUtil.d(TAG, "onClick R.id.sendHttpRequest:");
 			break;
 		case R.id.customWidget:
 			CustomWidgetAcitvity.actionStart(mContext);
-			LogUtil.d(TAG, "onClick R.id.scoller:");
+			LogUtil.d(TAG, "onClick R.id.customWidget:");
 			break;
 		case R.id.inerIntercept:
 			CustomWidgetAcitvity.actionStart(mContext);
-			LogUtil.d(TAG, "onClick R.id.scoller:");
+			LogUtil.d(TAG, "onClick R.id.inerIntercept:");
+			break;
+		case R.id.notification:
+			NotificationActivity.actionStart(mContext);
+			LogUtil.d(TAG, "onClick R.id.notification:");
 			break;
 
 		default:
