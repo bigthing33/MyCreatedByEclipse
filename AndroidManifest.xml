@@ -42,6 +42,8 @@
         </activity>
         <activity android:name="com.example.testdemo.ScollerAcitvity" >
         </activity>
+        <activity android:name="com.example.testdemo.CompareActivity" >
+        </activity>
 
         <receiver android:name="com.example.testdemo.widget.MyAppWidgetProvider" >
             <meta-data
@@ -71,6 +73,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/test_appwidget_provider_info" />
         </receiver>
+        <service android:name="com.example.testdemo.services.CompareService"></service>
     </application>
 
 </manifest>

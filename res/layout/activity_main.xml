@@ -56,6 +56,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="通知栏" />
+            <Button
+                android:id="@+id/compareService_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="比较大小的服务" />
         </LinearLayout>
     </ScrollView>
 
