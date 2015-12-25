@@ -2,6 +2,8 @@ package com.example.testdemo;
 
 import java.lang.reflect.Field;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -47,8 +49,17 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_commoncode);
 		initUI();
-		hideSoftInput(this);
+
+//		hideSoftInput(this);已经在清单文件中设置了
 	}
+	
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+	}
+
 
 	private void initUI() {
 		edittext = (EditText) findViewById(R.id.edittext);
@@ -58,16 +69,16 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 		showkeyboard = (Button) findViewById(R.id.showkeyboard);
 		goHome = (Button) findViewById(R.id.goHome);
 		getStatusBarHeight = (Button) findViewById(R.id.getStatusBarHeight);
-		getDeviceInfo.setOnClickListener(this);
 		getTopBarHeight = (Button) findViewById(R.id.getTopBarHeight);
-		getTopBarHeight.setOnClickListener(this);
 		getPhoneType = (Button) findViewById(R.id.getPhoneType);
-		getPhoneType.setOnClickListener(this);
-		getNetworkOperatorName = (Button) findViewById(R.id.getNetworkOperatorName);
-		getNetworkOperatorName.setOnClickListener(this);
-		getNetWorkClass = (Button) findViewById(R.id.getNetWorkClass);
-		getNetWorkClass.setOnClickListener(this);
 		getNetWorkStatus = (Button) findViewById(R.id.getNetWorkStatus);
+		getNetworkOperatorName = (Button) findViewById(R.id.getNetworkOperatorName);
+		getNetWorkClass = (Button) findViewById(R.id.getNetWorkClass);
+		getNetworkOperatorName.setOnClickListener(this);
+		getPhoneType.setOnClickListener(this);
+		getNetWorkClass.setOnClickListener(this);
+		getTopBarHeight.setOnClickListener(this);
+		getDeviceInfo.setOnClickListener(this);
 		getNetWorkStatus.setOnClickListener(this);
 		hasSDCard.setOnClickListener(this);
 		showkeyboard.setOnClickListener(this);
@@ -116,33 +127,33 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.getPhoneType:
 			/**
-			 * 	 * 11.返回移动终端类型 PHONE_TYPE_NONE :0 手机制式未知 PHONE_TYPE_GSM :1 手机制式为GSM，移动和联通
-	 * PHONE_TYPE_CDMA :2 手机制式为CDMA，电信 PHONE_TYPE_SIP:3
+			 * * 11.返回移动终端类型 PHONE_TYPE_NONE :0 手机制式未知 PHONE_TYPE_GSM :1
+			 * 手机制式为GSM，移动和联通 PHONE_TYPE_CDMA :2 手机制式为CDMA，电信 PHONE_TYPE_SIP:3
 			 */
 			String phone_typeString;
 			switch (getPhoneType(this)) {
 			case 0:
-				phone_typeString="手机制式未知 ";
+				phone_typeString = "手机制式未知 ";
 				break;
 			case 1:
-				phone_typeString="手机制式为GSM，移动和联通";
+				phone_typeString = "手机制式为GSM，移动和联通";
 				break;
 			case 2:
-				phone_typeString="手机制式为CDMA，电信 ";
+				phone_typeString = "手机制式为CDMA，电信 ";
 				break;
 
 			default:
-				phone_typeString="获取失败";
+				phone_typeString = "获取失败";
 				break;
 			}
-			Toast.makeText(mContext, phone_typeString,
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(mContext, phone_typeString, Toast.LENGTH_LONG)
+					.show();
 			edittext.setText(getPhoneType(this) + "");
-			
+
 			Log.d(TAG, "onClick R.id.getStatusBarHeight:");
 			break;
 		case R.id.getNetworkOperatorName:
-			
+
 			edittext.setText(getNetworkOperatorName(this) + "");
 			Log.d(TAG, "onClick R.id.getStatusBarHeight:");
 			break;
@@ -151,29 +162,29 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 			Log.d(TAG, "onClick R.id.getStatusBarHeight:");
 			break;
 		case R.id.getNetWorkStatus:
-			String netWorkStatus = null ;
+			String netWorkStatus = null;
 			switch (getNetWorkStatus(this)) {
 			case 0:
-				netWorkStatus="未知 ";
+				netWorkStatus = "未知 ";
 				break;
 			case Contans.NETWORK_WIFI:
-				netWorkStatus="wifi";
+				netWorkStatus = "wifi";
 				break;
 			case Contans.NETWORK_CLASS_2_G:
-				netWorkStatus="2G ";
+				netWorkStatus = "2G ";
 				break;
 			case Contans.NETWORK_CLASS_3_G:
-				netWorkStatus="3G ";
+				netWorkStatus = "3G ";
 				break;
 			case Contans.NETWORK_CLASS_4_G:
-				netWorkStatus="4G ";
+				netWorkStatus = "4G ";
 				break;
 			default:
-				netWorkStatus="获取失败";
+				netWorkStatus = "获取失败";
 				break;
 			}
-			Toast.makeText(mContext, netWorkStatus+"",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(mContext, netWorkStatus + "", Toast.LENGTH_LONG)
+					.show();
 			edittext.setText(getNetWorkStatus(this) + "");
 			Log.d(TAG, "onClick R.id.getStatusBarHeight:");
 			break;

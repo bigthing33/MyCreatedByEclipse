@@ -56,7 +56,6 @@ public class ScollerAcitvity extends BaseActivity implements OnClickListener, On
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scollertest);
 		initUI();
@@ -151,15 +150,15 @@ public class ScollerAcitvity extends BaseActivity implements OnClickListener, On
 	@Override
 	public void initUI() {
 		scrollerBtn1 = (Button) findViewById(R.id.scrollerBtn1);
-		scrollerBtn1.setOnClickListener(this);
 		scrollerBtn2 = (Button) findViewById(R.id.scrollerBtn2);
-		scrollerBtn2.setOnClickListener(this);
 		scrollerBtn3 = (Button) findViewById(R.id.scrollerBtn3);
-		scrollerBtn3.setOnClickListener(this);
 		scrollerBtn4 = (Button) findViewById(R.id.scrollerBtn4);
-		scrollerBtn4.setOnClickListener(this);
 		scrollerBtn5 =  findViewById(R.id.scrollerBtn5);
+		scrollerBtn1.setOnClickListener(this);
 		scrollerBtn4.setOnLongClickListener(this);
+		scrollerBtn2.setOnClickListener(this);
+		scrollerBtn3.setOnClickListener(this);
+		scrollerBtn4.setOnClickListener(this);
 
 	}
 

@@ -28,6 +28,7 @@ public class NotificationActivity extends BaseActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.activity_notification);
 		super.onCreate(savedInstanceState);
+		initUI();
 	}
 
 	@Override
