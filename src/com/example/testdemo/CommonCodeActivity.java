@@ -26,7 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.testdemo.utils.Contans;
+import com.example.testdemo.utils.MyConstants;
 
 public class CommonCodeActivity extends Activity implements OnClickListener {
 	private static final String TAG = CommonCodeActivity.class.getName();
@@ -167,16 +167,16 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 			case 0:
 				netWorkStatus = "未知 ";
 				break;
-			case Contans.NETWORK_WIFI:
+			case MyConstants.NETWORK_WIFI:
 				netWorkStatus = "wifi";
 				break;
-			case Contans.NETWORK_CLASS_2_G:
+			case MyConstants.NETWORK_CLASS_2_G:
 				netWorkStatus = "2G ";
 				break;
-			case Contans.NETWORK_CLASS_3_G:
+			case MyConstants.NETWORK_CLASS_3_G:
 				netWorkStatus = "3G ";
 				break;
-			case Contans.NETWORK_CLASS_4_G:
+			case MyConstants.NETWORK_CLASS_4_G:
 				netWorkStatus = "4G ";
 				break;
 			default:
@@ -212,9 +212,9 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 			PackageInfo pi = pm.getPackageInfo(context.getPackageName(),
 					PackageManager.GET_ACTIVITIES);
 			if (pi != null) {
-				mDeviceCrashInfo.put(Contans.VERSION_NAME,
+				mDeviceCrashInfo.put(MyConstants.VERSION_NAME,
 						pi.versionName == null ? "not set" : pi.versionName);
-				mDeviceCrashInfo.put(Contans.VERSION_CODE, pi.versionCode);
+				mDeviceCrashInfo.put(MyConstants.VERSION_CODE, pi.versionCode);
 			}
 		} catch (PackageManager.NameNotFoundException e) {
 			Log.e(TAG, "Error while collect package info", e);
@@ -372,7 +372,7 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 		case TelephonyManager.NETWORK_TYPE_CDMA:
 		case TelephonyManager.NETWORK_TYPE_1xRTT:
 		case TelephonyManager.NETWORK_TYPE_IDEN:
-			return Contans.NETWORK_CLASS_2_G;
+			return MyConstants.NETWORK_CLASS_2_G;
 
 		case TelephonyManager.NETWORK_TYPE_UMTS:
 		case TelephonyManager.NETWORK_TYPE_EVDO_0:
@@ -383,13 +383,13 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 		case TelephonyManager.NETWORK_TYPE_EVDO_B:
 		case TelephonyManager.NETWORK_TYPE_EHRPD:
 		case TelephonyManager.NETWORK_TYPE_HSPAP:
-			return Contans.NETWORK_CLASS_3_G;
+			return MyConstants.NETWORK_CLASS_3_G;
 
 		case TelephonyManager.NETWORK_TYPE_LTE:
-			return Contans.NETWORK_CLASS_4_G;
+			return MyConstants.NETWORK_CLASS_4_G;
 
 		default:
-			return Contans.NETWORK_CLASS_UNKNOWN;
+			return MyConstants.NETWORK_CLASS_UNKNOWN;
 		}
 	}
 
@@ -398,7 +398,7 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 	 */
 
 	public static int getNetWorkStatus(Context context) {
-		int netWorkType = Contans.NETWORK_CLASS_UNKNOWN;
+		int netWorkType = MyConstants.NETWORK_CLASS_UNKNOWN;
 
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -408,7 +408,7 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 			int type = networkInfo.getType();
 
 			if (type == ConnectivityManager.TYPE_WIFI) {
-				netWorkType = Contans.NETWORK_WIFI;
+				netWorkType = MyConstants.NETWORK_WIFI;
 			} else if (type == ConnectivityManager.TYPE_MOBILE) {
 				netWorkType = getNetWorkClass(context);
 			}
