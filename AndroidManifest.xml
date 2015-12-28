@@ -45,6 +45,8 @@
         </activity>
         <activity android:name="com.example.testdemo.CompareActivity" >
         </activity>
+        <activity android:name="com.example.testdemo.AnimationActivity" >
+        </activity>
         <activity android:name="com.example.testdemo.Ntificarion_RemoteActivity"
             android:process=":remote" >
         </activity>

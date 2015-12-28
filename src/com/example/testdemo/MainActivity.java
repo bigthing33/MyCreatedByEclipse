@@ -21,6 +21,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button notification;
 	private Button compareService_btn;
 	private Button drawableDemo;
+	private Button animationDemo;
 	private Context mContext = MainActivity.this;
 
 	@Override
@@ -41,6 +42,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		notification = (Button) findViewById(R.id.notification);
 		compareService_btn = (Button) findViewById(R.id.compareService_btn);
 		drawableDemo = (Button) findViewById(R.id.drawableDemo);
+		animationDemo = (Button) findViewById(R.id.animationDemo);
+		animationDemo.setOnClickListener(this);
 		drawableDemo.setOnClickListener(this);
 		compareService_btn.setOnClickListener(this);
 		notification.setOnClickListener(this);
@@ -96,6 +99,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.drawableDemo:
 			DrawableDemoActivity.actionStart(mContext);
+			LogUtil.d(TAG, "onClick R.id.compareService_btn:");
+			break;
+		case R.id.animationDemo:
+			AnimationActivity.actionStart(mContext);
 			LogUtil.d(TAG, "onClick R.id.compareService_btn:");
 			break;
 

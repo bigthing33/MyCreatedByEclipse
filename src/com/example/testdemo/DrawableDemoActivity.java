@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.testdemo.base.BaseActivity;
 import com.example.testdemo.utils.LogUtil;
@@ -17,12 +19,14 @@ import com.example.testdemo.widget.CustomDrawable;
 public class DrawableDemoActivity extends BaseActivity {
 
 	private static final String TAG = DrawableDemoActivity.class.getName();
+	private TextView test_size;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		LogUtil.d(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_drawable);
+		initUI();
 		
 	}
 	
@@ -41,7 +45,9 @@ public class DrawableDemoActivity extends BaseActivity {
 
 	@Override
 	public void initUI() {
-
+		test_size = (TextView) findViewById(R.id.img_animation1);
+		Drawable background = test_size.getBackground();
+		LogUtil.d(TAG,"getIntrinsicHeight:"+ background.getIntrinsicHeight()+" getIntrinsicWidth:"+background.getIntrinsicWidth());
 	}
 
 	@Override
