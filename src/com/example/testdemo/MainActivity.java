@@ -20,6 +20,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button customWidget;
 	private Button notification;
 	private Button compareService_btn;
+	private Button drawableDemo;
 	private Context mContext = MainActivity.this;
 
 	@Override
@@ -39,6 +40,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		inerIntercept = (Button) findViewById(R.id.inerIntercept);
 		notification = (Button) findViewById(R.id.notification);
 		compareService_btn = (Button) findViewById(R.id.compareService_btn);
+		drawableDemo = (Button) findViewById(R.id.drawableDemo);
+		drawableDemo.setOnClickListener(this);
 		compareService_btn.setOnClickListener(this);
 		notification.setOnClickListener(this);
 		inerIntercept.setOnClickListener(this);
@@ -89,6 +92,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.compareService_btn:
 			CompareActivity.actionStart(mContext);
+			LogUtil.d(TAG, "onClick R.id.compareService_btn:");
+			break;
+		case R.id.drawableDemo:
+			DrawableDemoActivity.actionStart(mContext);
 			LogUtil.d(TAG, "onClick R.id.compareService_btn:");
 			break;
 

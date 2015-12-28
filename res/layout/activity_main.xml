@@ -61,6 +61,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="比较大小的服务" />
+            <Button
+                android:id="@+id/drawableDemo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="drawableDemo" />
         </LinearLayout>
     </ScrollView>
 

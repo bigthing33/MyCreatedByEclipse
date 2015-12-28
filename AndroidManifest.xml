@@ -48,6 +48,8 @@
         <activity android:name="com.example.testdemo.Ntificarion_RemoteActivity"
             android:process=":remote" >
         </activity>
+        <activity android:name="com.example.testdemo.DrawableDemoActivity" >
+        </activity>
 
         <receiver android:name="com.example.testdemo.widget.MyAppWidgetProvider" >
             <meta-data
