@@ -2,8 +2,6 @@ package com.example.testdemo;
 
 import java.lang.reflect.Field;
 import java.util.Properties;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -26,9 +24,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.testdemo.base.BaseActivity;
 import com.example.testdemo.utils.MyConstants;
+import com.example.testdemo.utils.MyUtils;
 
-public class CommonCodeActivity extends Activity implements OnClickListener {
+public class CommonCodeActivity extends BaseActivity implements OnClickListener {
 	private static final String TAG = CommonCodeActivity.class.getName();
 	private Context mContext = CommonCodeActivity.this;
 	private EditText edittext;
@@ -43,9 +43,10 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 	private Button getNetworkOperatorName;
 	private Button getNetWorkClass;
 	private Button getNetWorkStatus;
+	private Button getScreenInfo;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_commoncode);
 		initUI();
@@ -60,8 +61,8 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 
 	}
 
-
-	private void initUI() {
+	@Override
+	public void initUI() {
 		edittext = (EditText) findViewById(R.id.edittext);
 		getDeviceInfo = (Button) findViewById(R.id.getDeviceInfo);
 		hasSDCard = (Button) findViewById(R.id.hasSDCard);
@@ -74,6 +75,8 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 		getNetWorkStatus = (Button) findViewById(R.id.getNetWorkStatus);
 		getNetworkOperatorName = (Button) findViewById(R.id.getNetworkOperatorName);
 		getNetWorkClass = (Button) findViewById(R.id.getNetWorkClass);
+		getScreenInfo = (Button) findViewById(R.id.getScreenInfo);
+		getScreenInfo.setOnClickListener(this);
 		getNetworkOperatorName.setOnClickListener(this);
 		getPhoneType.setOnClickListener(this);
 		getNetWorkClass.setOnClickListener(this);
@@ -160,6 +163,10 @@ public class CommonCodeActivity extends Activity implements OnClickListener {
 		case R.id.getNetWorkClass:
 			edittext.setText(getNetWorkClass(this) + "");
 			Log.d(TAG, "onClick R.id.getStatusBarHeight:");
+			break;
+		case R.id.getScreenInfo:
+			int[] screenInfo = MyUtils.getScreenInfo(mContext);
+			showToast("屏幕的高："+screenInfo[1]+"屏幕的宽"+screenInfo[0]);
 			break;
 		case R.id.getNetWorkStatus:
 			String netWorkStatus = null;

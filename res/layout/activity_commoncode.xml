@@ -80,6 +80,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="判断当前手机的网络类型(WIFI还是2,3,4G)" />
+            <Button
+                android:id="@+id/getScreenInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="获取屏幕的大小，高宽" />
         </LinearLayout>
     </ScrollView>
 

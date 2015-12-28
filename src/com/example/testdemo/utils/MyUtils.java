@@ -49,6 +49,21 @@ public class MyUtils {
 		wm.getDefaultDisplay().getMetrics(dm);
 		return dm;
 	}
+	/**
+	 * 获取屏幕的宽度和高度
+	 * 
+	 * @param v
+	 * @return 返回2个长度的数组，0表示宽度，1表示高度
+	 */
+	public static int[] getScreenInfo(Context context) {
+		DisplayMetrics dm = new DisplayMetrics();
+		((WindowManager) context.getSystemService(Context.WINDOW_SERVICE))
+				.getDefaultDisplay().getMetrics(dm);
+		int width = dm.widthPixels;// 宽度
+		int height = dm.heightPixels;
+		return new int[] { width, height };
+	}
+	
 
 	public static void executeInThread(Runnable runnable) {
 		new Thread(runnable).start();
