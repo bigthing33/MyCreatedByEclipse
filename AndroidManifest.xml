@@ -52,6 +52,8 @@
         </activity>
         <activity android:name="com.example.testdemo.DrawableDemoActivity" >
         </activity>
+        <activity android:name="com.example.testdemo.AttrAnimationActivity" >
+        </activity>
 
         <receiver android:name="com.example.testdemo.widget.MyAppWidgetProvider" >
             <meta-data

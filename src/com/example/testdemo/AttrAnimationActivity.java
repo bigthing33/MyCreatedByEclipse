@@ -1,7 +1,7 @@
 package com.example.testdemo;
 
-import java.util.ArrayList;
-
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,19 +9,13 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.testdemo.anims.Rotate3dAnimation;
 import com.example.testdemo.base.BaseActivity;
-import com.example.testdemo.utils.MyUtils;
 
+@SuppressLint("NewApi")
 public class AttrAnimationActivity extends BaseActivity implements OnClickListener {
 
 	private ImageView img_animation1;
@@ -83,9 +77,9 @@ public class AttrAnimationActivity extends BaseActivity implements OnClickListen
 		AnimationDrawable drawable;
 		switch (v.getId()) {
 		case R.id.img_animation1:
-			Animation animation = AnimationUtils.loadAnimation(this,
-					R.anim.anims);
-			img_animation1.startAnimation(animation);
+//			ObjectAnimator.ofFloat(img_animation1, "translation", -img_animation1.getHeight()).start();
+			ObjectAnimator.ofFloat(img_animation1, "translationX", 0F, 360F).setDuration(1000).start();
+
 			break;
 		case R.id.img_animation2:
 			showToast("img_animation2");
