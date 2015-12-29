@@ -22,7 +22,7 @@ import com.example.testdemo.anims.Rotate3dAnimation;
 import com.example.testdemo.base.BaseActivity;
 import com.example.testdemo.utils.MyUtils;
 
-public class AnimationActivity extends BaseActivity implements OnClickListener {
+public class AttrAnimationActivity extends BaseActivity implements OnClickListener {
 
 	private ImageView img_animation1;
 	private ImageView img_animation2;
@@ -32,7 +32,7 @@ public class AnimationActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_animation);
+		setContentView(R.layout.activity_attranimation);
 		initUI();
 	}
 
@@ -53,24 +53,24 @@ public class AnimationActivity extends BaseActivity implements OnClickListener {
 		img_animation2.setOnClickListener(this);
 		img_animation3 = (ImageView) findViewById(R.id.img_animation3);
 		img_animation3.setOnClickListener(this);
-		list=(ListView) findViewById(R.id.list);
-        ArrayList<String> datas = new ArrayList<String>();
-        for (int i = 0; i < 50; i++) {
-            datas.add("name " + i);
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                R.layout.content_list_item, R.id.name, datas);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                    int position, long id) {
-                Toast.makeText(AnimationActivity.this, "click item",
-                        Toast.LENGTH_SHORT).show();
-
-            }
-        });
-        MyUtils.addAnimationToListView(AnimationActivity.this, list);
+//		list=(ListView) findViewById(R.id.list);
+//        ArrayList<String> datas = new ArrayList<String>();
+//        for (int i = 0; i < 50; i++) {
+//            datas.add("name " + i);
+//        }
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+//                R.layout.content_list_item, R.id.name, datas);
+//        list.setAdapter(adapter);
+//        list.setOnItemClickListener(new OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view,
+//                    int position, long id) {
+//                Toast.makeText(AttrAnimationActivity.this, "click item",
+//                        Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//        MyUtils.addAnimationToListView(AttrAnimationActivity.this, list);
 
 
 
@@ -112,7 +112,7 @@ public class AnimationActivity extends BaseActivity implements OnClickListener {
 	}
 
 	public static void actionStart(Context context) {
-		Intent intent = new Intent(context, AnimationActivity.class);
+		Intent intent = new Intent(context, AttrAnimationActivity.class);
 		context.startActivity(intent);
 		((Activity) context).overridePendingTransition(R.anim.enter_anim, R.anim.exit_anim);
 	
