@@ -76,6 +76,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="属性动画" />
+            <Button
+                android:id="@+id/windowDemo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="windowDemo" />
         </LinearLayout>
     </ScrollView>
 

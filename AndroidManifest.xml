@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name="com.example.testdemo.application.MyApplication"
@@ -53,6 +54,8 @@
         <activity android:name="com.example.testdemo.DrawableDemoActivity" >
         </activity>
         <activity android:name="com.example.testdemo.AttrAnimationActivity" >
+        </activity>
+        <activity android:name="com.example.testdemo.WindowActivity" >
         </activity>
 
         <receiver android:name="com.example.testdemo.widget.MyAppWidgetProvider" >

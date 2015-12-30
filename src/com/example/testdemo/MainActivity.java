@@ -23,6 +23,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button drawableDemo;
 	private Button animationDemo;
 	private Button attrAnimationDemo;
+	private Button windowDemo;
 	private Context mContext = MainActivity.this;
 
 	@Override
@@ -45,6 +46,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		drawableDemo = (Button) findViewById(R.id.drawableDemo);
 		animationDemo = (Button) findViewById(R.id.animationDemo);
 		attrAnimationDemo = (Button) findViewById(R.id.attrAnimationDemo);
+		windowDemo = (Button) findViewById(R.id.windowDemo);
+		windowDemo.setOnClickListener(this);
 		attrAnimationDemo.setOnClickListener(this);
 		animationDemo.setOnClickListener(this);
 		drawableDemo.setOnClickListener(this);
@@ -111,6 +114,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		case R.id.attrAnimationDemo:
 			AttrAnimationActivity.actionStart(mContext);
 			LogUtil.d(TAG, "onClick R.id.attrAnimationDemo:");
+			break;
+		case R.id.windowDemo:
+			WindowActivity.actionStart(mContext);
+			LogUtil.d(TAG, "onClick R.id.windowDemo:");
 			break;
 
 		default:
