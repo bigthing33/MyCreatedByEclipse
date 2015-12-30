@@ -7,9 +7,9 @@
 
     <ImageView
         android:id="@+id/img_animation2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/icon1" />
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:background="@drawable/icon1" />
 
     <ImageView
         android:id="@+id/img_animation1"
@@ -19,6 +19,11 @@
 
     <ImageView
         android:id="@+id/img_animation3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/icon1" />
+    <ImageView
+        android:id="@+id/img_animation4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/icon1" />
