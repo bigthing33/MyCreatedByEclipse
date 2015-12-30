@@ -45,7 +45,7 @@ public class DrawableDemoActivity extends BaseActivity {
 
 	@Override
 	public void initUI() {
-		test_size = (TextView) findViewById(R.id.img_animation1);
+		test_size = (TextView) findViewById(R.id.test_size);
 		Drawable background = test_size.getBackground();
 		LogUtil.d(TAG,"getIntrinsicHeight:"+ background.getIntrinsicHeight()+" getIntrinsicWidth:"+background.getIntrinsicWidth());
 	}

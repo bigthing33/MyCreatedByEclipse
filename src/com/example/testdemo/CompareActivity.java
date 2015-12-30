@@ -45,7 +45,7 @@ public class CompareActivity extends Activity implements OnClickListener {
 		myAIDLServiceConnnection=new MyAIDLServiceConnnection();
 		// 绑定一个服务，以便调用服务内的方法
 		isBind = getApplicationContext().bindService(myService,myServiceConnnection, Service.BIND_AUTO_CREATE);
-		isBind2=getApplicationContext().bindService(myService,myAIDLServiceConnnection, Service.BIND_AUTO_CREATE);
+		isBind2=getApplicationContext().bindService(myServiceAidl,myAIDLServiceConnnection, Service.BIND_AUTO_CREATE);
 		initView();
 	}
 

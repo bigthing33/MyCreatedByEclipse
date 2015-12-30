@@ -3,6 +3,8 @@ package com.example.testdemo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.testdemo.base.BaseActivity;
 import com.example.testdemo.widget.CascadeLayout;
@@ -19,6 +21,8 @@ public class CustomWidgetAcitvity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_customwidget);
+		ViewGroup viewGroup=(ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content);
+		View rootView = viewGroup.getChildAt(0);
 		initUI();
 		
 	}

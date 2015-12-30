@@ -13,20 +13,26 @@
 
     <ImageView
         android:id="@+id/img_animation1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:src="@drawable/icon1" />
 
     <ImageView
         android:id="@+id/img_animation3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:background="@drawable/icon1" />
     <ImageView
         android:id="@+id/img_animation4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:background="@drawable/icon1" />
+    <Button
+        android:id="@+id/animation_button"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:background="@drawable/icon1" 
+        android:text="我是不会变的，哈哈"/>
 
     <ListView
         android:id="@+id/list"
