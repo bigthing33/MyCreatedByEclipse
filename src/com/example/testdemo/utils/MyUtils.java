@@ -4,17 +4,23 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 
-import com.example.testdemo.R;
-
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ListView;
+
+import com.example.testdemo.R;
 
 public class MyUtils {
 
@@ -41,6 +47,20 @@ public class MyUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	/**
+	 * 获取版本名称
+	 */
+	public static String getAppVersionName(Context context) {
+		String versionName = null;
+		try {
+			PackageManager pm = context.getPackageManager();
+			PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+			versionName = pi.versionName;
+		} catch (Exception e) {
+			Log.e("VersionInfo", "Exception", e);
+		}
+		return versionName;
 	}
 
 	/**
@@ -88,6 +108,17 @@ public class MyUtils {
 		controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
 		listView.setLayoutAnimation(controller);
 
+	}
+	/**
+	 * 检测网络是否可用
+	 * 
+	 * @return
+	 */
+	public static boolean isNetworkConnected() {
+		ConnectivityManager cm = (ConnectivityManager) new Application()
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo ni = cm.getActiveNetworkInfo();
+		return ni != null && ni.isConnectedOrConnecting();
 	}
 
 }

@@ -57,6 +57,8 @@
         </activity>
         <activity android:name="com.example.testdemo.WindowActivity" >
         </activity>
+        <activity android:name="com.example.testdemo.HandlerMechanismActivity" >
+        </activity>
 
         <receiver android:name="com.example.testdemo.widget.MyAppWidgetProvider" >
             <meta-data
