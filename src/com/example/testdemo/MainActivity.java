@@ -25,6 +25,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button attrAnimationDemo;
 	private Button windowDemo;
 	private Button handlerMechanism;
+	private Button imageLoader;
 	private Context mContext = MainActivity.this;
 
 	@Override
@@ -49,7 +50,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		attrAnimationDemo = (Button) findViewById(R.id.attrAnimationDemo);
 		windowDemo = (Button) findViewById(R.id.windowDemo);
 		handlerMechanism = (Button) findViewById(R.id.handlerMechanism);
+		imageLoader = (Button) findViewById(R.id.imageLoader);
 		handlerMechanism.setOnClickListener(this);
+		imageLoader.setOnClickListener(this);
 		windowDemo.setOnClickListener(this);
 		attrAnimationDemo.setOnClickListener(this);
 		animationDemo.setOnClickListener(this);
@@ -123,6 +126,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			LogUtil.d(TAG, "onClick R.id.windowDemo:");
 			break;
 		case R.id.handlerMechanism:
+			HandlerMechanismActivity.actionStart(mContext);
+			LogUtil.d(TAG, "onClick R.id.windowDemo:");
+			break;
+		case R.id.imageLoader:
 			HandlerMechanismActivity.actionStart(mContext);
 			LogUtil.d(TAG, "onClick R.id.windowDemo:");
 			break;

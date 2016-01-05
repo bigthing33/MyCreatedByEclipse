@@ -21,4 +21,10 @@
         android:layout_height="wrap_content"
         android:text="sample_btn"
         />
+    <ImageView 
+        android:id="@+id/sample_img"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:text="sample_img"
+        />
 </LinearLayout>

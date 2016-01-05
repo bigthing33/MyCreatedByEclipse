@@ -61,6 +61,8 @@
         </activity>
         <activity android:name="com.example.testdemo.HandlerMechanismActivity" >
         </activity>
+        <activity android:name="com.example.testdemo.ImageLoaderActivity" >
+        </activity>
 
         <receiver android:name="com.example.testdemo.widget.MyAppWidgetProvider" >
             <meta-data
