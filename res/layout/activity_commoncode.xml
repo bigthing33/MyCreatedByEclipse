@@ -85,6 +85,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="获取屏幕的大小，高宽" />
+            <Button
+                android:id="@+id/getMetaData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="获取清单文件中的metaData数据" />
         </LinearLayout>
     </ScrollView>
 

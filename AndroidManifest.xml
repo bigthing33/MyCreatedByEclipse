@@ -11,8 +11,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name="com.example.testdemo.application.MyApplication"
@@ -33,8 +33,9 @@
         </activity>
         <activity android:name="com.example.testdemo.GestureDetectorTestAcitvity" >
         </activity>
-        <activity android:name="com.example.testdemo.CommonCodeActivity" 
-            android:windowSoftInputMode="stateHidden">
+        <activity
+            android:name="com.example.testdemo.CommonCodeActivity"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity android:name="com.example.testdemo.SendHttpRequestActivity" >
         </activity>
@@ -48,7 +49,8 @@
         </activity>
         <activity android:name="com.example.testdemo.AnimationActivity" >
         </activity>
-        <activity android:name="com.example.testdemo.Ntificarion_RemoteActivity"
+        <activity
+            android:name="com.example.testdemo.Ntificarion_RemoteActivity"
             android:process=":remote" >
         </activity>
         <activity android:name="com.example.testdemo.DrawableDemoActivity" >
@@ -68,7 +70,6 @@
 
             <intent-filter>
                 <action android:name="com.ryg.chapter_5.action.CLICK" />
-           
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
         </receiver>
@@ -88,8 +89,20 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/test_appwidget_provider_info" />
         </receiver>
-        <service android:name="com.example.testdemo.services.CompareService"></service>
-        <service android:name="com.example.testdemo.services.AIDLCompareService"></service>
+
+        <service android:name="com.example.testdemo.services.CompareService" >
+        </service>
+        <service android:name="com.example.testdemo.services.AIDLCompareService" >
+        </service>
+
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="100004" >
+        </meta-data>
+        <meta-data
+            android:name="metaTest"
+            android:value="metaTest" >
+        </meta-data>
     </application>
 
 </manifest>

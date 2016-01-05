@@ -8,10 +8,12 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
@@ -120,5 +122,42 @@ public class MyUtils {
 		NetworkInfo ni = cm.getActiveNetworkInfo();
 		return ni != null && ni.isConnectedOrConnecting();
 	}
+	/**
+	 * 获取清单文件中的metaData中的值
+	 * @param ctx Context
+	 * @param key metaData中的name
+	 * @return
+	 */
+	 public static String getAppMetaData(Context ctx, String key) {  
+	        if (ctx == null || TextUtils.isEmpty(key)) {  
+	            return "erro for metaData";  
+	        }  
+	        int intData = -1;  
+	        String string = null;
+	        try {  
+	            PackageManager packageManager = ctx.getPackageManager();  
+	            if (packageManager != null) {  
+	                ApplicationInfo applicationInfo = packageManager.getApplicationInfo(ctx.getPackageName(), PackageManager.GET_META_DATA);  
+	                if (applicationInfo != null) {  
+	                    if (applicationInfo.metaData != null) {  
+	                        intData = applicationInfo.metaData.getInt(key); 
+	                        if (intData==0) {
+	                        	 return string = applicationInfo.metaData.getString(key)+"";
+							}else{
+								return string = String.valueOf(intData);
+								
+							}
+	                    }  
+	                }  
+	  
+	  
+	            }  
+	        } catch (PackageManager.NameNotFoundException e) {  
+	            e.printStackTrace();  
+	        }
+			return string;  
+	  
+	  
+	    }
 
 }

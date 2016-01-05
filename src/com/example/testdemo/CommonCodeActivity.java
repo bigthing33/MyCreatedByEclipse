@@ -44,6 +44,7 @@ public class CommonCodeActivity extends BaseActivity implements OnClickListener 
 	private Button getNetWorkClass;
 	private Button getNetWorkStatus;
 	private Button getScreenInfo;
+	private Button getMetaData;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +77,9 @@ public class CommonCodeActivity extends BaseActivity implements OnClickListener 
 		getNetworkOperatorName = (Button) findViewById(R.id.getNetworkOperatorName);
 		getNetWorkClass = (Button) findViewById(R.id.getNetWorkClass);
 		getScreenInfo = (Button) findViewById(R.id.getScreenInfo);
+		getMetaData = (Button) findViewById(R.id.getMetaData);
 		getScreenInfo.setOnClickListener(this);
+		getMetaData.setOnClickListener(this);
 		getNetworkOperatorName.setOnClickListener(this);
 		getPhoneType.setOnClickListener(this);
 		getNetWorkClass.setOnClickListener(this);
@@ -167,6 +170,10 @@ public class CommonCodeActivity extends BaseActivity implements OnClickListener 
 		case R.id.getScreenInfo:
 			int[] screenInfo = MyUtils.getScreenInfo(mContext);
 			showToast("屏幕的高："+screenInfo[1]+"屏幕的宽"+screenInfo[0]);
+			break;
+		case R.id.getMetaData:
+			String appMetaData_Int = (String) MyUtils.getAppMetaData(mContext, "metaTest");
+				showToast(appMetaData_Int+"");
 			break;
 		case R.id.getNetWorkStatus:
 			String netWorkStatus = null;
