@@ -1,4 +1,4 @@
-package com.example.testdemo;
+package com.example.testdemo.activity;
 
 import java.util.ArrayList;
 
@@ -18,6 +18,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.testdemo.R;
+import com.example.testdemo.R.anim;
+import com.example.testdemo.R.id;
+import com.example.testdemo.R.layout;
 import com.example.testdemo.anims.Rotate3dAnimation;
 import com.example.testdemo.base.BaseActivity;
 import com.example.testdemo.utils.MyUtils;

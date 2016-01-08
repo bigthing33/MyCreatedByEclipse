@@ -1,4 +1,4 @@
-package com.example.testdemo;
+package com.example.testdemo.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.testdemo.R;
+import com.example.testdemo.R.id;
+import com.example.testdemo.R.layout;
 import com.example.testdemo.base.BaseActivity;
 import com.example.testdemo.widget.CascadeLayout;
 import com.example.testdemo.widget.CircleView;

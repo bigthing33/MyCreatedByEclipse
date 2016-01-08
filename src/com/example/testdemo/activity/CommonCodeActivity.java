@@ -1,4 +1,4 @@
-package com.example.testdemo;
+package com.example.testdemo.activity;
 
 import java.lang.reflect.Field;
 import java.util.Properties;
@@ -24,6 +24,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.testdemo.R;
+import com.example.testdemo.R.id;
+import com.example.testdemo.R.layout;
 import com.example.testdemo.base.BaseActivity;
 import com.example.testdemo.utils.MyConstants;
 import com.example.testdemo.utils.MyUtils;

@@ -1,4 +1,8 @@
-package com.example.testdemo;
+package com.example.testdemo.activity;
+
+import com.example.testdemo.R;
+import com.example.testdemo.R.id;
+import com.example.testdemo.R.layout;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,8 +27,8 @@ public class VelocityTrackerTestAcitvity extends Activity {
 		yVelocity = (TextView) findViewById(R.id.yVelocity);
 	}
 
-	public static void actionStart(Context context) {
-		Intent intent = new Intent(context, VelocityTrackerTestAcitvity.class);
+	public static void actionStart(Context context,Class<?> activityClass) {
+		Intent intent = new Intent(context, activityClass);
 		context.startActivity(intent);
 	}
 

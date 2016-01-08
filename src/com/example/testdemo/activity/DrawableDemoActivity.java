@@ -1,4 +1,4 @@
-package com.example.testdemo;
+package com.example.testdemo.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.testdemo.R;
+import com.example.testdemo.R.id;
+import com.example.testdemo.R.layout;
 import com.example.testdemo.base.BaseActivity;
 import com.example.testdemo.utils.LogUtil;
 import com.example.testdemo.widget.CustomDrawable;

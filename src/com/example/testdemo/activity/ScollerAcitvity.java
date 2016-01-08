@@ -1,4 +1,4 @@
-package com.example.testdemo;
+package com.example.testdemo.activity;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -18,6 +18,9 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.testdemo.R;
+import com.example.testdemo.R.id;
+import com.example.testdemo.R.layout;
 import com.example.testdemo.base.BaseActivity;
 import com.example.testdemo.utils.LogUtil;
 

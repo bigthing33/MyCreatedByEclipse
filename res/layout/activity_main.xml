@@ -14,6 +14,11 @@
             android:orientation="vertical" >
 
             <Button
+                android:id="@+id/apiStore_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="apiStore的调用" />
+            <Button
                 android:id="@+id/commonMethod"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

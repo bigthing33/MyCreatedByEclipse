@@ -1,4 +1,4 @@
-package com.example.testdemo;
+package com.example.testdemo.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,10 +7,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.example.testdemo.R;
+import com.example.testdemo.R.id;
+import com.example.testdemo.R.layout;
 import com.example.testdemo.utils.LogUtil;
 
 public class MainActivity extends Activity implements OnClickListener {
 	private static final String TAG = MainActivity.class.getName();
+	private Button apiStore_btn;
 	private Button commonMethod;
 	private Button velocityTrackerTest;
 	private Button gestureDetectortest;
@@ -36,6 +40,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private void initUI() {
+		apiStore_btn = (Button) findViewById(R.id.apiStore_btn);
 		velocityTrackerTest = (Button) findViewById(R.id.velocityTrackerTest);
 		gestureDetectortest = (Button) findViewById(R.id.gestureDetectortest);
 		commonMethod = (Button) findViewById(R.id.commonMethod);
@@ -51,6 +56,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		windowDemo = (Button) findViewById(R.id.windowDemo);
 		handlerMechanism = (Button) findViewById(R.id.handlerMechanism);
 		imageLoader = (Button) findViewById(R.id.imageLoader);
+		apiStore_btn.setOnClickListener(this);
 		handlerMechanism.setOnClickListener(this);
 		imageLoader.setOnClickListener(this);
 		windowDemo.setOnClickListener(this);
@@ -73,8 +79,12 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 
 		switch (v.getId()) {
+		case R.id.apiStore_btn:
+			ApiStoreActivity.actionStart(mContext,ApiStoreActivity.class);
+			LogUtil.d(TAG, "onClick R.id.apiStore_btn:");
+			break;
 		case R.id.velocityTrackerTest:
-			VelocityTrackerTestAcitvity.actionStart(mContext);
+			VelocityTrackerTestAcitvity.actionStart(mContext,VelocityTrackerTestAcitvity.class);
 			LogUtil.d(TAG, "onClick R.id.velocityTrackerTest:");
 			break;
 		case R.id.gestureDetectortest:

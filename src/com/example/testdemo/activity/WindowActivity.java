@@ -1,4 +1,4 @@
-package com.example.testdemo;
+package com.example.testdemo.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -17,6 +17,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.testdemo.R;
+import com.example.testdemo.R.anim;
+import com.example.testdemo.R.id;
+import com.example.testdemo.R.layout;
 import com.example.testdemo.base.BaseActivity;
 
 public class WindowActivity extends BaseActivity implements OnClickListener,

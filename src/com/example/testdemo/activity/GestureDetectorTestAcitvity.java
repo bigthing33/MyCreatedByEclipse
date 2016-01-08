@@ -1,4 +1,8 @@
-package com.example.testdemo;
+package com.example.testdemo.activity;
+
+import com.example.testdemo.R;
+import com.example.testdemo.R.id;
+import com.example.testdemo.R.layout;
 
 import android.app.Activity;
 import android.content.Context;

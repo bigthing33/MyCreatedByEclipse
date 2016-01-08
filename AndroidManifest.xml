@@ -12,16 +12,17 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
-        android:name="com.example.testdemo.application.MyApplication"
+        android:name="com.example.testdemo.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.testdemo.activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,39 +30,41 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.testdemo.VelocityTrackerTestAcitvity" >
+        <activity android:name="com.example.testdemo.activity.VelocityTrackerTestAcitvity" >
         </activity>
-        <activity android:name="com.example.testdemo.GestureDetectorTestAcitvity" >
+        <activity android:name="com.example.testdemo.activity.GestureDetectorTestAcitvity" >
         </activity>
         <activity
-            android:name="com.example.testdemo.CommonCodeActivity"
+            android:name="com.example.testdemo.activity.CommonCodeActivity"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:name="com.example.testdemo.SendHttpRequestActivity" >
+        <activity android:name="com.example.testdemo.activity.SendHttpRequestActivity" >
         </activity>
-        <activity android:name="com.example.testdemo.CustomWidgetAcitvity" >
+        <activity android:name="com.example.testdemo.activity.CustomWidgetAcitvity" >
         </activity>
-        <activity android:name="com.example.testdemo.NotificationActivity" >
+        <activity android:name="com.example.testdemo.activity.NotificationActivity" >
         </activity>
-        <activity android:name="com.example.testdemo.ScollerAcitvity" >
+        <activity android:name="com.example.testdemo.activity.ScollerAcitvity" >
         </activity>
-        <activity android:name="com.example.testdemo.CompareActivity" >
+        <activity android:name="com.example.testdemo.activity.CompareActivity" >
         </activity>
-        <activity android:name="com.example.testdemo.AnimationActivity" >
+        <activity android:name="com.example.testdemo.activity.AnimationActivity" >
         </activity>
         <activity
-            android:name="com.example.testdemo.Ntificarion_RemoteActivity"
+            android:name="com.example.testdemo.activity.Ntificarion_RemoteActivity"
             android:process=":remote" >
         </activity>
-        <activity android:name="com.example.testdemo.DrawableDemoActivity" >
+        <activity android:name="com.example.testdemo.activity.DrawableDemoActivity" >
         </activity>
-        <activity android:name="com.example.testdemo.AttrAnimationActivity" >
+        <activity android:name="com.example.testdemo.activity.AttrAnimationActivity" >
         </activity>
-        <activity android:name="com.example.testdemo.WindowActivity" >
+        <activity android:name="com.example.testdemo.activity.WindowActivity" >
         </activity>
-        <activity android:name="com.example.testdemo.HandlerMechanismActivity" >
+        <activity android:name="com.example.testdemo.activity.HandlerMechanismActivity" >
         </activity>
-        <activity android:name="com.example.testdemo.ImageLoaderActivity" >
+        <activity android:name="com.example.testdemo.activity.ImageLoaderActivity" >
+        </activity>
+        <activity android:name="com.example.testdemo.activity.ApiStoreActivity" >
         </activity>
 
         <receiver android:name="com.example.testdemo.widget.MyAppWidgetProvider" >

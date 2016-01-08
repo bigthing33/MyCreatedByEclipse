@@ -1,0 +1,56 @@
+package com.example.testdemo.utils;
+
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.Context;
+
+import com.example.testdemo.model.Image;
+import com.example.testdemo.model.SearchImageRespone;
+
+public class ImageFetcher {
+	private static final String TAG = ImageFetcher.class.getName();
+	private static SearchImageRespone searchImageRespone;
+
+	public static SearchImageRespone handleImageResponse(Context context,
+			String response) {
+		try {
+			JSONObject jsonObjiect = new JSONObject(response);
+			JSONObject status = jsonObjiect.getJSONObject("status");
+			if (!status.getString("code").equals("0")) {
+				// 如果返回码不正确则直接返回，不执行下面的操作
+				LogUtil.e(TAG, status.getString("msg"));
+				return null;
+			}
+
+			JSONObject data = jsonObjiect.getJSONObject("data");
+			searchImageRespone = new SearchImageRespone();
+			searchImageRespone.setReturnNumber(data.getInt("ReturnNumber"));
+			searchImageRespone.setTotalNumber(data.getInt("TotalNumber"));
+			JSONArray resultArray = data.getJSONArray("ResultArray");
+			ArrayList<Image> images = new ArrayList<>();
+			Image image = new Image();
+			JSONObject imgaeJsonObject;
+			for (int i = 0; i < resultArray.length(); i++) {
+				imgaeJsonObject = resultArray.getJSONObject(i);
+				image.setKey(imgaeJsonObject.getString("Key"));
+				image.setObjUrl(imgaeJsonObject.getString("ObjUrl"));
+				image.setFromUrl(imgaeJsonObject.getString("FromUrl"));
+				image.setPictype(imgaeJsonObject.getString("Pictype"));
+				image.setDesc(imgaeJsonObject.getString("Desc"));
+				images.add(image);
+			}
+			searchImageRespone.setResultArray(images);
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			return searchImageRespone;
+		}
+	}
+
+}

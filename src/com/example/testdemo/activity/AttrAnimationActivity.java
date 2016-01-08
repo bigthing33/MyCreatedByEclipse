@@ -1,4 +1,4 @@
-package com.example.testdemo;
+package com.example.testdemo.activity;
 
 import java.lang.annotation.Target;
 
@@ -22,6 +22,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.example.testdemo.R;
+import com.example.testdemo.R.anim;
+import com.example.testdemo.R.animator;
+import com.example.testdemo.R.id;
+import com.example.testdemo.R.layout;
 import com.example.testdemo.base.BaseActivity;
 import com.example.testdemo.utils.LogUtil;
 

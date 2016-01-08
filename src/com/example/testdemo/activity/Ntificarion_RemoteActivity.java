@@ -1,4 +1,4 @@
-package com.example.testdemo;
+package com.example.testdemo.activity;
 
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -9,6 +9,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RemoteViews;
 
+import com.example.testdemo.R;
+import com.example.testdemo.R.drawable;
+import com.example.testdemo.R.id;
+import com.example.testdemo.R.layout;
 import com.example.testdemo.base.BaseActivity;
 import com.example.testdemo.utils.MyConstants;
 
