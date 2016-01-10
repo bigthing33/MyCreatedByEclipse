@@ -32,9 +32,10 @@ public class ImageFetcher {
 			searchImageRespone.setTotalNumber(data.getInt("TotalNumber"));
 			JSONArray resultArray = data.getJSONArray("ResultArray");
 			ArrayList<Image> images = new ArrayList<>();
-			Image image = new Image();
+			
 			JSONObject imgaeJsonObject;
 			for (int i = 0; i < resultArray.length(); i++) {
+				Image image = new Image();
 				imgaeJsonObject = resultArray.getJSONObject(i);
 				image.setKey(imgaeJsonObject.getString("Key"));
 				image.setObjUrl(imgaeJsonObject.getString("ObjUrl"));

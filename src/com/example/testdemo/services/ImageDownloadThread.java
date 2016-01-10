@@ -1,0 +1,81 @@
+package com.example.testdemo.services;
+
+import java.util.ArrayList;
+
+import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
+import android.util.Log;
+
+import com.example.testdemo.MyApplication;
+import com.example.testdemo.model.Image;
+
+public class ImageDownloadThread<Handle> extends HandlerThread {
+    private static final String TAG = "ImageDownloadThread";
+    private static final int MESSAGE_DOWNLOAD = 0;
+	Handler mHandler;
+	private ArrayList<Image> imageList;
+	
+
+	
+    Handler mResponseHandler;
+    Listener mListener;
+    public ImageDownloadThread( Handler mHandler) {
+		super(TAG);
+		mResponseHandler = mHandler;
+	}
+    public interface Listener {
+        void imageDownloaded(ArrayList<Image> imageList);
+    }
+    
+    public void setListener(Listener listener) {
+        mListener = listener;
+    }
+    @Override
+    protected void onLooperPrepared() {
+		/**
+		 * 当创建HandlerThread时，系统会自动给这个线程配置一个looper，当配置完成时会调用onLooperPrepared方法。
+		 * 它发生在第一次检查消息队列之前。 在这个方法里可以给mHandler实例化，重写handleMessage方法
+		 */
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == MESSAGE_DOWNLOAD) {
+                    handleRequest();
+                }
+            }
+        };
+    }
+    private void handleRequest() {
+        try {
+            if (imageList == null) 
+                return;
+            //根据url获得图片的字节数组，该字节数组可以生成一个bitmap图片
+            Log.e(TAG, "handleRequest");
+            for (int i = 0; i < imageList.size(); i++) {
+            	
+            	final Bitmap bitmap=MyApplication.imageLoader.loadImageSync(imageList.get(i).getObjUrl());
+            	imageList.get(i).setBitmap(bitmap);
+			}
+            //使用主线程的handler，完成在子线程访问主线程的事情。
+            //这个post等同于将send和handlermessage一起处理了，因为是用的主线程的Handler，所以其内容其实是主线程的looper执行的。即在主线程中更新UI
+            mResponseHandler.post(new Runnable() {
+                public void run() {
+                    //在这里调用监听器的方法，此方法是在fragment中被定义的。真正的执行是在定义的地方发生的。
+                    mListener.imageDownloaded( imageList);
+                }
+            });
+        } catch (Exception ioe) {
+            Log.e(TAG, "Error downloading image", ioe);
+        }
+    }
+    public void queueThumbnail( ArrayList<Image> images) {
+    	imageList=images;
+        //发送一个消息，也就是说会调用一次handleMessage
+        mHandler
+            .obtainMessage(MESSAGE_DOWNLOAD)
+            .sendToTarget();
+    }
+
+}

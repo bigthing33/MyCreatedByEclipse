@@ -3,27 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <EditText 
+
+    <EditText
         android:id="@+id/searchImg_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="房子"
-        />
-    <Button 
+        android:text="房子" />
+
+    <Button
         android:id="@+id/searchImg_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="点击搜索图片"
-        />
-    <TextView 
+        android:text="点击搜索图片" />
+
+    <TextView
         android:id="@+id/searchImgResult_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="返回结果"
-        />
-    <ImageView 
+        android:text="返回结果" />
+
+    <ImageView
         android:id="@+id/searchImgResult_imgae"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/imagelistView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </LinearLayout>

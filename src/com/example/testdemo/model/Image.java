@@ -1,11 +1,14 @@
 package com.example.testdemo.model;
 
+import android.graphics.Bitmap;
+
 public class Image {
 	private String Key;
 	private String ObjUrl;
 	private String FromUrl;
 	private String Desc;
 	private String Pictype;
+	private Bitmap bitmap;
 
 	@Override
 	public String toString() {
@@ -51,6 +54,14 @@ public class Image {
 
 	public void setPictype(String pictype) {
 		Pictype = pictype;
+	}
+
+	public Bitmap getBitmap() {
+		return bitmap;
+	}
+
+	public void setBitmap(Bitmap bitmap) {
+		this.bitmap = bitmap;
 	}
 
 }
