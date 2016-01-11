@@ -50,6 +50,8 @@ public class ApiStoreActivity extends BaseActivity implements OnClickListener {
 	private ArrayList<Image> localImglist = new ArrayList<>();
 	private ImageDownloadThread<ImageView> imageDownloadThread;
 	private int mPageNum=0;
+	private boolean isLoadingImg;
+	private int mPreNum=5;//默认为5；缓存图片个数，范围是1-60
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,9 +62,16 @@ public class ApiStoreActivity extends BaseActivity implements OnClickListener {
 		imageDownloadThread.setListener(new Listener() {
 
 			@Override
-			public void imageDownloaded(ArrayList<Image> imageList) {
-				LogUtil.e(TAG, "imageDownloaded");
-				setAdapter(imageList);
+			public void imageDownloaded(Image image) {
+				
+				localImglist.add(image);
+				setAdapter();
+			}
+
+			@Override
+			public void completedAllImgDownload() {
+				isLoadingImg=false;
+				
 			}
 		});
 		imageDownloadThread.start();
@@ -70,20 +79,18 @@ public class ApiStoreActivity extends BaseActivity implements OnClickListener {
 		imageDownloadThread.getLooper();
 	}
 
-	private void setAdapter(ArrayList<Image> imageList) {
-		for (Image image : imageList) {
-			localImglist.add(image);
-		}
+	private void setAdapter() {
+	
 		if (localImglist.size() == 0) {
 			imagelistView.setAdapter(null);
-		} else if (localImglist.size()==10) {
+		} else if (localImglist.size()==1) {
 			searchImageAdapter=new CommonAdapter<Image>(mContext, localImglist, R.layout.item_image) {
 
 				@Override
 				public void convert(
 						com.example.testdemo.base.ViewHolder holder, Image t,
 						int position) {
-					if (position>=localImglist.size()-5&&position/10==mPageNum/10-1) {
+					if (position>=localImglist.size()-mPreNum&&isLoadingImg==false&&position>=mPreNum-1) {
 						searchImg(searchImg_et.getText().toString(),mPageNum);
 					}
 					ImageView item_img=holder.getView(R.id.item_img);
@@ -148,12 +155,13 @@ public class ApiStoreActivity extends BaseActivity implements OnClickListener {
 			showToast("搜索的文本不能为空");
 			return;
 		}
-		mPageNum=pageNum+10;
+		isLoadingImg=true;
+		mPageNum=pageNum+mPreNum;
 		Parameters para = new Parameters();
 		para.put("word", searchText);
 		para.put("ie", "utf-8");
-		para.put("rn", "10");
-		para.put("pn", pageNum+"");
+		para.put("rn", mPreNum+"");//返回的图片数量
+		para.put("pn", pageNum+"");//需要从第几张图片开始返回
 		// 天气搜索：： http://apis.baidu.com/heweather/weather/free
 		ApiStoreSDK.execute(MyUrl.SEARCH_IMAGE, ApiStoreSDK.GET, para,
 				new ApiCallBack() {

@@ -27,7 +27,8 @@ public class ImageDownloadThread<Handle> extends HandlerThread {
 		mResponseHandler = mHandler;
 	}
     public interface Listener {
-        void imageDownloaded(ArrayList<Image> imageList);
+        void imageDownloaded(Image image);
+        void completedAllImgDownload();
     }
     
     public void setListener(Listener listener) {
@@ -55,18 +56,26 @@ public class ImageDownloadThread<Handle> extends HandlerThread {
             //根据url获得图片的字节数组，该字节数组可以生成一个bitmap图片
             Log.e(TAG, "handleRequest");
             for (int i = 0; i < imageList.size(); i++) {
-            	
-            	final Bitmap bitmap=MyApplication.imageLoader.loadImageSync(imageList.get(i).getObjUrl());
-            	imageList.get(i).setBitmap(bitmap);
+            	final Image image=imageList.get(i);
+            	final Bitmap bitmap=MyApplication.imageLoader.loadImageSync(image.getObjUrl());
+            	image.setBitmap(bitmap);
             	LogUtil.e("handleRequest", "第"+i+"个图片完成加载了");
+                //使用主线程的handler，完成在子线程访问主线程的事情。
+                mResponseHandler.post(new Runnable() {
+                    public void run() {
+                        //在这里调用监听器的方法，此方法是在fragment中被定义的。真正的执行是在定义的地方发生的。
+                        mListener.imageDownloaded(image);
+                    }
+                });
+
 			}
-            //使用主线程的handler，完成在子线程访问主线程的事情。
             mResponseHandler.post(new Runnable() {
                 public void run() {
                     //在这里调用监听器的方法，此方法是在fragment中被定义的。真正的执行是在定义的地方发生的。
-                    mListener.imageDownloaded( imageList);
+                    mListener.completedAllImgDownload();
                 }
             });
+
         } catch (Exception ioe) {
             Log.e(TAG, "Error downloading image", ioe);
         }
