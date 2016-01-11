@@ -9,11 +9,18 @@ public class Image {
 	private String Desc;
 	private String Pictype;
 	private Bitmap bitmap;
+	private String searchTime;//搜索的时间
+	private String searchTag;//搜索的标签
+	private String savePath;//保存路径
+
+
 
 	@Override
 	public String toString() {
 		return "Image [Key=" + Key + ", ObjUrl=" + ObjUrl + ", FromUrl="
-				+ FromUrl + ", Desc=" + Desc + ", Pictype=" + Pictype + "]";
+				+ FromUrl + ", Desc=" + Desc + ", Pictype=" + Pictype
+				+ ", bitmap=" + bitmap + ", searchTime=" + searchTime
+				+ ", searchTag=" + searchTag + ", savePath=" + savePath + "]";
 	}
 
 	public String getKey() {
@@ -63,5 +70,30 @@ public class Image {
 	public void setBitmap(Bitmap bitmap) {
 		this.bitmap = bitmap;
 	}
+
+	public String getSearchTime() {
+		return searchTime;
+	}
+
+	public void setSearchTime(String searchTime) {
+		this.searchTime = searchTime;
+	}
+
+	public String getSearchTag() {
+		return searchTag;
+	}
+
+	public void setSearchTag(String searchTag) {
+		this.searchTag = searchTag;
+	}
+
+	public String getSavePath() {
+		return savePath;
+	}
+
+	public void setSavePath(String savePath) {
+		this.savePath = savePath;
+	}
+	
 
 }

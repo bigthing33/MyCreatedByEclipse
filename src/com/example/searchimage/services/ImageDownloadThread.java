@@ -3,20 +3,24 @@ package com.example.searchimage.services;
 import java.util.ArrayList;
 
 import android.graphics.Bitmap;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
 import android.util.Log;
 
 import com.example.searchimage.MyApplication;
+import com.example.searchimage.db.ImageDB;
 import com.example.searchimage.model.Image;
 import com.example.searchimage.utils.LogUtil;
+import com.example.searchimage.utils.MyUtils;
 
 public class ImageDownloadThread<Handle> extends HandlerThread {
     private static final String TAG = "ImageDownloadThread";
     private static final int MESSAGE_DOWNLOAD = 0;
 	Handler mHandler;
 	private ArrayList<Image> imageList;
+	private ImageDB imageDB=ImageDB.getInstance(MyApplication.context);
 	
 
 	
@@ -55,9 +59,23 @@ public class ImageDownloadThread<Handle> extends HandlerThread {
                 return;
             //根据url获得图片的字节数组，该字节数组可以生成一个bitmap图片
             Log.e(TAG, "handleRequest");
+            Bitmap bitmap;
+            String pathString;
             for (int i = 0; i < imageList.size(); i++) {
             	final Image image=imageList.get(i);
-            	final Bitmap bitmap=MyApplication.imageLoader.loadImageSync(image.getObjUrl());
+            	if (imageDB.loadImage(image).getSavePath()!=null) {
+            		//如果找到了sd卡上的地址
+            		bitmap=MyUtils.convertToBitmap(Environment
+    						.getExternalStorageDirectory().getPath() + "/searchImage/"+imageDB.loadImage(image).getSavePath(), 300, 300);//暂时为300
+				}else{
+					
+					bitmap=MyApplication.imageLoader.loadImageSync(image.getObjUrl());
+					pathString=MyUtils.saveBitmapInExternalStorage(bitmap, MyApplication.context);
+					if (pathString!=null) {
+						image.setSavePath(pathString);
+						imageDB.saveImage(image);
+					}
+				}
             	image.setBitmap(bitmap);
             	LogUtil.e("handleRequest", "第"+i+"个图片完成加载了");
                 //使用主线程的handler，完成在子线程访问主线程的事情。
