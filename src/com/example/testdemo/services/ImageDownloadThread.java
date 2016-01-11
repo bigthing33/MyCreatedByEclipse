@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.example.testdemo.MyApplication;
 import com.example.testdemo.model.Image;
+import com.example.testdemo.utils.LogUtil;
 
 public class ImageDownloadThread<Handle> extends HandlerThread {
     private static final String TAG = "ImageDownloadThread";
@@ -57,9 +58,9 @@ public class ImageDownloadThread<Handle> extends HandlerThread {
             	
             	final Bitmap bitmap=MyApplication.imageLoader.loadImageSync(imageList.get(i).getObjUrl());
             	imageList.get(i).setBitmap(bitmap);
+            	LogUtil.e("handleRequest", "第"+i+"个图片完成加载了");
 			}
             //使用主线程的handler，完成在子线程访问主线程的事情。
-            //这个post等同于将send和handlermessage一起处理了，因为是用的主线程的Handler，所以其内容其实是主线程的looper执行的。即在主线程中更新UI
             mResponseHandler.post(new Runnable() {
                 public void run() {
                     //在这里调用监听器的方法，此方法是在fragment中被定义的。真正的执行是在定义的地方发生的。

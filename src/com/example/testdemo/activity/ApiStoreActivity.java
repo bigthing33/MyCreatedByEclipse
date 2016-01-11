@@ -26,6 +26,7 @@ import com.baidu.apistore.sdk.network.Parameters;
 import com.example.testdemo.MyApplication;
 import com.example.testdemo.R;
 import com.example.testdemo.base.BaseActivity;
+import com.example.testdemo.base.CommonAdapter;
 import com.example.testdemo.model.Image;
 import com.example.testdemo.model.SearchImageRespone;
 import com.example.testdemo.services.ImageDownloadThread;
@@ -45,10 +46,10 @@ public class ApiStoreActivity extends BaseActivity implements OnClickListener {
 	private TextView searchImgResult_tv;
 	private ImageView searchImgResult_imgae;
 	private ListView imagelistView;
-	private BaseAdapter imgAdapter;
-	private ArrayList<Image> imglist = new ArrayList<>();
-	private ArrayList<Image> imglist_adpter = new ArrayList<>();
+	private CommonAdapter<Image> searchImageAdapter;
+	private ArrayList<Image> localImglist = new ArrayList<>();
 	private ImageDownloadThread<ImageView> imageDownloadThread;
+	private int mPageNum=0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,11 +62,7 @@ public class ApiStoreActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void imageDownloaded(ArrayList<Image> imageList) {
 				LogUtil.e(TAG, "imageDownloaded");
-
 				setAdapter(imageList);
-				
-
-
 			}
 		});
 		imageDownloadThread.start();
@@ -75,82 +72,32 @@ public class ApiStoreActivity extends BaseActivity implements OnClickListener {
 
 	private void setAdapter(ArrayList<Image> imageList) {
 		for (Image image : imageList) {
-			imglist_adpter.add(image);
+			localImglist.add(image);
 		}
-		if (imglist_adpter.size() == 0) {
+		if (localImglist.size() == 0) {
 			imagelistView.setAdapter(null);
-		} else if (imglist_adpter.size()==10) {
-			imgAdapter = new BaseAdapter() {
-
-				
+		} else if (localImglist.size()==10) {
+			searchImageAdapter=new CommonAdapter<Image>(mContext, localImglist, R.layout.item_image) {
 
 				@Override
-				public View getView(int position, View convertView,
-						ViewGroup parent) {
-					if (position==imglist_adpter.size()-5) {
-						ArrayList<Image> images=new ArrayList<Image>();
-						for (int i = position+5; i < position+10; i++) {
-							images.add(imglist.get(i));
-						}
-						imageDownloadThread.queueThumbnail(images);
-						
+				public void convert(
+						com.example.testdemo.base.ViewHolder holder, Image t,
+						int position) {
+					if (position>=localImglist.size()-5&&position/10==mPageNum/10-1) {
+						searchImg(searchImg_et.getText().toString(),mPageNum);
 					}
-	
-					View view;
-					ViewHolder viewHolder;
-					if (convertView == null) {
-						
-						viewHolder = new ViewHolder();
-						view = LayoutInflater.from(mContext).inflate(
-								R.layout.item_image, null);
-						viewHolder.item_img = (ImageView) view
-								.findViewById(R.id.item_img);
-						viewHolder.item_text = (TextView) view
-								.findViewById(R.id.item_text);
-						view.setTag(viewHolder);
-					} else {
-						view = convertView;
-						viewHolder = (ViewHolder) view.getTag();
+					ImageView item_img=holder.getView(R.id.item_img);
+					TextView item_text=holder.getView(R.id.item_text);
+					item_text.setText(position+"");
+					if (localImglist.get(position).getBitmap() != null) {
+						item_img.setImageBitmap(localImglist.get(position).getBitmap());
 					}
-					viewHolder.item_text.setText("" + position);
-					if (imglist_adpter.get(position).getBitmap() != null) {
-						viewHolder.item_img.setImageBitmap(imglist_adpter
-								.get(position).getBitmap());
-					}
-					// LogUtil.e(TAG, imglist.get(position).getObjUrl());
-					// ImageAware imageAware = new ImageViewAware(
-					// viewHolder.item_img, false);
-					// MyApplication.imageLoader.displayImage(imglist
-					// .get(position).getObjUrl(), imageAware);
-					return view;
-				}
-
-				class ViewHolder {
-					ImageView item_img;
-					TextView item_text;
-				}
-
-				@Override
-				public long getItemId(int position) {
-					// TODO Auto-generated method stub
-					return position;
-				}
-
-				@Override
-				public Object getItem(int position) {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public int getCount() {
-					// TODO Auto-generated method stub
-					return imglist_adpter.size();
+					
 				}
 			};
-			imagelistView.setAdapter(imgAdapter);
+			imagelistView.setAdapter(searchImageAdapter);
 		}else {
-			imgAdapter.notifyDataSetChanged();
+			searchImageAdapter.notifyDataSetChanged();
 		}
 
 	}
@@ -177,7 +124,7 @@ public class ApiStoreActivity extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.searchImg_btn:
-			searchImg(searchImg_et.getText().toString());
+			searchImg(searchImg_et.getText().toString(),mPageNum);
 
 			break;
 
@@ -190,20 +137,23 @@ public class ApiStoreActivity extends BaseActivity implements OnClickListener {
 
 	/**
 	 * 参数名 类型 必填 参数位置 描述 默认值 word string 是 urlParam 查询词 花朵 pn string 否 urlParam
-	 * 请求返回起始页号，范围0-2000 0 rn string 否 urlParam 请求返回结果数，范围1-60 60 ie string 是
+	 * 请求返回起始页号，范围0-1000 0 rn string 否 urlParam 请求返回结果数，范围1-60 60 ie string 是
 	 * urlParam 查询词编码类型，可选utf-8, gbk utf-8
 	 * 
 	 * @param searchText
 	 */
 
-	private void searchImg(String searchText) {
+	private void searchImg(String searchText,int pageNum) {
 		if (TextUtils.isEmpty(searchText)) {
 			showToast("搜索的文本不能为空");
 			return;
 		}
+		mPageNum=pageNum+10;
 		Parameters para = new Parameters();
 		para.put("word", searchText);
 		para.put("ie", "utf-8");
+		para.put("rn", "10");
+		para.put("pn", pageNum+"");
 		// 天气搜索：： http://apis.baidu.com/heweather/weather/free
 		ApiStoreSDK.execute(MyUrl.SEARCH_IMAGE, ApiStoreSDK.GET, para,
 				new ApiCallBack() {
@@ -221,14 +171,12 @@ public class ApiStoreActivity extends BaseActivity implements OnClickListener {
 								.get(1).getObjUrl();
 						MyApplication.imageLoader.displayImage(imageurl,
 								searchImgResult_imgae);
-						imglist = searchImageRespone.getResultArray();
-						ArrayList<Image> images=new ArrayList<Image>();
-						for (int i = 0; i < 10; i++) {
-							images.add(imglist.get(i));
-						}
-						imageDownloadThread.queueThumbnail(images);
-
+						ArrayList<Image> downloadingImages = searchImageRespone.getResultArray();
+						LogUtil.e(TAG, downloadingImages.size()+"downloadingImages");
+						imageDownloadThread.queueThumbnail(downloadingImages);
 					}
+
+
 
 					@Override
 					public void onComplete() {
@@ -239,10 +187,8 @@ public class ApiStoreActivity extends BaseActivity implements OnClickListener {
 					public void onError(int status, String responseString,
 							Exception e) {
 						Log.e("sdkdemo", "onError, status: " + status);
-						Log.e("sdkdemo",
-								"errMsg: " + (e == null ? "" : e.getMessage()));
-						searchImgResult_tv.setText(responseString
-								+ ":::::::::::::::::" + e.toString());
+						Log.e("sdkdemo","errMsg: " + (e == null ? "" : e.getMessage()));
+						searchImgResult_tv.setText(e.toString());
 					}
 
 				});
