@@ -10,6 +10,8 @@ import android.os.Message;
 import android.util.Log;
 
 import com.example.searchimage.MyApplication;
+import com.example.searchimage.cache.ImageCache;
+import com.example.searchimage.cache.ImageCacheByDisk;
 import com.example.searchimage.db.ImageDB;
 import com.example.searchimage.model.Image;
 import com.example.searchimage.utils.LogUtil;
@@ -21,6 +23,7 @@ public class ImageDownloadThread<Handle> extends HandlerThread {
 	Handler mHandler;
 	private ArrayList<Image> imageList;
 	private ImageDB imageDB=ImageDB.getInstance(MyApplication.context);
+	private ImageCache imageCache=new ImageCacheByDisk(); 
 	
 
 	
@@ -65,12 +68,11 @@ public class ImageDownloadThread<Handle> extends HandlerThread {
             	final Image image=imageList.get(i);
             	if (imageDB.loadImage(image).getSavePath()!=null) {
             		//如果找到了sd卡上的地址
-            		bitmap=MyUtils.convertToBitmap(Environment
-    						.getExternalStorageDirectory().getPath() + "/searchImage/"+imageDB.loadImage(image).getSavePath(), 300, 300);//暂时为300
+            		bitmap=imageCache.get(imageDB.loadImage(image).getSavePath());//暂时为300
 				}else{
 					
 					bitmap=MyApplication.imageLoader.loadImageSync(image.getObjUrl());
-					pathString=MyUtils.saveBitmapInExternalStorage(bitmap, MyApplication.context);
+					pathString=imageCache.put(bitmap, image.getObjUrl());
 					if (pathString!=null) {
 						image.setSavePath(pathString);
 						imageDB.saveImage(image);

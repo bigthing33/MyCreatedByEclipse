@@ -206,37 +206,37 @@ public class MyUtils {
 	}
 
 	/**
-	 * 保存一张bitmap图片，文件名为当前的时间
+	 * 保存一张bitmap图片，文件名为当前的时间,返回值为保存的sd卡路径
 	 * 
 	 * @param bitmap
 	 * @param context
+	 * @param url 
 	 */
 	public static String saveBitmapInExternalStorage(Bitmap bitmap,
-			Context context) {
+			Context context, String url) {
 		String path = null;
 		try {
 			if (MyUtils.haveSDCard()) {
-				File extStorage = new File(Environment
-						.getExternalStorageDirectory().getPath() + "/searchImage");// searchImage为SD卡下一个文件夹
+				File extStorage = new File(MyConstants.ExternalStorageDirectory_SEARCHIMAGE);// searchImage为SD卡下一个文件夹
 				if (!extStorage.exists()) {
 					extStorage.mkdirs();
 				}
-				path = System.currentTimeMillis() + ".png";
+				path = url + ".png";
 				File file = new File(extStorage, path);
 				FileOutputStream fOut = new FileOutputStream(file);
 				bitmap.compress(Bitmap.CompressFormat.PNG, 90, fOut);// 压缩图片
 				fOut.flush();
 				fOut.close();
-//				Toast.makeText(context, "保存成功", Toast.LENGTH_SHORT).show();
-				LogUtil.e(context.getPackageName(), path+"保存成功");
+				// Toast.makeText(context, "保存成功", Toast.LENGTH_SHORT).show();
+				LogUtil.e(context.getPackageName(), path + "保存成功");
 			} else {
-				LogUtil.e(context.getPackageName(), path+"保存失败");
-//				Toast.makeText(context, "保存失败", Toast.LENGTH_SHORT).show();
+				LogUtil.e(context.getPackageName(), path + "保存失败");
+				// Toast.makeText(context, "保存失败", Toast.LENGTH_SHORT).show();
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		return path;
+		return MyConstants.ExternalStorageDirectory_SEARCHIMAGE+"/" + path;
 	}
 
 	/**

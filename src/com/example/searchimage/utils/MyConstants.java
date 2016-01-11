@@ -41,6 +41,8 @@ public class MyConstants {
     
     public static final String REMOTE_ACTION = "com.ryg.chapter.action_REMOTE";
     public static final String EXTRA_REMOTE_VIEWS = "extra_remoteViews";
+    public static final String ExternalStorageDirectory_SEARCHIMAGE = Environment
+			.getExternalStorageDirectory().getPath() + "/searchImage";
 
 
 
