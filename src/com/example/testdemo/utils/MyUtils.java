@@ -50,6 +50,7 @@ public class MyUtils {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * 获取版本名称
 	 */
@@ -111,6 +112,7 @@ public class MyUtils {
 		listView.setLayoutAnimation(controller);
 
 	}
+
 	/**
 	 * 检测网络是否可用
 	 * 
@@ -122,42 +124,57 @@ public class MyUtils {
 		NetworkInfo ni = cm.getActiveNetworkInfo();
 		return ni != null && ni.isConnectedOrConnecting();
 	}
+
 	/**
 	 * 获取清单文件中的metaData中的值
-	 * @param ctx Context
-	 * @param key metaData中的name
+	 * 
+	 * @param ctx
+	 *            Context
+	 * @param key
+	 *            metaData中的name
 	 * @return
 	 */
-	 public static String getAppMetaData(Context ctx, String key) {  
-	        if (ctx == null || TextUtils.isEmpty(key)) {  
-	            return "erro for metaData";  
-	        }  
-	        int intData = -1;  
-	        String string = null;
-	        try {  
-	            PackageManager packageManager = ctx.getPackageManager();  
-	            if (packageManager != null) {  
-	                ApplicationInfo applicationInfo = packageManager.getApplicationInfo(ctx.getPackageName(), PackageManager.GET_META_DATA);  
-	                if (applicationInfo != null) {  
-	                    if (applicationInfo.metaData != null) {  
-	                        intData = applicationInfo.metaData.getInt(key); 
-	                        if (intData==0) {
-	                        	 return string = applicationInfo.metaData.getString(key)+"";
-							}else{
-								return string = String.valueOf(intData);
-								
-							}
-	                    }  
-	                }  
-	  
-	  
-	            }  
-	        } catch (PackageManager.NameNotFoundException e) {  
-	            e.printStackTrace();  
-	        }
-			return string;  
-	  
-	  
-	    }
+	public static String getAppMetaData(Context ctx, String key) {
+		if (ctx == null || TextUtils.isEmpty(key)) {
+			return "erro for metaData";
+		}
+		int intData = -1;
+		String string = null;
+		try {
+			PackageManager packageManager = ctx.getPackageManager();
+			if (packageManager != null) {
+				ApplicationInfo applicationInfo = packageManager
+						.getApplicationInfo(ctx.getPackageName(),
+								PackageManager.GET_META_DATA);
+				if (applicationInfo != null) {
+					if (applicationInfo.metaData != null) {
+						intData = applicationInfo.metaData.getInt(key);
+						if (intData == 0) {
+							return string = applicationInfo.metaData
+									.getString(key) + "";
+						} else {
+							return string = String.valueOf(intData);
+
+						}
+					}
+				}
+
+			}
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return string;
+
+	}
+
+	/**
+	 * 判断是否有SD卡
+	 * 
+	 * @return
+	 */
+	public static boolean haveSDCard() {
+		return android.os.Environment.getExternalStorageState().equals(
+				android.os.Environment.MEDIA_MOUNTED);
+	}
 
 }
