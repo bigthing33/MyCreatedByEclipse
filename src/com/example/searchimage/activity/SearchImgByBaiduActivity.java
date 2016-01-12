@@ -33,8 +33,7 @@ import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 public class SearchImgByBaiduActivity extends BaseActivity implements
 		OnClickListener {
-	protected static final String TAG = SearchImgByBaiduActivity.class
-			.getSimpleName();
+	protected static final String TAG = SearchImgByBaiduActivity.class.getSimpleName();
 	private Context mContext = SearchImgByBaiduActivity.this;
 	private EditText searchImg_et;
 	private Button searchImg_btn;
@@ -57,20 +56,24 @@ public class SearchImgByBaiduActivity extends BaseActivity implements
 		imageFetcher.setListener(new ImageFetcherListener() {
 
 			@Override
-			public void ImageFetcherSuccess(
-					SearchImageRespone searchImageRespone) {
-				searchImgResult_tv.setText("返回的图片数是："
-						+ searchImageRespone.getReturnNumber() + " 搜索到的图片总数是"
-						+ searchImageRespone.getTotalNumber());
-				ArrayList<Image> downloadingImages = searchImageRespone.getResultArray();
-				LogUtil.e(TAG, downloadingImages.size() + "downloadingImages");
-				//成功返回SearchImageRespone对象后，取得每个图片的地址，根据地址去获取图片
-				imageDownloadThread.queueThumbnail(downloadingImages);
+			public void ImageFetcherErro(String responseString) {
+				searchImgResult_tv.setText(responseString + "");
+
 			}
 
 			@Override
-			public void ImageFetcherErro(String responseString) {
-				searchImgResult_tv.setText(responseString + "");
+			public void ImageFetcherSuccess(
+					SearchImageRespone searchImageRespone,
+					Boolean isCleanListView) {
+	
+				searchImgResult_tv.setText("返回的图片数是："
+						+ searchImageRespone.getReturnNumber() + " 搜索到的图片总数是"
+						+ searchImageRespone.getTotalNumber());
+				ArrayList<Image> downloadingImages = searchImageRespone
+						.getResultArray();
+				LogUtil.e(TAG, downloadingImages.size() + "downloadingImages");
+				// 成功返回SearchImageRespone对象后，取得每个图片的地址，根据地址去获取图片
+				imageDownloadThread.queueThumbnail(downloadingImages,isCleanListView);
 
 			}
 		});
@@ -78,23 +81,18 @@ public class SearchImgByBaiduActivity extends BaseActivity implements
 		imageDownloadThread.setListener(new Listener() {
 
 			@Override
-			public void imageDownloaded(Image image) {
-				if (localImglist.size()>0) {
-					if (!image.getSearchTag().equals(localImglist.get(0).getSearchTag())) {
-						//如果加载的图片搜索标签不等于原来的搜索标签，则清空当地列表localImglist
-						localImglist.clear();
-						if (searchImageAdapter!=null) {
-							searchImageAdapter.notifyDataSetChanged();
-						}
-					}
-				}
-				localImglist.add(image);
-				setAdapter();
+			public void completedAllImgDownload() {
+				isLoadingImg = false;
+
 			}
 
 			@Override
-			public void completedAllImgDownload() {
-				isLoadingImg = false;
+			public void imageDownloaded(Image image, boolean isCleanListView) {
+				if (isCleanListView) {
+					clearListView();
+				}
+				localImglist.add(image);
+				setAdapter();
 
 			}
 		});
@@ -120,16 +118,16 @@ public class SearchImgByBaiduActivity extends BaseActivity implements
 				MyApplication.imageLoader, true, true));// 两个分别表示拖动下拉条和滑动过程中暂停加载
 	}
 
-	private void showRequestImg(String searchTag) {
+	private void showRequestImg(String searchTag, Boolean isCleanView) {
 		isLoadingImg = true;
-		imageFetcher.searchImg(searchTag, mPageNum, mPreNum);
+		imageFetcher.searchImg(searchTag, mPageNum, mPreNum,isCleanView);
 		mPageNum = mPageNum + mPreNum;
 
 	}
 
 	private void setAdapter() {
 
-		if (localImglist==null) {
+		if (localImglist == null) {
 			imagelistView.setAdapter(null);
 		} else if (localImglist.size() == 1) {
 			searchImageAdapter = new CommonAdapter<Image>(mContext,
@@ -139,7 +137,7 @@ public class SearchImgByBaiduActivity extends BaseActivity implements
 				public void convert(ViewHolder holder, Image t, int position) {
 					if (position >= localImglist.size() - mPreNum
 							&& isLoadingImg == false && position >= mPreNum - 1) {
-						showRequestImg(searchImg_et.getText().toString());
+						showRequestImg(searchImg_et.getText().toString(),false);
 					}
 					ImageView item_img = holder.getView(R.id.item_img);
 					TextView item_text = holder.getView(R.id.item_text);
@@ -167,11 +165,10 @@ public class SearchImgByBaiduActivity extends BaseActivity implements
 				showToast("网络不可用");
 				return;
 			}
-	//加载完后再清空listView。		
-
-			mPageNum=0;
+			mPageNum = 0;
+			clearListView();
 			MyApplication.imageLoader.stop();
-			showRequestImg(searchImg_et.getText().toString());
+			showRequestImg(searchImg_et.getText().toString(),true);
 			break;
 
 		default:
@@ -180,6 +177,14 @@ public class SearchImgByBaiduActivity extends BaseActivity implements
 
 	}
 
+	private void clearListView() {
+		if (localImglist.size() > 0) {
+			localImglist.clear();
+			if (searchImageAdapter != null) {
+				searchImageAdapter.notifyDataSetChanged();
+			}
+		}
+	}
 
 	public static void actionStart(Context context, Class<?> activityClass) {
 		Intent intent = new Intent(context, activityClass);

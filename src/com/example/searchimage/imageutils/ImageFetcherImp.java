@@ -6,7 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.integer;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import com.baidu.apistore.sdk.ApiCallBack;
 import com.baidu.apistore.sdk.ApiStoreSDK;
 import com.baidu.apistore.sdk.network.Parameters;
-import com.example.searchimage.MyApplication;
 import com.example.searchimage.model.Image;
 import com.example.searchimage.model.SearchImageRespone;
 import com.example.searchimage.utils.LogUtil;
@@ -43,7 +41,7 @@ public class ImageFetcherImp implements ImageFetcher {
 	 * @param searchText
 	 */
 
-	public void searchImg(final String searchTag,int pageNum,int mPreNum) {
+	public void searchImg(final String searchTag,int pageNum,int mPreNum,final Boolean isCleanListView) {
 		if (TextUtils.isEmpty(searchTag)) {
 			Toast.makeText(mContext, "搜索的文本不能为空", Toast.LENGTH_SHORT).show();
 			return;
@@ -61,7 +59,11 @@ public class ImageFetcherImp implements ImageFetcher {
 						Log.e("sdkdemo", "onSuccess");
 						Log.e("sdkdemo", responseString);
 						 searchImageRespone = handleImageResponse(responseString,searchTag);
-						 mListener.ImageFetcherSuccess(searchImageRespone);
+							if (searchImageRespone==null) {
+								Toast.makeText(mContext, "超出能调用的次数", Toast.LENGTH_LONG).show();
+								return;
+							}
+						 mListener.ImageFetcherSuccess(searchImageRespone,isCleanListView);
 					}
 					@Override
 					public void onComplete() {

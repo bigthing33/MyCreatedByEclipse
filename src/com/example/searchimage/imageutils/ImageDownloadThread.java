@@ -16,100 +16,120 @@ import com.example.searchimage.utils.LogUtil;
 import com.example.searchimage.utils.MyUtils;
 
 public class ImageDownloadThread extends HandlerThread {
-    private static final String TAG = "ImageDownloadThread";
-    private static final int MESSAGE_DOWNLOAD = 0;
+	private static final String TAG = "ImageDownloadThread";
+	private static final int MESSAGE_DOWNLOAD = 0;
 	Handler mHandler;
 	private ArrayList<Image> imageList;
 	private ImageDB imageDB;
-	private ImageCache imageCache; 
-	
+	private ImageCache imageCache;
 
-	
-    Handler mResponseHandler;
-    Listener mListener;
-    public ImageDownloadThread( Handler mHandler) {
+	Handler mResponseHandler;
+	Listener mListener;
+
+	public ImageDownloadThread(Handler mHandler) {
 		super(TAG);
 		mResponseHandler = mHandler;
-		imageCache=new ImageCacheByDisk();
-		imageDB=ImageDB.getInstance(MyApplication.context);
+		imageCache = new ImageCacheByDisk();
+		imageDB = ImageDB.getInstance(MyApplication.context);
 	}
-    public interface Listener {
-        void imageDownloaded(Image image);
-        void completedAllImgDownload();
-    }
-    
-    public void setListener(Listener listener) {
-        mListener = listener;
-    }
-    @Override
-    protected void onLooperPrepared() {
+
+	public interface Listener {
+		void imageDownloaded(Image image, boolean isCleanListView);
+
+		void completedAllImgDownload();
+	}
+
+	public void setListener(Listener listener) {
+		mListener = listener;
+	}
+
+	@Override
+	protected void onLooperPrepared() {
 		/**
 		 * 当创建HandlerThread时，系统会自动给这个线程配置一个looper，当配置完成时会调用onLooperPrepared方法。
 		 * 它发生在第一次检查消息队列之前。 在这个方法里可以给mHandler实例化，重写handleMessage方法
 		 */
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.what == MESSAGE_DOWNLOAD) {
-                    handleRequest();
-                }
-            }
-        };
-    }
-    private void handleRequest() {
-        try {
-            if (imageList == null) 
-                return;
-            //根据url获得图片的字节数组，该字节数组可以生成一个bitmap图片
-            Log.e(TAG, "handleRequest");
-            Bitmap bitmap;
-            String pathString;
-            for (int i = 0; i < imageList.size(); i++) {
-            	final Image image=imageList.get(i);
-            	if (imageDB.loadImage(image).getSavePath()!=null) {
-            		//如果找到了sd卡上的地址
-            		bitmap=imageCache.get(imageDB.loadImage(image).getObjUrl());//暂时为300
-				}else{
-					bitmap=MyApplication.imageLoader.loadImageSync(image.getObjUrl());
-					pathString=imageCache.put(bitmap, image.getObjUrl());
-					if (pathString!=null) {
+		mHandler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				if (msg.what == MESSAGE_DOWNLOAD) {
+					handleRequest((Boolean) msg.obj);
+
+				}
+			}
+		};
+	}
+
+	private void handleRequest(final boolean isCleanListView) {
+		try {
+			if (imageList == null)
+				return;
+			// 根据url获得图片的字节数组，该字节数组可以生成一个bitmap图片
+			Log.e(TAG, "handleRequest");
+			Bitmap bitmap;
+			String pathString;
+			for (int i = 0; i < imageList.size(); i++) {
+				final Image image = imageList.get(i);
+				if (imageDB.loadImage(image).getSavePath() != null) {
+					// 如果找到了sd卡上的地址
+					bitmap = imageCache.get(imageDB.loadImage(image)
+							.getObjUrl());// 暂时为300
+				} else {
+					bitmap = MyApplication.imageLoader.loadImageSync(image
+							.getObjUrl());
+					pathString = imageCache.put(bitmap, image.getObjUrl());
+					if (pathString != null) {
 						image.setSavePath(pathString);
 						imageDB.saveImage(image);
 					}
 				}
-            	image.setBitmap(bitmap);
-            	LogUtil.e("handleRequest", "第"+i+"个图片完成加载了");
-                //使用主线程的handler，完成在子线程访问主线程的事情。
-                mResponseHandler.post(new Runnable() {
-                    public void run() {
-                        //在这里调用监听器的方法，此方法是在fragment中被定义的。真正的执行是在定义的地方发生的。
-                        mListener.imageDownloaded(image);
-                    }
-                });
+				image.setBitmap(bitmap);
+				LogUtil.e("handleRequest", "第" + i + "个图片完成加载了");
+				// 使用主线程的handler，完成在子线程访问主线程的事情。
+				if (i == 0) {
+					mResponseHandler.post(new Runnable() {
+						public void run() {
+							// 在这里调用监听器的方法，此方法是在fragment中被定义的。真正的执行是在定义的地方发生的。
+							mListener.imageDownloaded(image, isCleanListView);
+
+						}
+					});
+				} else {
+					mResponseHandler.post(new Runnable() {
+						public void run() {
+							// 在这里调用监听器的方法，此方法是在fragment中被定义的。真正的执行是在定义的地方发生的。
+							mListener.imageDownloaded(image, false);
+
+						}
+					});
+				}
 
 			}
-            mResponseHandler.post(new Runnable() {
-                public void run() {
-                    //在这里调用监听器的方法，此方法是在fragment中被定义的。真正的执行是在定义的地方发生的。
-                    mListener.completedAllImgDownload();
-                }
-            });
+			mResponseHandler.post(new Runnable() {
+				public void run() {
+					// 在这里调用监听器的方法，此方法是在fragment中被定义的。真正的执行是在定义的地方发生的。
+					mListener.completedAllImgDownload();
+				}
+			});
 
-        } catch (Exception ioe) {
-            Log.e(TAG, "Error downloading image", ioe);
-        }
-    }
-    public void queueThumbnail( ArrayList<Image> images) {
-    	imageList=images;
-        //发送一个消息，也就是说会调用一次handleMessage
-        mHandler
-            .obtainMessage(MESSAGE_DOWNLOAD)
-            .sendToTarget();
-    }
-    public void quitImageDownloadThread(){
-    	MyApplication.imageLoader.stop();
-    	quit();
-    	imageList.clear();
-    }
+		} catch (Exception ioe) {
+			Log.e(TAG, "Error downloading image", ioe);
+		}
+	}
+
+	public void queueThumbnail(ArrayList<Image> images, boolean isCleanListView) {
+		imageList = images;
+		// 发送一个消息，也就是说会调用一次handleMessage
+		mHandler.obtainMessage(MESSAGE_DOWNLOAD, isCleanListView)
+				.sendToTarget();
+	}
+
+	public void quitImageDownloadThread() {
+		MyApplication.imageLoader.stop();
+		quit();
+		if (imageList != null) {
+			imageList.clear();
+		}
+	}
 
 }
