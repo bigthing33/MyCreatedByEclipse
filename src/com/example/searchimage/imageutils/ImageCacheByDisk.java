@@ -1,4 +1,4 @@
-package com.example.searchimage.cache;
+package com.example.searchimage.imageutils;
 
 import com.example.searchimage.MyApplication;
 import com.example.searchimage.utils.MyUtils;

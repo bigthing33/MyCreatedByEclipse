@@ -1,4 +1,4 @@
-package com.example.searchimage.cache;
+package com.example.searchimage.imageutils;
 
 import android.graphics.Bitmap;
 

@@ -1,4 +1,4 @@
-package com.example.searchimage.services;
+package com.example.searchimage.imageutils;
 
 import java.util.ArrayList;
 
@@ -10,8 +10,6 @@ import android.os.Message;
 import android.util.Log;
 
 import com.example.searchimage.MyApplication;
-import com.example.searchimage.cache.ImageCache;
-import com.example.searchimage.cache.ImageCacheByDisk;
 import com.example.searchimage.db.ImageDB;
 import com.example.searchimage.model.Image;
 import com.example.searchimage.utils.LogUtil;
