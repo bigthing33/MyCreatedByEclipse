@@ -28,6 +28,7 @@ import com.example.searchimage.imageutils.ImageFetcherImp;
 import com.example.searchimage.model.Image;
 import com.example.searchimage.model.SearchImageRespone;
 import com.example.searchimage.utils.LogUtil;
+import com.example.searchimage.utils.MyUtils;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 public class SearchImgByBaiduActivity extends BaseActivity implements
@@ -78,7 +79,15 @@ public class SearchImgByBaiduActivity extends BaseActivity implements
 
 			@Override
 			public void imageDownloaded(Image image) {
-
+				if (localImglist.size()>0) {
+					if (!image.getSearchTag().equals(localImglist.get(0).getSearchTag())) {
+						//如果加载的图片搜索标签不等于原来的搜索标签，则清空当地列表localImglist
+						localImglist.clear();
+						if (searchImageAdapter!=null) {
+							searchImageAdapter.notifyDataSetChanged();
+						}
+					}
+				}
 				localImglist.add(image);
 				setAdapter();
 			}
@@ -154,11 +163,13 @@ public class SearchImgByBaiduActivity extends BaseActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.searchImg_btn:
-			localImglist.clear();
-			mPageNum=0;
-			if (searchImageAdapter!=null) {
-				searchImageAdapter.notifyDataSetChanged();
+			if (!MyUtils.isNetworkConnected()) {
+				showToast("网络不可用");
+				return;
 			}
+	//加载完后再清空listView。		
+
+			mPageNum=0;
 			MyApplication.imageLoader.stop();
 			showRequestImg(searchImg_et.getText().toString());
 			break;
@@ -168,6 +179,7 @@ public class SearchImgByBaiduActivity extends BaseActivity implements
 		}
 
 	}
+
 
 	public static void actionStart(Context context, Class<?> activityClass) {
 		Intent intent = new Intent(context, activityClass);

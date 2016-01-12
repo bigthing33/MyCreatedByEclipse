@@ -9,7 +9,7 @@ public class Image {
 	private String Desc;
 	private String Pictype;
 	private Bitmap bitmap;
-	private String searchTime;//搜索的时间
+	private long searchTime;//搜索的时间
 	private String searchTag;//搜索的标签
 	private String savePath;//保存路径
 
@@ -71,11 +71,13 @@ public class Image {
 		this.bitmap = bitmap;
 	}
 
-	public String getSearchTime() {
+
+
+	public long getSearchTime() {
 		return searchTime;
 	}
 
-	public void setSearchTime(String searchTime) {
+	public void setSearchTime(long searchTime) {
 		this.searchTime = searchTime;
 	}
 

@@ -29,6 +29,7 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.searchimage.MyApplication;
 import com.example.searchimage.R;
 
 public class MyUtils {
@@ -126,8 +127,7 @@ public class MyUtils {
 	 * @return
 	 */
 	public static boolean isNetworkConnected() {
-		ConnectivityManager cm = (ConnectivityManager) new Application()
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager cm = (ConnectivityManager) new MyApplication().context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo ni = cm.getActiveNetworkInfo();
 		return ni != null && ni.isConnectedOrConnecting();
 	}

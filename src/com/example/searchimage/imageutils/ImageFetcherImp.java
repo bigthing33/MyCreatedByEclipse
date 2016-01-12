@@ -43,13 +43,13 @@ public class ImageFetcherImp implements ImageFetcher {
 	 * @param searchText
 	 */
 
-	public void searchImg(String searchText,int pageNum,int mPreNum) {
-		if (TextUtils.isEmpty(searchText)) {
+	public void searchImg(final String searchTag,int pageNum,int mPreNum) {
+		if (TextUtils.isEmpty(searchTag)) {
 			Toast.makeText(mContext, "搜索的文本不能为空", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		Parameters para = new Parameters();
-		para.put("word", searchText);
+		para.put("word", searchTag);
 		para.put("ie", "utf-8");
 		para.put("rn", mPreNum+"");//返回的图片数量
 		para.put("pn", pageNum+"");//需要从第几张图片开始返回
@@ -60,7 +60,7 @@ public class ImageFetcherImp implements ImageFetcher {
 					public void onSuccess(int status, String responseString) {
 						Log.e("sdkdemo", "onSuccess");
 						Log.e("sdkdemo", responseString);
-						 searchImageRespone = handleImageResponse( responseString);
+						 searchImageRespone = handleImageResponse(responseString,searchTag);
 						 mListener.ImageFetcherSuccess(searchImageRespone);
 					}
 					@Override
@@ -81,7 +81,7 @@ public class ImageFetcherImp implements ImageFetcher {
 
 	@SuppressWarnings("finally")
 	public  SearchImageRespone handleImageResponse(
-			String response) {
+			String response, String searchTag) {
 		try {
 			JSONObject jsonObjiect = new JSONObject(response);
 			JSONObject status = jsonObjiect.getJSONObject("status");
@@ -107,6 +107,8 @@ public class ImageFetcherImp implements ImageFetcher {
 				image.setFromUrl(imgaeJsonObject.getString("FromUrl"));
 				image.setPictype(imgaeJsonObject.getString("Pictype"));
 				image.setDesc(imgaeJsonObject.getString("Desc"));
+				image.setSearchTag(searchTag);
+				image.setSearchTime(System.currentTimeMillis());
 				images.add(image);
 			}
 			searchImageRespone.setResultArray(images);
