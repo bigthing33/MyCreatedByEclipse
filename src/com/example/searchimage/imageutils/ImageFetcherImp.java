@@ -62,11 +62,7 @@ public class ImageFetcherImp implements ImageFetcher {
 						Log.e("sdkdemo", responseString);
 						 searchImageRespone = handleImageResponse( responseString);
 						 mListener.ImageFetcherSuccess(searchImageRespone);
-
 					}
-
-
-
 					@Override
 					public void onComplete() {
 						Log.e("sdkdemo", "onComplete");
@@ -78,9 +74,7 @@ public class ImageFetcherImp implements ImageFetcher {
 						Log.e("sdkdemo", "onError, status: " + status);
 						Log.e("sdkdemo","errMsg: " + (e == null ? "" : e.getMessage()));
 						mListener.ImageFetcherErro(responseString);
-
 					}
-
 				});
 
 	}

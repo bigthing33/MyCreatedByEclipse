@@ -82,7 +82,26 @@ public class ImageDB {
 		}
 		db.close();
 		return image;
+	}
+	/**
+	 * 根据url获取数据库中的image的path
+	 * @param image
+	 * @return
+	 */
+	public String loadImageByUrl(String url){
+		String path = null;
+		SQLiteDatabase db = dbHeleper.getWritableDatabase();
+		Cursor cursor = db.query(DatabaseHelper.IMAGE_TABLENAME, null, "ObjUrl = ? ", new String[]{url}, null, null, "id"+" desc");
+		if(cursor.moveToFirst()){
+
+			path=cursor.getString(cursor.getColumnIndex("savePath"));
+		}
+		if (cursor!=null) {
+			cursor.close();
+		}
+		db.close();
 		
+		return path;
 	}
 	/**
 	 * 删除历史记录 TODO

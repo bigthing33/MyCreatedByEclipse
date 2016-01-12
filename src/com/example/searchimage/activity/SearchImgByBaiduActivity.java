@@ -1,6 +1,7 @@
 package com.example.searchimage.activity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,20 +30,21 @@ import com.example.searchimage.model.SearchImageRespone;
 import com.example.searchimage.utils.LogUtil;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
-public class SearchImgByBaiduActivity extends BaseActivity implements OnClickListener {
-	protected static final String TAG = SearchImgByBaiduActivity.class.getSimpleName();
+public class SearchImgByBaiduActivity extends BaseActivity implements
+		OnClickListener {
+	protected static final String TAG = SearchImgByBaiduActivity.class
+			.getSimpleName();
 	private Context mContext = SearchImgByBaiduActivity.this;
 	private EditText searchImg_et;
 	private Button searchImg_btn;
 	private TextView searchImgResult_tv;
-	private ImageView searchImgResult_imgae;
 	private ListView imagelistView;
 	private CommonAdapter<Image> searchImageAdapter;
 	private ArrayList<Image> localImglist = new ArrayList<Image>();
-	private ImageDownloadThread<ImageView> imageDownloadThread;
-	private int mPageNum=0;
+	private ImageDownloadThread imageDownloadThread;
+	private int mPageNum = 0;
 	private boolean isLoadingImg;
-	private int mPreNum=5;//默认为5；缓存图片个数，范围是1-60
+	private int mPreNum = 5;// 默认为5；缓存图片个数，范围是1-60
 	private ImageFetcher imageFetcher;
 
 	@Override
@@ -50,41 +52,41 @@ public class SearchImgByBaiduActivity extends BaseActivity implements OnClickLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_apistore);
 		initUI();
-		imageFetcher=new ImageFetcherImp(mContext);
+		imageFetcher = new ImageFetcherImp(mContext);
 		imageFetcher.setListener(new ImageFetcherListener() {
-			
+
 			@Override
-			public void ImageFetcherSuccess(SearchImageRespone searchImageRespone) {
+			public void ImageFetcherSuccess(
+					SearchImageRespone searchImageRespone) {
 				searchImgResult_tv.setText("返回的图片数是："
 						+ searchImageRespone.getReturnNumber() + " 搜索到的图片总数是"
 						+ searchImageRespone.getTotalNumber());
-				String imageurl = searchImageRespone.getResultArray().get(1).getObjUrl();
-				MyApplication.imageLoader.displayImage(imageurl,searchImgResult_imgae);
 				ArrayList<Image> downloadingImages = searchImageRespone.getResultArray();
 				LogUtil.e(TAG, downloadingImages.size() + "downloadingImages");
+				//成功返回SearchImageRespone对象后，取得每个图片的地址，根据地址去获取图片
 				imageDownloadThread.queueThumbnail(downloadingImages);
 			}
-			
+
 			@Override
 			public void ImageFetcherErro(String responseString) {
-				searchImgResult_tv.setText(responseString+"");
-				
+				searchImgResult_tv.setText(responseString + "");
+
 			}
 		});
-		imageDownloadThread = new ImageDownloadThread<ImageView>(new Handler());
+		imageDownloadThread = new ImageDownloadThread(new Handler());
 		imageDownloadThread.setListener(new Listener() {
 
 			@Override
 			public void imageDownloaded(Image image) {
-				
+
 				localImglist.add(image);
 				setAdapter();
 			}
 
 			@Override
 			public void completedAllImgDownload() {
-				isLoadingImg=false;
-				
+				isLoadingImg = false;
+
 			}
 		});
 		imageDownloadThread.start();
@@ -92,38 +94,9 @@ public class SearchImgByBaiduActivity extends BaseActivity implements OnClickLis
 		imageDownloadThread.getLooper();
 	}
 
-	private void setAdapter() {
-	
-		if (localImglist.size() == 0) {
-			imagelistView.setAdapter(null);
-		} else if (localImglist.size()==1) {
-			searchImageAdapter=new CommonAdapter<Image>(mContext, localImglist, R.layout.item_image) {
-
-				@Override
-				public void convert(
-						ViewHolder holder, Image t,
-						int position) {
-					if (position>=localImglist.size()-mPreNum&&isLoadingImg==false&&position>=mPreNum-1) {
-						imageFetcher.searchImg(searchImg_et.getText().toString(),mPageNum, mPreNum);
-					}
-					ImageView item_img=holder.getView(R.id.item_img);
-					TextView item_text=holder.getView(R.id.item_text);
-					item_text.setText(position+"");
-					if (localImglist.get(position).getBitmap() != null) {
-						item_img.setImageBitmap(localImglist.get(position).getBitmap());
-					}
-					
-				}
-			};
-			imagelistView.setAdapter(searchImageAdapter);
-		}else {
-			searchImageAdapter.notifyDataSetChanged();
-		}
-
-	}
-
 	@Override
 	public void onDestroy() {
+		imageDownloadThread.quitImageDownloadThread();
 		super.onDestroy();
 	}
 
@@ -131,7 +104,6 @@ public class SearchImgByBaiduActivity extends BaseActivity implements OnClickLis
 	public void initUI() {
 		searchImg_et = (EditText) findViewById(R.id.searchImg_et);
 		searchImg_btn = (Button) findViewById(R.id.searchImg_btn);
-		searchImgResult_imgae = (ImageView) findViewById(R.id.searchImgResult_imgae);
 		searchImgResult_tv = (TextView) findViewById(R.id.searchImgResult_tv);
 		imagelistView = (ListView) findViewById(R.id.imagelistView);
 		searchImg_btn.setOnClickListener(this);
@@ -139,11 +111,56 @@ public class SearchImgByBaiduActivity extends BaseActivity implements OnClickLis
 				MyApplication.imageLoader, true, true));// 两个分别表示拖动下拉条和滑动过程中暂停加载
 	}
 
+	private void showRequestImg(String searchTag) {
+		isLoadingImg = true;
+		imageFetcher.searchImg(searchTag, mPageNum, mPreNum);
+		mPageNum = mPageNum + mPreNum;
+
+	}
+
+	private void setAdapter() {
+
+		if (localImglist==null) {
+			imagelistView.setAdapter(null);
+		} else if (localImglist.size() == 1) {
+			searchImageAdapter = new CommonAdapter<Image>(mContext,
+					localImglist, R.layout.item_image) {
+
+				@Override
+				public void convert(ViewHolder holder, Image t, int position) {
+					if (position >= localImglist.size() - mPreNum
+							&& isLoadingImg == false && position >= mPreNum - 1) {
+						showRequestImg(searchImg_et.getText().toString());
+					}
+					ImageView item_img = holder.getView(R.id.item_img);
+					TextView item_text = holder.getView(R.id.item_text);
+					item_text.setText(position + "");
+					if (localImglist.get(position).getBitmap() != null) {
+						item_img.setImageBitmap(localImglist.get(position)
+								.getBitmap());
+					}
+
+				}
+
+			};
+			imagelistView.setAdapter(searchImageAdapter);
+		} else {
+			searchImageAdapter.notifyDataSetChanged();
+		}
+
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.searchImg_btn:
-			imageFetcher.searchImg(searchImg_et.getText().toString(),mPageNum, mPreNum);
+			localImglist.clear();
+			mPageNum=0;
+			if (searchImageAdapter!=null) {
+				searchImageAdapter.notifyDataSetChanged();
+			}
+			MyApplication.imageLoader.stop();
+			showRequestImg(searchImg_et.getText().toString());
 			break;
 
 		default:
@@ -151,8 +168,6 @@ public class SearchImgByBaiduActivity extends BaseActivity implements OnClickLis
 		}
 
 	}
-
-	
 
 	public static void actionStart(Context context, Class<?> activityClass) {
 		Intent intent = new Intent(context, activityClass);

@@ -15,13 +15,13 @@ import com.example.searchimage.model.Image;
 import com.example.searchimage.utils.LogUtil;
 import com.example.searchimage.utils.MyUtils;
 
-public class ImageDownloadThread<Handle> extends HandlerThread {
+public class ImageDownloadThread extends HandlerThread {
     private static final String TAG = "ImageDownloadThread";
     private static final int MESSAGE_DOWNLOAD = 0;
 	Handler mHandler;
 	private ArrayList<Image> imageList;
-	private ImageDB imageDB=ImageDB.getInstance(MyApplication.context);
-	private ImageCache imageCache=new ImageCacheByDisk(); 
+	private ImageDB imageDB;
+	private ImageCache imageCache; 
 	
 
 	
@@ -30,6 +30,8 @@ public class ImageDownloadThread<Handle> extends HandlerThread {
     public ImageDownloadThread( Handler mHandler) {
 		super(TAG);
 		mResponseHandler = mHandler;
+		imageCache=new ImageCacheByDisk();
+		imageDB=ImageDB.getInstance(MyApplication.context);
 	}
     public interface Listener {
         void imageDownloaded(Image image);
@@ -66,9 +68,8 @@ public class ImageDownloadThread<Handle> extends HandlerThread {
             	final Image image=imageList.get(i);
             	if (imageDB.loadImage(image).getSavePath()!=null) {
             		//如果找到了sd卡上的地址
-            		bitmap=imageCache.get(imageDB.loadImage(image).getSavePath());//暂时为300
+            		bitmap=imageCache.get(imageDB.loadImage(image).getObjUrl());//暂时为300
 				}else{
-					
 					bitmap=MyApplication.imageLoader.loadImageSync(image.getObjUrl());
 					pathString=imageCache.put(bitmap, image.getObjUrl());
 					if (pathString!=null) {
@@ -104,6 +105,11 @@ public class ImageDownloadThread<Handle> extends HandlerThread {
         mHandler
             .obtainMessage(MESSAGE_DOWNLOAD)
             .sendToTarget();
+    }
+    public void quitImageDownloadThread(){
+    	MyApplication.imageLoader.stop();
+    	quit();
+    	imageList.clear();
     }
 
 }

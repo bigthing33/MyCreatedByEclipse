@@ -215,13 +215,16 @@ public class MyUtils {
 	public static String saveBitmapInExternalStorage(Bitmap bitmap,
 			Context context, String url) {
 		String path = null;
+		if (bitmap==null) {
+			return null;
+		}
 		try {
 			if (MyUtils.haveSDCard()) {
 				File extStorage = new File(MyConstants.ExternalStorageDirectory_SEARCHIMAGE);// searchImage为SD卡下一个文件夹
 				if (!extStorage.exists()) {
 					extStorage.mkdirs();
 				}
-				path = url + ".png";
+				path = System.currentTimeMillis() + ".png";
 				File file = new File(extStorage, path);
 				FileOutputStream fOut = new FileOutputStream(file);
 				bitmap.compress(Bitmap.CompressFormat.PNG, 90, fOut);// 压缩图片
