@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -61,8 +62,9 @@ public class GallryItemFragment extends Fragment {
 
 				@Override
 				public void convert(ViewHolder holder, Gallery t, int position) {
-					// TODO Auto-generated method stub
 					TextView textView = holder.getView(R.id.item_text);
+					ImageView imageView = holder.getView(R.id.item_img);
+					MyApplication.imageLoader.displayImage("http://tnfs.tngou.net/img"+localGalleries.get(position).getImg(), imageView);
 					textView.setText(localGalleries.get(position).getTitle());
 					
 				}
