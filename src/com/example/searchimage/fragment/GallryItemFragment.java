@@ -9,6 +9,7 @@ import com.example.searchimage.base.ViewHolder;
 import com.example.searchimage.imageutils.GetGalleriesListener;
 import com.example.searchimage.model.Gallery;
 import com.example.searchimage.model.GetGalleryListRespone;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
