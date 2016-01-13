@@ -11,6 +11,7 @@ import com.example.searchimage.model.Gallery;
 import com.example.searchimage.model.GetGalleryListRespone;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import android.R.integer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,25 @@ public class GallryItemFragment extends Fragment {
 	private ListView image_lv;
 	private TextView image_tv;
 	private ArrayList<Gallery> localGalleries;
+	private CommonAdapter<Gallery> galleryaAdapter;
+	private int pageNum=1;//请求的页数
+	private boolean isLoading=false;
+	GetGalleriesListener listener=new GetGalleriesListener() {
+		
+		@Override
+		public void success(GetGalleryListRespone getGalleryListRespone) {
+			getGalleryListRespone.getTngou();
+				setImage_lvAdapter(getGalleryListRespone.getTngou());
+				isLoading=false;
+			
+		}
+		
+		@Override
+		public void erro(String erroString) {
+			isLoading=false;
+			
+		}
+	};
 
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -34,32 +54,23 @@ public class GallryItemFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		localGalleries=new ArrayList<Gallery>();
-		GetGalleriesListener listener=new GetGalleriesListener() {
-			
-			@Override
-			public void success(GetGalleryListRespone getGalleryListRespone) {
-				getGalleryListRespone.getTngou();
-					setImage_lvAdapter(getGalleryListRespone.getTngou());
-				
-			}
-			
-			@Override
-			public void erro(String erroString) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		MyApplication.imageFetcherTianGouImp.getImageListByID(getArguments().getInt("classifyId"), 1, 20, listener);
+
+		requestGallries();
 		super.onCreate(savedInstanceState);
+	}
+
+	private void requestGallries() {
+		isLoading=true;
+		MyApplication.imageFetcherTianGouImp.getImageListByID(getArguments().getInt("classifyId"), pageNum, 20, listener);
+		pageNum++;
 	}
 
 	protected void setImage_lvAdapter(ArrayList<Gallery> tngou) {
 		for (Gallery gallery : tngou) {
 			localGalleries.add(gallery);
 		}
-		if (!localGalleries.isEmpty()) {
-			
-			image_lv.setAdapter(new CommonAdapter<Gallery>(getActivity(), localGalleries, R.layout.item_image) {
+		if (localGalleries.size()==20) {
+			galleryaAdapter=new CommonAdapter<Gallery>(getActivity(), localGalleries, R.layout.item_image) {
 
 				@Override
 				public void convert(ViewHolder holder, Gallery t, int position) {
@@ -67,11 +78,16 @@ public class GallryItemFragment extends Fragment {
 					ImageView imageView = holder.getView(R.id.item_img);
 					MyApplication.imageLoader.displayImage("http://tnfs.tngou.net/img"+localGalleries.get(position).getImg(), imageView);
 					textView.setText(localGalleries.get(position).getTitle());
+					if (position==localGalleries.size()-1&&!isLoading) {
+						requestGallries();
+					}
 					
 				}
-			});
+			};
+			
+			image_lv.setAdapter(galleryaAdapter);
 		}else {
-			image_lv.setAdapter(null);
+			galleryaAdapter.notifyDataSetChanged();
 		}
 		
 		
