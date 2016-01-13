@@ -1,4 +1,4 @@
-package com.example.searchimage.fragment;
+package com.example.searchimage.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

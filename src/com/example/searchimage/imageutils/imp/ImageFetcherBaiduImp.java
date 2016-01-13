@@ -1,4 +1,4 @@
-package com.example.searchimage.imageutils;
+package com.example.searchimage.imageutils.imp;
 
 import java.util.ArrayList;
 
@@ -14,18 +14,20 @@ import android.widget.Toast;
 import com.baidu.apistore.sdk.ApiCallBack;
 import com.baidu.apistore.sdk.ApiStoreSDK;
 import com.baidu.apistore.sdk.network.Parameters;
+import com.example.searchimage.imageutils.ImageFetcher;
+import com.example.searchimage.imageutils.ImageFetcher.ImageFetcherListener;
 import com.example.searchimage.model.Image;
 import com.example.searchimage.model.SearchImageRespone;
 import com.example.searchimage.utils.LogUtil;
 import com.example.searchimage.utils.MyUrl;
 
-public class ImageFetcherImp implements ImageFetcher {
-	private static final String TAG = ImageFetcherImp.class.getName();
+public class ImageFetcherBaiduImp implements ImageFetcher {
+	private static final String TAG = ImageFetcherBaiduImp.class.getName();
 	private  SearchImageRespone searchImageRespone;
 	private Context mContext;
 	private ImageFetcherListener mListener;
 	
-	public ImageFetcherImp(Context mContext) {
+	public ImageFetcherBaiduImp(Context mContext) {
 		super();
 		this.mContext = mContext;
 	}
@@ -58,7 +60,7 @@ public class ImageFetcherImp implements ImageFetcher {
 					public void onSuccess(int status, String responseString) {
 						Log.e("sdkdemo", "onSuccess");
 						Log.e("sdkdemo", responseString);
-						 searchImageRespone = handleImageResponse(responseString,searchTag);
+						 searchImageRespone = HandleResponse.handleSearchImag(responseString,searchTag);
 							if (searchImageRespone==null) {
 								Toast.makeText(mContext, "超出能调用的次数", Toast.LENGTH_LONG).show();
 								return;
@@ -81,46 +83,6 @@ public class ImageFetcherImp implements ImageFetcher {
 
 	}
 
-	@SuppressWarnings("finally")
-	public  SearchImageRespone handleImageResponse(
-			String response, String searchTag) {
-		try {
-			JSONObject jsonObjiect = new JSONObject(response);
-			JSONObject status = jsonObjiect.getJSONObject("status");
-			if (!status.getString("code").equals("0")) {
-				// 如果返回码不正确则直接返回，不执行下面的操作
-				LogUtil.e(TAG, status.getString("msg"));
-				return null;
-			}
-
-			JSONObject data = jsonObjiect.getJSONObject("data");
-			searchImageRespone = new SearchImageRespone();
-			searchImageRespone.setReturnNumber(data.getInt("ReturnNumber"));
-			searchImageRespone.setTotalNumber(data.getInt("TotalNumber"));
-			JSONArray resultArray = data.getJSONArray("ResultArray");
-			ArrayList<Image> images = new ArrayList<Image>();
-			
-			JSONObject imgaeJsonObject;
-			for (int i = 0; i < resultArray.length(); i++) {
-				Image image = new Image();
-				imgaeJsonObject = resultArray.getJSONObject(i);
-				image.setKey(imgaeJsonObject.getString("Key"));
-				image.setObjUrl(imgaeJsonObject.getString("ObjUrl"));
-				image.setFromUrl(imgaeJsonObject.getString("FromUrl"));
-				image.setPictype(imgaeJsonObject.getString("Pictype"));
-				image.setDesc(imgaeJsonObject.getString("Desc"));
-				image.setSearchTag(searchTag);
-				image.setSearchTime(System.currentTimeMillis());
-				images.add(image);
-			}
-			searchImageRespone.setResultArray(images);
-
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			return searchImageRespone;
-		}
-	}
+	
 
 }

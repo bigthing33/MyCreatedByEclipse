@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <item type="id" name="viewPager_explore"></item>
+    <item type="id" name="viewPager_imageclassify"></item>
     <item type="id" name="viewPager_taste"></item>
     <item type="id" name="viewPager_search"></item>
     

@@ -1,7 +1,8 @@
-package com.example.searchimage.imageutils;
+package com.example.searchimage.imageutils.imp;
 
 import com.example.searchimage.MyApplication;
 import com.example.searchimage.db.ImageDB;
+import com.example.searchimage.imageutils.ImageCache;
 import com.example.searchimage.utils.MyUtils;
 
 import android.graphics.Bitmap;

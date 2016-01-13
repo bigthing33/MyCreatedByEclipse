@@ -20,11 +20,11 @@ import com.example.searchimage.R;
 import com.example.searchimage.base.BaseActivity;
 import com.example.searchimage.base.CommonAdapter;
 import com.example.searchimage.base.ViewHolder;
-import com.example.searchimage.imageutils.ImageDownloadThread;
-import com.example.searchimage.imageutils.ImageDownloadThread.Listener;
 import com.example.searchimage.imageutils.ImageFetcher;
 import com.example.searchimage.imageutils.ImageFetcher.ImageFetcherListener;
-import com.example.searchimage.imageutils.ImageFetcherImp;
+import com.example.searchimage.imageutils.imp.ImageDownloadThread;
+import com.example.searchimage.imageutils.imp.ImageFetcherBaiduImp;
+import com.example.searchimage.imageutils.imp.ImageDownloadThread.Listener;
 import com.example.searchimage.model.Image;
 import com.example.searchimage.model.SearchImageRespone;
 import com.example.searchimage.utils.LogUtil;
@@ -52,7 +52,7 @@ public class SearchImgByBaiduActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_apistore);
 		initUI();
-		imageFetcher = new ImageFetcherImp(mContext);
+		imageFetcher = new ImageFetcherBaiduImp(mContext);
 		imageFetcher.setListener(new ImageFetcherListener() {
 
 			@Override

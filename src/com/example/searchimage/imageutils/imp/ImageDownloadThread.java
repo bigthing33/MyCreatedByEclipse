@@ -1,4 +1,4 @@
-package com.example.searchimage.imageutils;
+package com.example.searchimage.imageutils.imp;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.example.searchimage.MyApplication;
 import com.example.searchimage.db.ImageDB;
+import com.example.searchimage.imageutils.ImageCache;
 import com.example.searchimage.model.Image;
 import com.example.searchimage.utils.LogUtil;
 import com.example.searchimage.utils.MyUtils;
