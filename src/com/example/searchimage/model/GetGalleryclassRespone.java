@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class GetGalleryclassRespone {
 	private boolean status;
 	private ArrayList<Galleryclassify> tngou;
+	
 	public boolean isStatus() {
 		return status;
 	}

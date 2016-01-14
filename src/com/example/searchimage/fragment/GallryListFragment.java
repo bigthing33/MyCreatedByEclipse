@@ -105,7 +105,7 @@ public class GallryListFragment extends Fragment {
 						Toast.LENGTH_SHORT).show();
 			}
 		};
-		 MyApplication.imageFetcherTianGouImp.searchImgClassify(Listener);
+		 MyApplication.imageFetcherTianGouImp.getImgClassify(Listener);
 		return view;
 	}
 

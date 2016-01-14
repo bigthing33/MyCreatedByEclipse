@@ -2,7 +2,7 @@ package com.example.searchimage.model;
 
 import java.util.ArrayList;
 
-public class GetGalleryListRespone {
+public class GetGalleriesRespone {
 	private boolean status;
 	private int total;
 	
