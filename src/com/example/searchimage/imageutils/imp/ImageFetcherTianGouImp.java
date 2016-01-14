@@ -11,6 +11,7 @@ import com.example.searchimage.imageutils.ImageFetcher;
 import com.example.searchimage.model.GetGalleriesRespone;
 import com.example.searchimage.model.GetGalleryclassRespone;
 import com.example.searchimage.utils.MyUrl;
+import com.example.searchimage.utils.SharedPreferencesManager;
 
 public class ImageFetcherTianGouImp implements ImageFetcher {
 
@@ -85,6 +86,8 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 						Log.e("SEARCH_TIANGOU_CLASSIFY", "onSuccess");
 						Log.e("SEARCH_TIANGOU_CLASSIFY", responseString);
 						GetGalleryclassRespone getGalleryclassRespone = HandleResponse.handleGetGalleryclass(responseString);
+						//保存数据到sharepreference
+						SharedPreferencesManager.saveClassies(responseString);
 						listener.success(getGalleryclassRespone);
 					}
 					@Override
@@ -105,7 +108,6 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 
 	@Override
 	public void setListener(ImageFetcherListener imageFetcherListener) {
-		// TODO Auto-generated method stub
 
 	}
 	@Override

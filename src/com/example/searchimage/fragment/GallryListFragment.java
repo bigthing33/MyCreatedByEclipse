@@ -23,6 +23,7 @@ import com.example.searchimage.imageutils.imp.ImageFetcherTianGouImp;
 import com.example.searchimage.model.Galleryclassify;
 import com.example.searchimage.model.GetGalleryclassRespone;
 import com.example.searchimage.utils.LogUtil;
+import com.example.searchimage.utils.SharedPreferencesManager;
 
 public class GallryListFragment extends Fragment {
 	public static final String TAG = GallryListFragment.class.getName();
@@ -31,6 +32,7 @@ public class GallryListFragment extends Fragment {
 	private FrameLayout subFragmentContainer;
 	private GetClassesListener Listener;
 	private ArrayList<Galleryclassify> galleryclasses;
+	private final FragmentManager fm = getFragmentManager();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,61 +46,18 @@ public class GallryListFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_gallrylist, null);
-		subFragmentContainer = (FrameLayout) view
-				.findViewById(R.id.subFragmentContainer);
+		subFragmentContainer = (FrameLayout) view.findViewById(R.id.subFragmentContainer);
 		title = (TextView) view.findViewById(R.id.title);
 		subFragmentContainer.addView(mViewPager);
+		mViewPager.setOffscreenPageLimit(3);// 设置缓存个数
+		
 
 		Listener = new GetClassesListener() {
-
 			@Override
 			public void success(GetGalleryclassRespone getGalleryclassRespone) {
 				galleryclasses = getGalleryclassRespone.getTngou();
-				mViewPager.setOffscreenPageLimit(3);// 设置缓存个数
-				title.setText(galleryclasses.get(0).getTitle());
-				final FragmentManager fm = getFragmentManager();
-
-				new Handler().postDelayed(new Runnable() {
-
-					@Override
-					public void run() {
-						mViewPager.setAdapter(new FragmentPagerAdapter(fm) {
-							@Override
-							public int getCount() {
-								// return galleryclasses.size();
-								return galleryclasses.size();
-							}
-
-							@Override
-							public Fragment getItem(int pos) {
-								 return GallryItemFragment.getInstance(galleryclasses.get(pos).getId());
-							}
-						});
-						mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-									@Override
-									public void onPageSelected(int pos) {
-										switchItem(pos);
-									}
-
-									@Override
-									public void onPageScrolled(int pos,
-											float posOffset, int posffsetPixels) {
-
-									}
-
-									@Override
-									public void onPageScrollStateChanged(
-											int state) {
-
-									}
-								});
-					}
-				}, 100);
-				switchItem(0);
-
+				initViewPager(fm);
 			}
-
 			@Override
 			public void erro(String erroString) {
 				Toast.makeText(MyApplication.context, "请求失败",
@@ -107,6 +66,58 @@ public class GallryListFragment extends Fragment {
 		};
 		 MyApplication.imageFetcherTianGouImp.getImgClassify(Listener);
 		return view;
+	}
+	
+
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (SharedPreferencesManager.getClassies()!=null) {
+			galleryclasses=SharedPreferencesManager.getClassies().getTngou();
+			initViewPager(fm);
+		}
+	}
+
+	private void initViewPager(final FragmentManager fm) {
+		new Handler().postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				mViewPager.setAdapter(new FragmentPagerAdapter(fm) {
+					@Override
+					public int getCount() {
+						// return galleryclasses.size();
+						return galleryclasses.size();
+					}
+
+					@Override
+					public Fragment getItem(int pos) {
+						 return GallryItemFragment.getInstance(galleryclasses.get(pos).getId());
+					}
+				});
+				mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+							@Override
+							public void onPageSelected(int pos) {
+								switchItem(pos);
+							}
+
+							@Override
+							public void onPageScrolled(int pos,
+									float posOffset, int posffsetPixels) {
+
+							}
+
+							@Override
+							public void onPageScrollStateChanged(
+									int state) {
+
+							}
+						});
+			}
+		}, 100);
+		switchItem(0);
 	}
 
 	private void switchItem(int pos) {

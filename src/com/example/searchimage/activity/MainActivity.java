@@ -18,8 +18,6 @@ public class MainActivity extends SelectFragmentAcitvity implements OnClickListe
 	private String selectTag=MyConstants.NEWS_IMAGE;
 	private Button news_btn;
 	private Button classies_btn;
-	
-
 
 	@Override
 	protected void onCreate(Bundle arg0) {

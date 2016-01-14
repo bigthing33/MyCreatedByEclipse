@@ -20,7 +20,6 @@ public abstract class SelectFragmentAcitvity extends FragmentActivity {
 	protected abstract HashMap<String,Fragment> createFragments();
 	private HashMap<String,Fragment> fragmentsHashMap;
 	private FragmentManager fm;
-//	private FragmentTransaction transaction;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
