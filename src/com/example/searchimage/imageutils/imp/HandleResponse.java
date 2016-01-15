@@ -1,6 +1,7 @@
 package com.example.searchimage.imageutils.imp;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,7 +89,7 @@ public class HandleResponse {
 			getGalleryListRespone.setStatus(jsonObjiect.getBoolean("status"));
 			getGalleryListRespone.setTotal(jsonObjiect.getInt("total"));
 			JSONArray jsonArray = jsonObjiect.getJSONArray("tngou");
-			ArrayList<Gallery> galleries = new ArrayList<Gallery>();
+			CopyOnWriteArrayList<Gallery> galleries = new CopyOnWriteArrayList<Gallery>();
 			JSONObject galleryJsonObject;
 			for (int i = 0; i < jsonArray.length(); i++) {
 				Gallery gallery = new Gallery();

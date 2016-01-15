@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.method.Touch;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,31 +27,38 @@ import com.example.searchimage.model.Gallery;
 import com.example.searchimage.model.GetGalleriesRespone;
 import com.example.searchimage.utils.MyConstants;
 
-public class GallryItemFragment extends Fragment {
+public class GallriesFragment extends Fragment {
+	private static final String TAG = GallriesFragment.class.getSimpleName();
 	private ListView image_lv;
+	private TextView imagetitle_tv;
 	private TextView image_tv;
 	private ArrayList<Gallery> localGalleries = new ArrayList<Gallery>();
 	private CommonAdapter<Gallery> galleryaAdapter;
 	private LoadMoreListViewContainer loadmoreContainer;
 	private int pageNum = 1;// 请求的页数
 	private boolean isLoading = false;
+    private int scrolledX;
+	private int scrolledY;
 	private GetGalleriesListener listener = new GetGalleriesListener() {
-
 		@Override
-		public void success(GetGalleriesRespone getGalleryListRespone) {
+		public void success(GetGalleriesRespone getGalleryListRespone,int requestPageNum) {
 			getGalleryListRespone.getTngou();
 			if (getGalleryListRespone.getTngou()==null) {
 				pageNum--;
 			}else if (getGalleryListRespone.getTngou().size()<MyConstants.PAGE_SIZE) {
 				pageNum--;
 			}
+			if (requestPageNum==1 ) {
+				localGalleries.clear();
+			}
 			for (Gallery gallery : getGalleryListRespone.getTngou()) {
 				localGalleries.add(gallery);
 			}
+			imagetitle_tv.setText(localGalleries.get(1).getTitle());
+			setImage_lvAdapter();
 			isLoading = false;
 			// 数据加载完后，设置是否为空，是否有更多
 			loadmoreContainer.loadMoreFinish(localGalleries.isEmpty(), getGalleryListRespone.getTngou()!=null);
-			setImage_lvAdapter();
 		}
 
 		@Override
@@ -70,14 +78,19 @@ public class GallryItemFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+		
+		
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_gallryitem, null);
+		galleryaAdapter=null;
 		image_lv = (ListView) view.findViewById(R.id.image_lv);
 		image_tv = (TextView) view.findViewById(R.id.image_tv);
+		imagetitle_tv = (TextView) view.findViewById(R.id.imagetitle_tv);
 		loadmoreContainer = (LoadMoreListViewContainer) view
 				.findViewById(R.id.loadmorecontainer);
 		loadmoreContainer.useDefaultFooter();// 使用默认的页脚
@@ -86,19 +99,45 @@ public class GallryItemFragment extends Fragment {
 
 			@Override
 			public void onLoadMore(LoadMoreContainer loadMoreContainer) {
-				requestGallries();
+				requestGallries(pageNum);
 			}
 		});
 		image_tv.setText(getArguments().getInt("classifyId") + "");
+		
+		image_lv.setOnScrollListener(new OnScrollListener() {   
+			  
+			/**  
+		     * 滚动状态改变时调用  
+		     */  
+		    @Override  
+		    public void onScrollStateChanged(AbsListView view, int scrollState) {   
+		        // 不滚动时保存当前滚动到的位置  
+		        if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {   
+		                scrolledX = image_lv.getScrollX();   
+		                scrolledY = image_lv.getScrollY();   
+		        }   
+		    }   
+		  
+		    /**  
+		     * 滚动时调用  
+		     */  
+		    @Override  
+		    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {   
+		    }   
+		});
+		if (localGalleries.isEmpty()) {
+			requestGallries(0);
+		}
 		setImage_lvAdapter();
-		requestGallries();
+//		LogUtil.e(TAG, getArguments().getInt("classifyId")+localGalleries.get(1).getImg());
 		return view;
 	}
 
-	private void requestGallries() {
+	private void requestGallries(int paramterPagNum) {
 		if (isLoading) {
 			return;
 		}
+		pageNum=paramterPagNum;
 		isLoading = true;
 		MyApplication.imageFetcherTianGouImp
 				.getImageListByID(getArguments().getInt("classifyId"), pageNum,
@@ -126,13 +165,14 @@ public class GallryItemFragment extends Fragment {
 				}
 			};
 			image_lv.setAdapter(galleryaAdapter);
+			image_lv.scrollTo(scrolledX, scrolledY); 
 		}else {
 			galleryaAdapter.notifyDataSetChanged();
 		}
 	}
 
-	public static GallryItemFragment getInstance(int pos) {
-		GallryItemFragment gallryItemFragment = new GallryItemFragment();
+	public static GallriesFragment getInstance(int pos) {
+		GallriesFragment gallryItemFragment = new GallriesFragment();
 		Bundle args = new Bundle();
 		args.putInt("classifyId", pos);
 		gallryItemFragment.setArguments(args);

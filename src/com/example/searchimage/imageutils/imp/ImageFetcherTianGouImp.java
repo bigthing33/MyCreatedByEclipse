@@ -15,7 +15,7 @@ import com.example.searchimage.utils.SharedPreferencesManager;
 
 public class ImageFetcherTianGouImp implements ImageFetcher {
 
-	public void getImgNews(int id, int rows, int classify,final GetGalleriesListener listener) {
+	public void getImgNews(final int id, int rows, int classify,final GetGalleriesListener listener) {
 		Parameters para = new Parameters();
 		para.put("id", id + "");//long	当前最新的图库关键词id
 //		para.put("classify", classify + "");// 图库分类id
@@ -24,10 +24,14 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 				new ApiCallBack() {
 					@Override
 					public void onSuccess(int status, String responseString) {
-						Log.e("SEARCH_TIANGOU_AtlasNews", "onSuccess");
-						Log.e("SEARCH_TIANGOU_AtlasNews", responseString);
+//						Log.e("SEARCH_TIANGOU_AtlasNews", "onSuccess");
+//						Log.e("SEARCH_TIANGOU_AtlasNews", responseString);
 						GetGalleriesRespone getGalleryListRespone = HandleResponse.handleGetGalleries(responseString);
-						listener.success(getGalleryListRespone);
+						//如果是第一页的请求，则保存数据到sharepreference
+						if (id==0) {
+							SharedPreferencesManager.saveNews(responseString);
+						}
+						listener.success(getGalleryListRespone,id);
 					}
 
 					@Override
@@ -46,7 +50,7 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 
 	}
 
-	public void getImageListByID(int id, int page, int rows,
+	public void getImageListByID(int id, final int page, int rows,
 			final GetGalleriesListener listener) {
 		Parameters para = new Parameters();
 		para.put("id", id + "");
@@ -56,10 +60,10 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 				new ApiCallBack() {
 					@Override
 					public void onSuccess(int status, String responseString) {
-						Log.e("SEARCH_TIANGOU_CLASSIFY", "onSuccess");
-						Log.e("SEARCH_TIANGOU_CLASSIFY", responseString);
+//						Log.e("SEARCH_TIANGOU_CLASSIFY", "onSuccess");
+//						Log.e("SEARCH_TIANGOU_CLASSIFY", responseString);
 						GetGalleriesRespone getGalleryListRespone = HandleResponse.handleGetGalleries(responseString);
-						listener.success(getGalleryListRespone);
+						listener.success(getGalleryListRespone,page);
 					}
 
 					@Override
@@ -83,8 +87,8 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 				new ApiCallBack() {
 					@Override
 					public void onSuccess(int status, String responseString) {
-						Log.e("SEARCH_TIANGOU_CLASSIFY", "onSuccess");
-						Log.e("SEARCH_TIANGOU_CLASSIFY", responseString);
+//						Log.e("SEARCH_TIANGOU_CLASSIFY", "onSuccess");
+//						Log.e("SEARCH_TIANGOU_CLASSIFY", responseString);
 						GetGalleryclassRespone getGalleryclassRespone = HandleResponse.handleGetGalleryclass(responseString);
 						//保存数据到sharepreference
 						SharedPreferencesManager.saveClassies(responseString);
@@ -92,7 +96,7 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 					}
 					@Override
 					public void onComplete() {
-						Log.e("searchImgClassify", "onComplete");
+//						Log.e("searchImgClassify", "onComplete");
 					}
 
 					@Override

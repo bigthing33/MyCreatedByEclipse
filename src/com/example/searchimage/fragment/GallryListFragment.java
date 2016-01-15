@@ -28,7 +28,9 @@ public class GallryListFragment extends Fragment {
 	private TextView title;
 	private ViewPager mViewPager;
 	private FrameLayout subFragmentContainer;
+	private ArrayList<GallriesFragment> gallriesFragment;
 	private ArrayList<Galleryclassify> galleryclasses;
+	private FragmentPagerAdapter fragmentStatePagerAdapter;
 	private GetClassesListener Listener= new GetClassesListener() {
 		@Override
 		public void success(GetGalleryclassRespone getGalleryclassRespone) {
@@ -38,8 +40,7 @@ public class GallryListFragment extends Fragment {
 
 		@Override
 		public void erro(String erroString) {
-			Toast.makeText(MyApplication.context, "请求失败",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(MyApplication.context, "请求失败",Toast.LENGTH_SHORT).show();
 		}
 	};
 	
@@ -48,7 +49,7 @@ public class GallryListFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		mViewPager = new ViewPager(getActivity());
 		mViewPager.setId(R.id.viewPager_imageclassify);
-		mViewPager.setOffscreenPageLimit(3);// 设置缓存个数
+		gallriesFragment=new ArrayList<GallriesFragment>();
 		super.onCreate(savedInstanceState);
 	}
 
@@ -60,7 +61,7 @@ public class GallryListFragment extends Fragment {
 				.findViewById(R.id.subFragmentContainer);
 		title = (TextView) view.findViewById(R.id.title);
 		subFragmentContainer.addView(mViewPager);
-		mViewPager.setOffscreenPageLimit(3);// 设置缓存个数
+		mViewPager.setOffscreenPageLimit(0);// 设置缓存个数,最多三个
 		MyApplication.imageFetcherTianGouImp.getImgClassify(Listener);
 		return view;
 	}
@@ -75,25 +76,31 @@ public class GallryListFragment extends Fragment {
 	}
 
 	private void initViewPager() {
+		gallriesFragment.clear();
+		for (int i = 0; i < galleryclasses.size(); i++) {
+			GallriesFragment gallryItemFragment = GallriesFragment
+					.getInstance(i);
+			gallriesFragment.add(gallryItemFragment);
+		}
 		new Handler().postDelayed(new Runnable() {
 
 			@Override
 			public void run() {
+				
 				FragmentManager fm = getFragmentManager();
-				mViewPager.setAdapter(new FragmentPagerAdapter(fm) {
+				fragmentStatePagerAdapter=new FragmentPagerAdapter(fm) {
 					@Override
 					public int getCount() {
-						// return galleryclasses.size();
 						return galleryclasses.size();
 					}
 
 					@Override
 					public Fragment getItem(int pos) {
-						GallryItemFragment gallryItemFragment = GallryItemFragment
-								.getInstance(pos);
-						return gallryItemFragment;
+							return gallriesFragment.get(pos);
 					}
-				});
+				};
+				
+				mViewPager.setAdapter(fragmentStatePagerAdapter);
 				mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
 							@Override
@@ -130,6 +137,12 @@ public class GallryListFragment extends Fragment {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+	}
+	public static Fragment getInstance(String tag) {
+		GallryListFragment gallryListFragment = new GallryListFragment();
+		Bundle bundle=new Bundle();
+		bundle.putString("tag", tag);
+		return gallryListFragment;
 	}
 
 }

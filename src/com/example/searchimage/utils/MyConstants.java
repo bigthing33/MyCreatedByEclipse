@@ -48,6 +48,7 @@ public class MyConstants {
 	//最新图片的标签
 	public static final String NEWS_IMAGE = "NEWS_IMAGE";
 	public static final String CLASSIES_IMAGE = "CLASSIES_IMAGE";
+	public static final String RANDOME_IMAGE = "RANDOME_IMAGE";
 
 
 

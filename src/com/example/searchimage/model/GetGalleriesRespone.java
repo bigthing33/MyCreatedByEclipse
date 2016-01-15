@@ -1,12 +1,12 @@
 package com.example.searchimage.model;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GetGalleriesRespone {
 	private boolean status;
 	private int total;
 	
-	private ArrayList<Gallery> tngou;
+	private CopyOnWriteArrayList<Gallery> tngou;
 	
 	public int getTotal() {
 		return total;
@@ -20,10 +20,10 @@ public class GetGalleriesRespone {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	public ArrayList<Gallery> getTngou() {
+	public CopyOnWriteArrayList<Gallery> getTngou() {
 		return tngou;
 	}
-	public void setTngou(ArrayList<Gallery> tngou) {
+	public void setTngou(CopyOnWriteArrayList<Gallery> tngou) {
 		this.tngou = tngou;
 	}
 	

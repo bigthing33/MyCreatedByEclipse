@@ -12,28 +12,33 @@ import android.widget.Button;
 import com.example.searchimage.R;
 import com.example.searchimage.fragment.GallryListFragment;
 import com.example.searchimage.fragment.GallryNewsFragment;
+import com.example.searchimage.fragment.GallryRandomeFragment;
 import com.example.searchimage.utils.MyConstants;
 
 public class MainActivity extends SelectFragmentAcitvity implements OnClickListener {
 	private String selectTag=MyConstants.NEWS_IMAGE;
 	private Button news_btn;
 	private Button classies_btn;
+	private Button random_btn;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		news_btn=(Button) findViewById(R.id.news_btn);
 		classies_btn=(Button) findViewById(R.id.classies_btn);
+		random_btn=(Button) findViewById(R.id.random_btn);
 		news_btn.setOnClickListener(this);
 		classies_btn.setOnClickListener(this);
+		random_btn.setOnClickListener(this);
 	}
 
 
 	@Override
 	protected HashMap<String, Fragment> createFragments() {
 		HashMap<String, Fragment> fragments=new HashMap<String, Fragment>();
-		fragments.put(MyConstants.NEWS_IMAGE, GallryNewsFragment.getInstance());
-		fragments.put(MyConstants.CLASSIES_IMAGE,new GallryListFragment());
+		fragments.put(MyConstants.NEWS_IMAGE, GallryListFragment.getInstance(MyConstants.NEWS_IMAGE));
+		fragments.put(MyConstants.CLASSIES_IMAGE,GallryListFragment.getInstance(MyConstants.CLASSIES_IMAGE));
+		fragments.put(MyConstants.RANDOME_IMAGE,new GallryRandomeFragment());
 		return fragments;
 	}
 
@@ -53,6 +58,9 @@ public class MainActivity extends SelectFragmentAcitvity implements OnClickListe
 			break;
 		case R.id.classies_btn:
 			showFragmentByTag(MyConstants.CLASSIES_IMAGE);
+			break;
+		case R.id.random_btn:
+			showFragmentByTag(MyConstants.RANDOME_IMAGE);
 			break;
 		default:
 			break;
