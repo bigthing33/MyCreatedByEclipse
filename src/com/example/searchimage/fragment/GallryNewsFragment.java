@@ -189,11 +189,11 @@ public class GallryNewsFragment extends Fragment {
 		}
 	}
 
-	public static Fragment getInstance() {
+	public static GallryNewsFragment getInstance(int pos) {
 		GallryNewsFragment gallryNewsFragment = new GallryNewsFragment();
-//		 Bundle args=new Bundle();
-//		 args.putInt("classifyId", pos);
-//		 gallryNewsFragment.setArguments(args);
+		 Bundle args=new Bundle();
+		 args.putInt("classifyId", pos);
+		 gallryNewsFragment.setArguments(args);
 
 		return gallryNewsFragment;
 	}

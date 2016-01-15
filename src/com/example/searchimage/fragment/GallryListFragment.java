@@ -21,6 +21,7 @@ import com.example.searchimage.R;
 import com.example.searchimage.imageutils.GetClassesListener;
 import com.example.searchimage.model.Galleryclassify;
 import com.example.searchimage.model.GetGalleryclassRespone;
+import com.example.searchimage.utils.MyConstants;
 import com.example.searchimage.utils.SharedPreferencesManager;
 
 public class GallryListFragment extends Fragment {
@@ -29,8 +30,10 @@ public class GallryListFragment extends Fragment {
 	private ViewPager mViewPager;
 	private FrameLayout subFragmentContainer;
 	private ArrayList<GallriesFragment> gallriesFragment;
+	private ArrayList<GallryNewsFragment> gallryNesFragment;
 	private ArrayList<Galleryclassify> galleryclasses;
 	private FragmentPagerAdapter fragmentStatePagerAdapter;
+	private String tag;
 	private GetClassesListener Listener= new GetClassesListener() {
 		@Override
 		public void success(GetGalleryclassRespone getGalleryclassRespone) {
@@ -50,6 +53,8 @@ public class GallryListFragment extends Fragment {
 		mViewPager = new ViewPager(getActivity());
 		mViewPager.setId(R.id.viewPager_imageclassify);
 		gallriesFragment=new ArrayList<GallriesFragment>();
+		gallryNesFragment=new ArrayList<GallryNewsFragment>();
+		tag=getArguments().getString("tag");
 		super.onCreate(savedInstanceState);
 	}
 
@@ -57,8 +62,7 @@ public class GallryListFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_gallrylist, null);
-		subFragmentContainer = (FrameLayout) view
-				.findViewById(R.id.subFragmentContainer);
+		subFragmentContainer = (FrameLayout) view.findViewById(R.id.subFragmentContainer);
 		title = (TextView) view.findViewById(R.id.title);
 		subFragmentContainer.addView(mViewPager);
 		mViewPager.setOffscreenPageLimit(0);// 设置缓存个数,最多三个
@@ -76,11 +80,21 @@ public class GallryListFragment extends Fragment {
 	}
 
 	private void initViewPager() {
-		gallriesFragment.clear();
-		for (int i = 0; i < galleryclasses.size(); i++) {
-			GallriesFragment gallryItemFragment = GallriesFragment
-					.getInstance(i);
-			gallriesFragment.add(gallryItemFragment);
+		if (tag.equals(MyConstants.NEWS_IMAGE)) {
+			gallryNesFragment.clear();
+			for (int i = 0; i < galleryclasses.size(); i++) {
+				GallryNewsFragment gallryNewsFragment = GallryNewsFragment
+						.getInstance(i);
+				gallryNesFragment.add(gallryNewsFragment);
+			}
+		}else {
+			gallriesFragment.clear();
+			for (int i = 0; i < galleryclasses.size(); i++) {
+				GallriesFragment gallryItemFragment = GallriesFragment
+						.getInstance(i);
+				gallriesFragment.add(gallryItemFragment);
+			}
+			
 		}
 		new Handler().postDelayed(new Runnable() {
 
@@ -96,7 +110,13 @@ public class GallryListFragment extends Fragment {
 
 					@Override
 					public Fragment getItem(int pos) {
+						if (tag.equals(MyConstants.NEWS_IMAGE)) {
+							
+							return gallryNesFragment.get(pos);
+						}else {
+							
 							return gallriesFragment.get(pos);
+						}
 					}
 				};
 				
@@ -142,6 +162,7 @@ public class GallryListFragment extends Fragment {
 		GallryListFragment gallryListFragment = new GallryListFragment();
 		Bundle bundle=new Bundle();
 		bundle.putString("tag", tag);
+		gallryListFragment.setArguments(bundle);
 		return gallryListFragment;
 	}
 
