@@ -39,20 +39,26 @@ public class GallryItemFragment extends Fragment {
 		@Override
 		public void success(GetGalleriesRespone getGalleryListRespone) {
 			getGalleryListRespone.getTngou();
+			if (getGalleryListRespone.getTngou()==null) {
+				pageNum--;
+			}else if (getGalleryListRespone.getTngou().size()<MyConstants.PAGE_SIZE) {
+				pageNum--;
+			}
 			for (Gallery gallery : getGalleryListRespone.getTngou()) {
 				localGalleries.add(gallery);
 			}
-			setImage_lvAdapter();
 			isLoading = false;
-			loadmoreContainer.loadMoreFinish(localGalleries.isEmpty(), true);
+			// 数据加载完后，设置是否为空，是否有更多
+			loadmoreContainer.loadMoreFinish(localGalleries.isEmpty(), getGalleryListRespone.getTngou()!=null);
+			setImage_lvAdapter();
 		}
 
 		@Override
 		public void erro(String erroString) {
 			isLoading = false;
-			// loadmoreContainer.loadMoreFinish(galleryaAdapter.isEmpty(),
-			// localGalleries != null && localGalleries.size() ==
-			// MyConstants.PAGE_SIZE);
+			int errorCode = 0;
+			String errorMessage = "加载失败，点击加载更多";
+			loadmoreContainer.loadMoreError(errorCode, errorMessage);
 		}
 	};
 
@@ -80,9 +86,7 @@ public class GallryItemFragment extends Fragment {
 
 			@Override
 			public void onLoadMore(LoadMoreContainer loadMoreContainer) {
-				// TODO 执行请求方法
 				requestGallries();
-				galleryaAdapter.notifyDataSetChanged();
 			}
 		});
 		image_tv.setText(getArguments().getInt("classifyId") + "");
@@ -112,14 +116,18 @@ public class GallryItemFragment extends Fragment {
 				public void convert(ViewHolder holder, Gallery t, int position) {
 					TextView textView = holder.getView(R.id.item_text);
 					ImageView imageView = holder.getView(R.id.item_img);
-					MyApplication.imageLoader.displayImage(
-							"http://tnfs.tngou.net/img"
-									+ localGalleries.get(position).getImg(),
-							imageView);
-					textView.setText(localGalleries.get(position).getTitle());
+//					MyApplication.imageLoader.displayImage(
+//							"http://tnfs.tngou.net/img"
+//									+ localGalleries.get(position).getImg(),
+//							imageView);
+//					textView.setText(position+localGalleries.get(position).getTitle());
+					textView.setText(position+"");
+					imageView.setImageResource(R.drawable.sample);
 				}
 			};
 			image_lv.setAdapter(galleryaAdapter);
+		}else {
+			galleryaAdapter.notifyDataSetChanged();
 		}
 	}
 

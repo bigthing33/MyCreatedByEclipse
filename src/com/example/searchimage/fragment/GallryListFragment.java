@@ -28,8 +28,21 @@ public class GallryListFragment extends Fragment {
 	private TextView title;
 	private ViewPager mViewPager;
 	private FrameLayout subFragmentContainer;
-	private GetClassesListener Listener;
 	private ArrayList<Galleryclassify> galleryclasses;
+	private GetClassesListener Listener= new GetClassesListener() {
+		@Override
+		public void success(GetGalleryclassRespone getGalleryclassRespone) {
+			galleryclasses = getGalleryclassRespone.getTngou();
+			initViewPager();
+		}
+
+		@Override
+		public void erro(String erroString) {
+			Toast.makeText(MyApplication.context, "请求失败",
+					Toast.LENGTH_SHORT).show();
+		}
+	};
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,20 +61,6 @@ public class GallryListFragment extends Fragment {
 		title = (TextView) view.findViewById(R.id.title);
 		subFragmentContainer.addView(mViewPager);
 		mViewPager.setOffscreenPageLimit(3);// 设置缓存个数
-
-		Listener = new GetClassesListener() {
-			@Override
-			public void success(GetGalleryclassRespone getGalleryclassRespone) {
-				galleryclasses = getGalleryclassRespone.getTngou();
-				initViewPager();
-			}
-
-			@Override
-			public void erro(String erroString) {
-				Toast.makeText(MyApplication.context, "请求失败",
-						Toast.LENGTH_SHORT).show();
-			}
-		};
 		MyApplication.imageFetcherTianGouImp.getImgClassify(Listener);
 		return view;
 	}

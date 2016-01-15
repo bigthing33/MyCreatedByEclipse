@@ -24,11 +24,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-/**
- * 显示最新20张的图片
- * @author Administrator
- *
- */
 
 public class GallryNewsFragment extends Fragment {
 	private ListView image_lv;
@@ -43,17 +38,22 @@ public class GallryNewsFragment extends Fragment {
 		@Override
 		public void success(GetGalleriesRespone getGalleryListRespone) {
 			getGalleryListRespone.getTngou();
-				setImage_lvAdapter(getGalleryListRespone.getTngou());
-				isLoading=false;
-				loadmoreContainer.loadMoreFinish(galleryaAdapter.isEmpty(),
-						localGalleries != null && localGalleries.size() == MyConstants.PAGE_SIZE);
+			if (getGalleryListRespone.getTngou() == null) {
+				newsId--;
+			} else if (getGalleryListRespone.getTngou().size() < MyConstants.PAGE_SIZE) {
+				newsId--;
+			}
+			setImage_lvAdapter(getGalleryListRespone.getTngou());
+			isLoading = false;
+			loadmoreContainer.loadMoreFinish(localGalleries.isEmpty(),getGalleryListRespone.getTngou() != null);
 		}
 		
 		@Override
 		public void erro(String erroString) {
 			isLoading=false;
-			loadmoreContainer.loadMoreFinish(galleryaAdapter.isEmpty(),
-					localGalleries != null && localGalleries.size() == MyConstants.PAGE_SIZE);
+			int errorCode = 0;
+			String errorMessage = "加载失败，点击加载更多";
+			loadmoreContainer.loadMoreError(errorCode, errorMessage);
 		}
 	};
 
@@ -82,7 +82,6 @@ public class GallryNewsFragment extends Fragment {
 			public void onLoadMore(LoadMoreContainer loadMoreContainer) {
 				// TODO 执行请求方法
 				 requestGallries();
-				 galleryaAdapter.notifyDataSetChanged();
 			}
 		});
 		image_tv.setText(newsId+"");
@@ -102,21 +101,27 @@ public class GallryNewsFragment extends Fragment {
 	
 
 	protected void setImage_lvAdapter(ArrayList<Gallery> tngou) {
+		if (tngou==null) {
+			return;
+		}
 		for (Gallery gallery : tngou) {
 			localGalleries.add(gallery);
 		}
-		if (localGalleries.size()==0) {
+		if (galleryaAdapter==null) {
 			galleryaAdapter=new CommonAdapter<Gallery>(getActivity(), localGalleries, R.layout.item_image) {
-
 				@Override
 				public void convert(ViewHolder holder, Gallery t, int position) {
 					TextView textView = holder.getView(R.id.item_text);
 					ImageView imageView = holder.getView(R.id.item_img);
-					MyApplication.imageLoader.displayImage("http://tnfs.tngou.net/img"+localGalleries.get(position).getImg(), imageView);
-					textView.setText(localGalleries.get(position).getTitle());
+//					MyApplication.imageLoader.displayImage("http://tnfs.tngou.net/img"+localGalleries.get(position).getImg(), imageView);
+//					textView.setText(localGalleries.get(position).getTitle());
+					imageView.setImageResource(R.drawable.sample);
+					textView.setText(position+localGalleries.get(position).getTitle());
 				}
 			};
 			image_lv.setAdapter(galleryaAdapter);
+		}else {
+			galleryaAdapter.notifyDataSetChanged();
 		}
 	}
 
