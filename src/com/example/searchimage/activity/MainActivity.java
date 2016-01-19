@@ -10,13 +10,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.example.searchimage.R;
-import com.example.searchimage.fragment.GallryListFragment;
-import com.example.searchimage.fragment.GallryNewsFragment;
+import com.example.searchimage.fragment.GallryClassesFragment;
 import com.example.searchimage.fragment.GallryRandomeFragment;
 import com.example.searchimage.utils.MyConstants;
 
 public class MainActivity extends SelectFragmentAcitvity implements OnClickListener {
-	private String selectTag=MyConstants.NEWS_IMAGE;
+	private String selectTag=MyConstants.CLASSIES_IMAGE;
 	private Button news_btn;
 	private Button classies_btn;
 	private Button random_btn;
@@ -36,17 +35,23 @@ public class MainActivity extends SelectFragmentAcitvity implements OnClickListe
 	@Override
 	protected HashMap<String, Fragment> createFragments() {
 		HashMap<String, Fragment> fragments=new HashMap<String, Fragment>();
-		fragments.put(MyConstants.NEWS_IMAGE, GallryListFragment.getInstance(MyConstants.NEWS_IMAGE));
-		fragments.put(MyConstants.CLASSIES_IMAGE,GallryListFragment.getInstance(MyConstants.CLASSIES_IMAGE));
-		fragments.put(MyConstants.RANDOME_IMAGE,new GallryRandomeFragment());
+		fragments.put(MyConstants.CLASSIES_IMAGE, GallryClassesFragment.getInstance(MyConstants.CLASSIES_IMAGE));
+		fragments.put(MyConstants.RANDOME_IMAGE,GallryRandomeFragment.getInstance(0));
 		return fragments;
+	}
+
+
+	@Override
+	protected void onResume() {
+		selectFragment(selectTag);
+		super.onResume();
 	}
 
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-		selectFragment(MyConstants.NEWS_IMAGE);
+		
 	}
 
 

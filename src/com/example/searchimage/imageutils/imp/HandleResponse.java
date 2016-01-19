@@ -9,11 +9,12 @@ import org.json.JSONObject;
 
 import com.example.searchimage.model.Gallery;
 import com.example.searchimage.model.Galleryclassify;
+import com.example.searchimage.model.GallryDetailsRespone;
 import com.example.searchimage.model.GetGalleriesRespone;
 import com.example.searchimage.model.GetGalleryclassRespone;
 import com.example.searchimage.model.Image;
 import com.example.searchimage.model.SearchImageRespone;
-import com.example.searchimage.utils.LogUtil;
+import com.google.gson.Gson;
 
 public class HandleResponse {
 	public static SearchImageRespone handleSearchImag(String response, String searchTag) {
@@ -80,6 +81,10 @@ public class HandleResponse {
 			e.printStackTrace();
 		}
 		return getGalleryclassRespone;
+	}
+	public static GallryDetailsRespone handlevGetImageDetailsByID(String responseString) {
+		GallryDetailsRespone gallryDetailsRespone=new Gson().fromJson(responseString, GallryDetailsRespone.class);
+		return gallryDetailsRespone;
 	}
 	public static GetGalleriesRespone handleGetGalleries(
 			String responseString) {

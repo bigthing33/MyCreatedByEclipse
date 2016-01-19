@@ -21,24 +21,25 @@
         android:weightSum="4" >
 
         <Button
-            android:id="@+id/news_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="最新" />
-
-        <Button
             android:id="@+id/classies_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="分类" />
+
         <Button
             android:id="@+id/random_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="随机" />
+
+        <Button
+            android:id="@+id/news_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="未定" />
     </LinearLayout>
 
 </LinearLayout>

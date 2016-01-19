@@ -37,6 +37,10 @@
         </activity>
         <activity android:name="com.example.searchimage.activity.SearchImgByBaiduActivity" >
         </activity>
+        <activity android:name="com.example.searchimage.activity.GallryDetailsActivity" >
+        </activity>
+        <activity android:name="com.example.searchimage.activity.PullToRefreshViewPagerActivity" >
+        </activity>
     </application>
 
 </manifest>

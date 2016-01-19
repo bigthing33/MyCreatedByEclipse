@@ -9,22 +9,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <in.srain.cube.views.ptr.PtrClassicFrameLayout
-        android:id="@+id/load_ptr_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <in.srain.cube.views.loadmore.LoadMoreListViewContainer
-            android:id="@+id/loadmorecontainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null" >
 
             <ListView
                 android:id="@+id/image_lv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </in.srain.cube.views.loadmore.LoadMoreListViewContainer>
-    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
 </RelativeLayout>

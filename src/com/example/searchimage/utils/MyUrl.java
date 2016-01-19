@@ -9,6 +9,7 @@ public class MyUrl extends MyConstants {
 	 * 天狗开放阅图的服务头
 	 */
 	public static final String TIANGOU_SERVICE = "http://tnfs.tngou.net/image";
+//	public static final String TIANGOU_SERVICE = "http://tnfs.tngou.net/img";
 	/*
 	 * 百度文本搜图
 	 */

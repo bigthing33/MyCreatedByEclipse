@@ -2,7 +2,7 @@
 <resources
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item type="id" name="viewPager_imageclassify"></item>
-    <item type="id" name="viewPager_taste"></item>
+    <item type="id" name="viewPager_item"></item>
     <item type="id" name="viewPager_search"></item>
     
 </resources>

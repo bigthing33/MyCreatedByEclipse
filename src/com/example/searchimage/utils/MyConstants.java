@@ -44,7 +44,7 @@ public class MyConstants {
     public static final String ExternalStorageDirectory_SEARCHIMAGE = Environment
 			.getExternalStorageDirectory().getPath() + "/searchImage";
     //每次加载的图片个数
-	public static final int PAGE_SIZE = 20;
+	public static final int PAGE_SIZE = 12;
 	//最新图片的标签
 	public static final String NEWS_IMAGE = "NEWS_IMAGE";
 	public static final String CLASSIES_IMAGE = "CLASSIES_IMAGE";
