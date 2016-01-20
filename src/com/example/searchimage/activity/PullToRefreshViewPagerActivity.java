@@ -1,26 +1,15 @@
-/*******************************************************************************
- * Copyright 2011, 2012 Chris Banes.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *******************************************************************************/
 package com.example.searchimage.activity;
 
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -32,27 +21,33 @@ import android.widget.ImageView;
 import com.example.searchimage.MyApplication;
 import com.example.searchimage.R;
 import com.example.searchimage.model.Picture;
+import com.example.searchimage.utils.MyImageLoader;
 import com.example.searchimage.utils.MyUrl;
-import com.example.searchimage.utils.PullToRefreshViewPager;
+import com.example.searchimage.widget.PullToRefreshViewPager;
+import com.example.searchimage.widget.ZoomImageView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
-public class PullToRefreshViewPagerActivity extends Activity implements OnRefreshListener<ViewPager> {
+public class PullToRefreshViewPagerActivity extends Activity implements
+		OnRefreshListener<ViewPager> {
 
 	private PullToRefreshViewPager mPullToRefreshViewPager;
 	private static ArrayList<Picture> mPictures;
 	private static long mSelectId;
+	
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ptr_viewpager);
-		mPictures=(ArrayList<Picture>) getIntent().getExtras().getSerializable("pictures");
-		mSelectId=getIntent().getExtras().getLong("selectId");
+		mPictures = (ArrayList<Picture>) getIntent().getExtras().getSerializable("pictures");
+		mSelectId = getIntent().getExtras().getLong("selectId");
 		mPullToRefreshViewPager = (PullToRefreshViewPager) findViewById(R.id.pull_refresh_viewpager);
 		mPullToRefreshViewPager.setOnRefreshListener(this);
 
 		ViewPager vp = mPullToRefreshViewPager.getRefreshableView();
+		vp.setOffscreenPageLimit(5);
 		vp.setAdapter(new SamplePagerAdapter());
 		vp.setCurrentItem((int) mSelectId);
 	}
@@ -64,23 +59,20 @@ public class PullToRefreshViewPagerActivity extends Activity implements OnRefres
 
 	static class SamplePagerAdapter extends PagerAdapter {
 
-
 		@Override
 		public int getCount() {
 			return mPictures.size();
 		}
 
 		@Override
-		public View instantiateItem(ViewGroup container, int position) {
-			ImageView imageView = new ImageView(container.getContext());
-			MyApplication.imageLoader.displayImage(MyUrl.TIANGOU_SERVICE
-					+ mPictures.get(position).getSrc(), imageView);
-//			imageView.setImageResource(sDrawables[position]);
+		public View instantiateItem(ViewGroup container, final int position) {
+			final ZoomImageView zoomImageView = new ZoomImageView(container.getContext());
+			MyImageLoader.displayImage(
+					MyUrl.TIANGOU_SERVICE + mPictures.get(position).getSrc(),
+					zoomImageView);
 
-			// Now just add ImageView to ViewPager and return it
-			container.addView(imageView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-
-			return imageView;
+            container.addView(zoomImageView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+            return zoomImageView;
 		}
 
 		@Override
@@ -115,7 +107,8 @@ public class PullToRefreshViewPagerActivity extends Activity implements OnRefres
 
 	public static void actionStart(FragmentActivity activity,
 			ArrayList<Picture> pictures, long selectId) {
-		Intent intent=new Intent(MyApplication.context, PullToRefreshViewPagerActivity.class);
+		Intent intent = new Intent(MyApplication.context,
+				PullToRefreshViewPagerActivity.class);
 		intent.putExtra("pictures", pictures);
 		intent.putExtra("selectId", selectId);
 		activity.startActivity(intent);

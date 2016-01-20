@@ -27,6 +27,7 @@ import com.example.searchimage.model.Gallery;
 import com.example.searchimage.model.GetGalleriesRespone;
 import com.example.searchimage.utils.LogUtil;
 import com.example.searchimage.utils.MyConstants;
+import com.example.searchimage.utils.MyImageLoader;
 import com.example.searchimage.utils.MyUrl;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
@@ -200,11 +201,10 @@ public class GallryClassFragment extends Fragment implements OnClickListener, On
 			public void convert(ViewHolder holder, Gallery t, int position) {
 				TextView textView = holder.getView(R.id.item_text);
 				ImageView imageView = holder.getView(R.id.item_img);
-				MyApplication.imageLoader.displayImage(MyUrl.TIANGOU_SERVICE
+				MyImageLoader.displayImage(MyUrl.TIANGOU_SERVICE
 						+ localGalleries.get(position).getImg(), imageView);
 				textView.setText(position+1+localGalleries.get(position).getTitle());
 //				textView.setText(position+"");
-//				imageView.setImageResource(R.drawable.sample);
 			}
 		};
 			image_lv.setAdapter(galleryaAdapter);
