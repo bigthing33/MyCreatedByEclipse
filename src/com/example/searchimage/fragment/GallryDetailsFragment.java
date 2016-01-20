@@ -39,7 +39,7 @@ public class GallryDetailsFragment extends Fragment implements OnClickListener, 
 	private ListView image_lv;
 	private TextView image_tv;
 	private ArrayList<Picture> localGalleries = new ArrayList<Picture>();
-	private int pageNum = 1;// 请求的页数
+	private int mId = 1;// 请求的页数
 	private boolean isLoading = false;
 	private CommonAdapter<Picture> galleryaAdapter;
 	private boolean isForHead;
@@ -62,10 +62,15 @@ public class GallryDetailsFragment extends Fragment implements OnClickListener, 
 		}
 
 		@Override
-		public void success(GallryDetailsRespone gallryDetailsRespone) {
-			Toast.makeText(getActivity(), "success", Toast.LENGTH_SHORT).show();
-			localGalleries=gallryDetailsRespone.getList();
-			setImage_lvAdapter();
+		public void success(GallryDetailsRespone gallryDetailsRespone,boolean isForHead) {
+			isLoading = false;
+			if (isForHead) {
+				localGalleries.clear();
+			}
+			for (Picture iterable_element : gallryDetailsRespone.getList()) {
+				localGalleries.add(iterable_element);
+			}
+			galleryaAdapter.notifyDataSetChanged();
 			image_tv.setText(gallryDetailsRespone.getTitle()+"");
 			mPullRefreshListView.postDelayed(new Runnable() {
 				
@@ -99,7 +104,7 @@ public class GallryDetailsFragment extends Fragment implements OnClickListener, 
 	public View onCreateView(LayoutInflater inflater,
 			 ViewGroup container,  Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_gallry_details, null);
-		
+		mId=getArguments().getInt("id");
 		mPullRefreshListView = (PullToRefreshListView) view.findViewById(R.id.image_lv);
 		mPullRefreshListView.setMode(Mode.BOTH);
 		mPullRefreshListView.setOnRefreshListener(this);
@@ -131,7 +136,7 @@ public class GallryDetailsFragment extends Fragment implements OnClickListener, 
 		});
 		
 		if (localGalleries.isEmpty()) {
-			requestGallries(1);
+			requestGallries(mId);
 		}
 		setImage_lvAdapter();
 		image_lv.postDelayed(new Runnable() {  
@@ -166,20 +171,19 @@ public class GallryDetailsFragment extends Fragment implements OnClickListener, 
 		isLoading = true;
 		isForHead=true;
 		MyApplication.imageFetcherTianGouImp
-		.getImageDetailsByID(getArguments().getInt("id"), listener);
+		.getImageDetailsByID(getArguments().getInt("id"), listener,isForHead);
 //		.getImageListByID(pageNum, MyConstants.PAGE_SIZE, getArguments().getInt("classifyId"), listener);
 	}
-	private void requestGallries(int paramterPagNum) {
+	private void requestGallries(int id) {
 		if (isLoading) {
 			return;
 		}
-		pageNum=paramterPagNum;
+		mId=id;
 		isLoading = true;
 		isForHead=false;
 		MyApplication.imageFetcherTianGouImp
-		.getImageDetailsByID(getArguments().getInt("id"), listener);
-//		.getImageListByID(getArguments().getInt("classifyId"), pageNum, MyConstants.PAGE_SIZE,isForHead,listener);
-		pageNum++;
+		.getImageDetailsByID(id, listener,isForHead);
+		mId++;
 	}
 
 	protected void setImage_lvAdapter() {
@@ -211,15 +215,6 @@ public class GallryDetailsFragment extends Fragment implements OnClickListener, 
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.select:
-			LogUtil.e(TAG, image_lv.getFirstVisiblePosition()+"");
-			
-			break;
-
-		default:
-			break;
-		}
 		
 	}
 
@@ -231,7 +226,7 @@ public class GallryDetailsFragment extends Fragment implements OnClickListener, 
 
 	@Override
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-		requestGallries(pageNum);
+		requestGallries(mId);
 		
 	}
 

@@ -91,7 +91,7 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 					}
 				});
 	}
-	public void getImageDetailsByID(int id, final GetGallryDetailsListener listener) {
+	public void getImageDetailsByID(int id, final GetGallryDetailsListener listener, final boolean isForHead) {
 		Parameters para = new Parameters();
 		para.put("id", id + "");
 		LogUtil.e("getImageDetailsByID", id+"");
@@ -103,7 +103,7 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 //						Log.e("SEARCH_TIANGOU_CLASSIFY", "onSuccess");
 //				Log.e("SEARCH_TIANGOU_CLASSIFY", responseString);
 			GallryDetailsRespone getGalleryListRespone = HandleResponse.handlevGetImageDetailsByID(responseString);
-				listener.success(getGalleryListRespone);
+				listener.success(getGalleryListRespone,isForHead);
 			}
 			
 			@Override

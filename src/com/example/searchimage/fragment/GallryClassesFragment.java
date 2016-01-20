@@ -137,7 +137,7 @@ public class GallryClassesFragment extends Fragment {
 
 		if (galleryclasses.get(pos) != null
 				&& galleryclasses.get(pos).getTitle() != null) {
-			title.setText(galleryclasses.get(pos).getTitle());
+			title.setText(pos+1+"/"+galleryclasses.size()+galleryclasses.get(pos).getTitle());
 		}
 		LogUtil.e(tag, pos+"setCurrentItem");
 		mViewPager.postDelayed(new Runnable() {

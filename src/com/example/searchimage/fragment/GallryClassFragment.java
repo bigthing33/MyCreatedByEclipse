@@ -221,15 +221,6 @@ public class GallryClassFragment extends Fragment implements OnClickListener, On
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.select:
-//			LogUtil.e(TAG, image_lv.getFirstVisiblePosition()+"");
-			
-			break;
-
-		default:
-			break;
-		}
 		
 	}
 

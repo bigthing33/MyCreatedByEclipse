@@ -39,8 +39,6 @@ public class GallryRandomeFragment extends Fragment implements OnClickListener, 
 	private static final String TAG = GallryRandomeFragment.class.getSimpleName();
 	private PullToRefreshGridView mPullToRefreshGridView;
 	private GridView image_lv;
-	private Button select ;
-	private TextView image_tv;
 	private ArrayList<Gallery> localGalleries = new ArrayList<Gallery>();
 	private int pageNum = 1;// 请求的页数
 	private boolean isLoading = false;
@@ -118,10 +116,6 @@ public class GallryRandomeFragment extends Fragment implements OnClickListener, 
 		mPullToRefreshGridView.setMode(Mode.BOTH);
 		mPullToRefreshGridView.setOnRefreshListener(this);
 		image_lv = mPullToRefreshGridView.getRefreshableView();
-		image_tv = (TextView) view.findViewById(R.id.image_tv);
-		select = (Button) view.findViewById(R.id.select);
-		select.setOnClickListener(this);
-		image_tv.setText(getArguments().getInt("classifyId") + "");
 		image_lv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -227,15 +221,6 @@ public class GallryRandomeFragment extends Fragment implements OnClickListener, 
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.select:
-			LogUtil.e(TAG, image_lv.getFirstVisiblePosition()+"");
-			
-			break;
-
-		default:
-			break;
-		}
 		
 	}
 
