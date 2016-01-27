@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +39,6 @@ public class GallryClassFragment extends Fragment implements OnClickListener, On
 	private static final String TAG = GallryClassFragment.class.getSimpleName();
 	private PullToRefreshListView mPullRefreshListView;
 	private ListView image_lv;
-
 	private ArrayList<Gallery> localGalleries = new ArrayList<Gallery>();
 	private int pageNum = 1;// 请求的页数
 	private boolean isLoading = false;
@@ -194,15 +194,16 @@ public class GallryClassFragment extends Fragment implements OnClickListener, On
 	}
 
 	protected void setImage_lvAdapter() {
-		galleryaAdapter = new CommonAdapter<Gallery>(getActivity(),
-				localGalleries, R.layout.item_image) {
-
+		galleryaAdapter = new CommonAdapter<Gallery>(getActivity(),localGalleries, R.layout.item_image) {
 			@Override
 			public void convert(ViewHolder holder, Gallery t, int position) {
+				 MyImageLoader myImageLoader=new MyImageLoader();
 				TextView textView = holder.getView(R.id.item_text);
 				ImageView imageView = holder.getView(R.id.item_img);
-				MyImageLoader.displayImage(MyUrl.TIANGOU_SERVICE
-						+ localGalleries.get(position).getImg(), imageView);
+				ProgressBar progress_img = holder.getView(R.id.progress_img);
+				myImageLoader.mImageView=imageView;
+				myImageLoader.mProgress_img=progress_img;
+				myImageLoader.displayImage(MyUrl.TIANGOU_SERVICE+ localGalleries.get(position).getImg());
 				textView.setText(position+1+localGalleries.get(position).getTitle());
 //				textView.setText(position+"");
 			}

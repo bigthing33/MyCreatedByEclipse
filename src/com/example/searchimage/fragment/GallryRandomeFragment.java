@@ -15,6 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -196,13 +197,15 @@ public class GallryRandomeFragment extends Fragment implements OnClickListener, 
 	protected void setImage_lvAdapter() {
 		galleryaAdapter = new CommonAdapter<Gallery>(getActivity(),
 				localGalleries, R.layout.item_image_random) {
-
+			private MyImageLoader myImageLoader=new MyImageLoader();
 			@Override
 			public void convert(ViewHolder holder, Gallery t, int position) {
 				TextView textView = holder.getView(R.id.item_text);
 				ImageView imageView = holder.getView(R.id.item_img);
-				MyImageLoader.displayImage(MyUrl.TIANGOU_SERVICE
-						+ localGalleries.get(position).getImg(), imageView);
+				ProgressBar progress_img = holder.getView(R.id.progress_img);
+				myImageLoader.mImageView=imageView;
+				myImageLoader.mProgress_img=progress_img;
+				myImageLoader.displayImage(MyUrl.TIANGOU_SERVICE+ localGalleries.get(position).getImg());
 				textView.setText(position+1+localGalleries.get(position).getTitle());
 //				textView.setText(position+"");
 			}

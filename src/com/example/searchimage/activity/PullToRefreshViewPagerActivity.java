@@ -4,19 +4,16 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.example.searchimage.MyApplication;
 import com.example.searchimage.R;
@@ -34,6 +31,7 @@ public class PullToRefreshViewPagerActivity extends Activity implements
 	private PullToRefreshViewPager mPullToRefreshViewPager;
 	private static ArrayList<Picture> mPictures;
 	private static long mSelectId;
+	private static Activity mActivity;
 	
 
 	@SuppressWarnings("unchecked")
@@ -50,6 +48,7 @@ public class PullToRefreshViewPagerActivity extends Activity implements
 		vp.setOffscreenPageLimit(5);
 		vp.setAdapter(new SamplePagerAdapter());
 		vp.setCurrentItem((int) mSelectId);
+		mActivity=PullToRefreshViewPagerActivity.this;
 	}
 
 	@Override
@@ -66,13 +65,25 @@ public class PullToRefreshViewPagerActivity extends Activity implements
 
 		@Override
 		public View instantiateItem(ViewGroup container, final int position) {
-			final ZoomImageView zoomImageView = new ZoomImageView(container.getContext());
-			MyImageLoader.displayImage(
-					MyUrl.TIANGOU_SERVICE + mPictures.get(position).getSrc(),
-					zoomImageView);
-
-            container.addView(zoomImageView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-            return zoomImageView;
+//			ZoomImageView zoomImageView = new ZoomImageView(container.getContext());
+//			container.addView(zoomImageView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			
+			ViewGroup view = (ViewGroup) mActivity.getLayoutInflater().inflate(R.layout.item_pulltorefresh_viewpager, null);
+//			textView.setText(localGalleries.get(position).getSrc());
+			ZoomImageView zoomImageView = new ZoomImageView(container.getContext());
+			view.addView(zoomImageView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			ProgressBar progress_img=new ProgressBar(mActivity);
+			RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT); 
+			lp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE); 
+//			lp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+			view.addView(progress_img, lp);
+//			ProgressBar progress_img = (ProgressBar) view.findViewById(R.id.progress_img);
+			MyImageLoader myImageLoader=new MyImageLoader();
+			myImageLoader.mImageView=zoomImageView;
+			myImageLoader.mProgress_img=progress_img;
+			myImageLoader.displayImage(MyUrl.TIANGOU_SERVICE+ mPictures.get(position).getSrc());
+			container.addView(view, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+            return view;
 		}
 
 		@Override
