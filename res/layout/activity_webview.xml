@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/sample_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sample" />
+
+    <EditText
+        android:id="@+id/sample_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sample_et" />
+
+    <Button
+        android:id="@+id/callJs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="调用js代码" />
+    <Button
+        android:id="@+id/callJsToCallJava"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="调用js代码去调用java代码" />
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+</LinearLayout>

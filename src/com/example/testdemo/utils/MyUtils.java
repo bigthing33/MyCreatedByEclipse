@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -22,6 +23,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ListView;
 
+import com.example.testdemo.MyApplication;
 import com.example.testdemo.R;
 
 public class MyUtils {
@@ -175,6 +177,27 @@ public class MyUtils {
 	public static boolean haveSDCard() {
 		return android.os.Environment.getExternalStorageState().equals(
 				android.os.Environment.MEDIA_MOUNTED);
+	}
+	/**
+	 * 判断程序是否在运行
+	 * @param context
+	 * @return
+	 */
+	public boolean getIsAppRunning(Context context) {
+		ActivityManager am = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		List<RunningTaskInfo> list = am.getRunningTasks(100);
+		boolean isAppRunning = false;
+		String MY_PKG_NAME = MyApplication.context.getPackageName();
+		LogUtil.e("MY_PKG_NAME", MY_PKG_NAME);
+		for (RunningTaskInfo info : list) {
+			if (info.topActivity.getPackageName().equals(MY_PKG_NAME)
+					|| info.baseActivity.getPackageName().equals(MY_PKG_NAME)) {
+				isAppRunning = true;
+				break;
+			}
+		}
+		return isAppRunning;
 	}
 
 }

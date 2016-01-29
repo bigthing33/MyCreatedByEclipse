@@ -30,6 +30,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button windowDemo;
 	private Button handlerMechanism;
 	private Button imageLoader;
+	private Button webView;
 	private Context mContext = MainActivity.this;
 
 	@Override
@@ -56,7 +57,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		windowDemo = (Button) findViewById(R.id.windowDemo);
 		handlerMechanism = (Button) findViewById(R.id.handlerMechanism);
 		imageLoader = (Button) findViewById(R.id.imageLoader);
+		webView = (Button) findViewById(R.id.webView);
 		apiStore_btn.setOnClickListener(this);
+		webView.setOnClickListener(this);
 		handlerMechanism.setOnClickListener(this);
 		imageLoader.setOnClickListener(this);
 		windowDemo.setOnClickListener(this);
@@ -142,6 +145,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		case R.id.imageLoader:
 			HandlerMechanismActivity.actionStart(mContext);
 			LogUtil.d(TAG, "onClick R.id.windowDemo:");
+			break;
+		case R.id.webView:
+			WebViewActivity.actionStart(mContext, WebViewActivity.class);
+			LogUtil.d(TAG, "onClick R.id.webView:");
 			break;
 
 		default:

@@ -1,112 +1,41 @@
 package com.example.testdemo.activity;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.baidu.apistore.sdk.ApiCallBack;
 import com.baidu.apistore.sdk.ApiStoreSDK;
 import com.baidu.apistore.sdk.network.Parameters;
-import com.example.testdemo.MyApplication;
 import com.example.testdemo.R;
 import com.example.testdemo.base.BaseActivity;
-import com.example.testdemo.base.CommonAdapter;
-import com.example.testdemo.model.Image;
-import com.example.testdemo.model.SearchImageRespone;
-import com.example.testdemo.services.ImageDownloadThread;
-import com.example.testdemo.services.ImageDownloadThread.Listener;
-import com.example.testdemo.utils.ImageFetcher;
-import com.example.testdemo.utils.LogUtil;
 import com.example.testdemo.utils.MyUrl;
-import com.nostra13.universalimageloader.core.imageaware.ImageAware;
-import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
-import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 public class ApiStoreActivity extends BaseActivity implements OnClickListener {
 	protected static final String TAG = ApiStoreActivity.class.getSimpleName();
 	private Context mContext = ApiStoreActivity.this;
 	private EditText searchImg_et;
 	private Button searchImg_btn;
+	private Button searchImgTiangouClassfy_btn;
+	private Button searchImgTiangouList_btn;
+	private Button searchImgTiangouAtlasDetails_btn;
+	private Button searchImgTiangouAtlasNews_btn;
 	private TextView searchImgResult_tv;
-	private ImageView searchImgResult_imgae;
-	private ListView imagelistView;
-	private CommonAdapter<Image> searchImageAdapter;
-	private ArrayList<Image> localImglist = new ArrayList<>();
-	private ImageDownloadThread<ImageView> imageDownloadThread;
-	private int mPageNum=0;
-	private boolean isLoadingImg;
-	private int mPreNum=5;//默认为5；缓存图片个数，范围是1-60
+	private int mPageNum = 0;
+	private int mPreNum = 5;// 默认为5；缓存图片个数，范围是1-60
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_apistore);
 		initUI();
-		imageDownloadThread = new ImageDownloadThread<>(new Handler());
-		imageDownloadThread.setListener(new Listener() {
-
-			@Override
-			public void imageDownloaded(Image image) {
-				
-				localImglist.add(image);
-				setAdapter();
-			}
-
-			@Override
-			public void completedAllImgDownload() {
-				isLoadingImg=false;
-				
-			}
-		});
-		imageDownloadThread.start();
-		// getLooper放在start之后，保证线程就绪
-		imageDownloadThread.getLooper();
-	}
-
-	private void setAdapter() {
-	
-		if (localImglist.size() == 0) {
-			imagelistView.setAdapter(null);
-		} else if (localImglist.size()==1) {
-			searchImageAdapter=new CommonAdapter<Image>(mContext, localImglist, R.layout.item_image) {
-
-				@Override
-				public void convert(
-						com.example.testdemo.base.ViewHolder holder, Image t,
-						int position) {
-					if (position>=localImglist.size()-mPreNum&&isLoadingImg==false&&position>=mPreNum-1) {
-						searchImg(searchImg_et.getText().toString(),mPageNum);
-					}
-					ImageView item_img=holder.getView(R.id.item_img);
-					TextView item_text=holder.getView(R.id.item_text);
-					item_text.setText(position+"");
-					if (localImglist.get(position).getBitmap() != null) {
-						item_img.setImageBitmap(localImglist.get(position).getBitmap());
-					}
-					
-				}
-			};
-			imagelistView.setAdapter(searchImageAdapter);
-		}else {
-			searchImageAdapter.notifyDataSetChanged();
-		}
-
 	}
 
 	@Override
@@ -119,27 +48,99 @@ public class ApiStoreActivity extends BaseActivity implements OnClickListener {
 	public void initUI() {
 		searchImg_et = (EditText) findViewById(R.id.searchImg_et);
 		searchImg_btn = (Button) findViewById(R.id.searchImg_btn);
-		searchImgResult_imgae = (ImageView) findViewById(R.id.searchImgResult_imgae);
+		searchImgTiangouClassfy_btn = (Button) findViewById(R.id.searchImgTiangouClassfy_btn);
 		searchImgResult_tv = (TextView) findViewById(R.id.searchImgResult_tv);
-		imagelistView = (ListView) findViewById(R.id.imagelistView);
+		searchImgTiangouList_btn = (Button) findViewById(R.id.searchImgTiangouList_btn);
+		searchImgTiangouAtlasDetails_btn = (Button) findViewById(R.id.searchImgTiangouAtlasDetails_btn);
+		searchImgTiangouAtlasNews_btn = (Button) findViewById(R.id.searchImgTiangouAtlasNews_btn);
 		searchImg_btn.setOnClickListener(this);
-		imagelistView.setOnScrollListener(new PauseOnScrollListener(
-				MyApplication.imageLoader, true, true));// 两个分别表示拖动下拉条和滑动过程中暂停加载
+		searchImgTiangouClassfy_btn.setOnClickListener(this);
+		searchImgTiangouList_btn.setOnClickListener(this);
+		searchImgTiangouAtlasDetails_btn.setOnClickListener(this);
+		searchImgTiangouAtlasNews_btn.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.searchImg_btn:
-			searchImg(searchImg_et.getText().toString(),mPageNum);
+			searchImgByBaidu(searchImg_et.getText().toString(), mPageNum);
 
+			break;
+		case R.id.searchImgTiangouClassfy_btn:
+			searchClassifyTiangou();
+
+			break;
+		case R.id.searchImgTiangouList_btn:
+			searchListTiangou(0, 1, 20);
+
+			break;
+		case R.id.searchImgTiangouAtlasDetails_btn:
+			searchAtlasDetailsTiangou(10);
+			
+			break;
+		case R.id.searchImgTiangouAtlasNews_btn:
+			searchAtlasNewsTiangou(0,1,1);
+			
 			break;
 
 		default:
 			break;
 		}
-		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * 搜素天狗最新图库
+	 * @param id 最新图库id
+	 * @param rows 条数
+	 * @param classify 图库分类id
+	 */
+	private void searchAtlasNewsTiangou(int id, int rows, int classify) {
+		Parameters para = new Parameters();
+		para.put("id", id + "");//long	当前最新的图库关键词id
+//		para.put("classify", classify + "");// 图库分类id
+		para.put("rows", rows + "");// 返回的图片数量
+		requestGetImgs(para, MyUrl.SEARCH_TIANGOU_AtlasNews);
+		
+	}
+
+	/**
+	 * 搜索天狗图库详情
+	 * @param id 图库id
+	 */
+	private void searchAtlasDetailsTiangou(int id) {
+		Parameters para = new Parameters();
+		para.put("id", id + "");
+		requestGetImgs(para, MyUrl.SEARCH_TIANGOU_AtlasDetails);
+		
+	}
+
+	/**
+	 * 搜索天狗图片列表
+	 * 
+	 * @param id
+	 *            图片分类id
+	 * @param page
+	 *            页数
+	 * @param rows
+	 *            条数
+	 */
+	private void searchListTiangou(int id, int page, int rows) {
+
+		Parameters para = new Parameters();
+		para.put("id", id + "");
+		para.put("page", page + "");// 返回的页数
+		para.put("rows", rows + "");// 返回的图片数量
+		requestGetImgs(para, MyUrl.SEARCH_TIANGOU_LIST);
+	}
+
+	/**
+	 * 天狗搜图--搜类别
+	 */
+	private void searchClassifyTiangou() {
+		Parameters para = new Parameters();
+		requestGetImgs(para, MyUrl.SEARCH_TIANGOU_CLASSIFY);
 	}
 
 	/**
@@ -150,57 +151,44 @@ public class ApiStoreActivity extends BaseActivity implements OnClickListener {
 	 * @param searchText
 	 */
 
-	private void searchImg(String searchText,int pageNum) {
+	private void searchImgByBaidu(String searchText, int pageNum) {
 		if (TextUtils.isEmpty(searchText)) {
 			showToast("搜索的文本不能为空");
 			return;
 		}
-		isLoadingImg=true;
-		mPageNum=pageNum+mPreNum;
+		mPageNum = pageNum + mPreNum;
 		Parameters para = new Parameters();
 		para.put("word", searchText);
 		para.put("ie", "utf-8");
-		para.put("rn", mPreNum+"");//返回的图片数量
-		para.put("pn", pageNum+"");//需要从第几张图片开始返回
+		para.put("rn", mPreNum + "");// 返回的图片数量
+		para.put("pn", pageNum + "");// 需要从第几张图片开始返回
 		// 天气搜索：： http://apis.baidu.com/heweather/weather/free
-		ApiStoreSDK.execute(MyUrl.SEARCH_IMAGE, ApiStoreSDK.GET, para,
-				new ApiCallBack() {
-					@Override
-					public void onSuccess(int status, String responseString) {
-						Log.e("sdkdemo", "onSuccess");
-						Log.e("sdkdemo", responseString);
-						SearchImageRespone searchImageRespone = ImageFetcher
-								.handleImageResponse(mContext, responseString);
-						searchImgResult_tv.setText("返回的图片数是："
-								+ searchImageRespone.getReturnNumber()
-								+ " 搜索到的图片总数是"
-								+ searchImageRespone.getTotalNumber());
-						String imageurl = searchImageRespone.getResultArray()
-								.get(1).getObjUrl();
-						MyApplication.imageLoader.displayImage(imageurl,
-								searchImgResult_imgae);
-						ArrayList<Image> downloadingImages = searchImageRespone.getResultArray();
-						LogUtil.e(TAG, downloadingImages.size()+"downloadingImages");
-						imageDownloadThread.queueThumbnail(downloadingImages);
-					}
+		requestGetImgs(para, MyUrl.SEARCH_IMAGE);
 
+	}
 
+	private void requestGetImgs(Parameters para, String url) {
+		ApiStoreSDK.execute(url, ApiStoreSDK.GET, para, new ApiCallBack() {
+			@Override
+			public void onSuccess(int status, String responseString) {
+				Log.e("sdkdemo", "onSuccess");
+				Log.e("sdkdemo", responseString);
+				searchImgResult_tv.setText(responseString);
+			}
 
-					@Override
-					public void onComplete() {
-						Log.e("sdkdemo", "onComplete");
-					}
+			@Override
+			public void onComplete() {
+				Log.e("sdkdemo", "onComplete");
+			}
 
-					@Override
-					public void onError(int status, String responseString,
-							Exception e) {
-						Log.e("sdkdemo", "onError, status: " + status);
-						Log.e("sdkdemo","errMsg: " + (e == null ? "" : e.getMessage()));
-						searchImgResult_tv.setText(e.toString());
-					}
+			@Override
+			public void onError(int status, String responseString, Exception e) {
+				Log.e("sdkdemo", "onError, status: " + status);
+				Log.e("sdkdemo", "errMsg: " + (e == null ? "" : e.getMessage()));
+				searchImgResult_tv.setText(e.toString());
+			}
 
-				});
-
+		});
 	}
 
 	public static void actionStart(Context context, Class<?> activityClass) {

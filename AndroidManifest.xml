@@ -66,6 +66,8 @@
         </activity>
         <activity android:name="com.example.testdemo.activity.ApiStoreActivity" >
         </activity>
+        <activity android:name="com.example.testdemo.activity.WebViewActivity" >
+        </activity>
 
         <receiver android:name="com.example.testdemo.widget.MyAppWidgetProvider" >
             <meta-data
