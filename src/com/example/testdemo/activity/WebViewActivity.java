@@ -87,6 +87,7 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
 			}
 
 		});
+		webSettings.setDefaultTextEncodingName("utf-8");//设置加载网页的编码
 		myWebView
 		.loadUrl("file:///android_asset/js_java_interaction.html");
 		
@@ -136,6 +137,11 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
         @JavascriptInterface
         public void onSumResult(int result) {
             Log.i(TAG, "onSumResult result=" + result);
+        }
+        @JavascriptInterface
+        public void showToastl(String result) {
+        	showToast(result);
+        	Log.i(TAG, "onSumResult result=" + result);
         }
     }
 	/**
