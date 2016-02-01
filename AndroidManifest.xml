@@ -35,9 +35,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.searchimage.activity.SearchImgByBaiduActivity" >
+        <activity android:name="com.example.searchimage.Useless.SearchImgByBaiduActivity" >
         </activity>
-        <activity android:name="com.example.searchimage.activity.GallryDetailsActivity" >
+        <activity android:name="com.example.searchimage.Useless.UselessGallryDetailsActivity" >
         </activity>
         <activity android:name="com.example.searchimage.activity.PullToRefreshViewPagerItemsActivity" >
         </activity>

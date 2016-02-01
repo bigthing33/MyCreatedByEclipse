@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.example.searchimage.MyApplication;
 import com.example.searchimage.R;
-import com.example.searchimage.activity.GallryDetailsActivity;
 import com.example.searchimage.activity.PullToRefreshViewPagerDetailsActivity;
 import com.example.searchimage.base.CommonAdapter;
 import com.example.searchimage.base.ViewHolder;

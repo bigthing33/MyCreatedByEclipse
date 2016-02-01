@@ -1,4 +1,4 @@
-package com.example.searchimage.fragment;
+package com.example.searchimage.Useless;
 
 import java.util.ArrayList;
 
@@ -33,8 +33,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-public class GallryDetailsFragment extends Fragment implements OnClickListener, OnRefreshListener2<ListView> {
-	private static final String TAG = GallryDetailsFragment.class.getSimpleName();
+public class UselessGallryDetailsFragment extends Fragment implements OnClickListener, OnRefreshListener2<ListView> {
+	private static final String TAG = UselessGallryDetailsFragment.class.getSimpleName();
 	private PullToRefreshListView mPullRefreshListView;
 	private ListView image_lv;
 	private TextView image_tv;
@@ -212,8 +212,8 @@ public class GallryDetailsFragment extends Fragment implements OnClickListener, 
 		image_lv.setAdapter(galleryaAdapter);
 	}
 
-	public static GallryDetailsFragment getInstance(int id) {
-		GallryDetailsFragment gallriesDetailsFragment = new GallryDetailsFragment();
+	public static UselessGallryDetailsFragment getInstance(int id) {
+		UselessGallryDetailsFragment gallriesDetailsFragment = new UselessGallryDetailsFragment();
 		Bundle args = new Bundle();
 		args.putInt("id", id);
 		LogUtil.e(TAG, id+"aaaaaaaaaa");

@@ -1,4 +1,4 @@
-package com.example.searchimage.services;
+package com.example.searchimage.Useless;
 
 import java.util.ArrayList;
 
