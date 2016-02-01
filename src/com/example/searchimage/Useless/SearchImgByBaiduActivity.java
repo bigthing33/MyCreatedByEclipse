@@ -50,7 +50,7 @@ public class SearchImgByBaiduActivity extends BaseActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_apistore);
+		setContentView(R.layout.z_useless_activity_apistore);
 		initUI();
 		imageFetcher = new ImageFetcherBaiduImp(mContext);
 		imageFetcher.setListener(new ImageFetcherListener() {
