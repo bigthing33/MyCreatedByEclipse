@@ -12,7 +12,6 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -21,7 +20,7 @@ import android.widget.Toast;
 
 import com.example.searchimage.MyApplication;
 import com.example.searchimage.R;
-import com.example.searchimage.activity.GallryDetailsActivity;
+import com.example.searchimage.activity.PullToRefreshViewPagerDetailsActivity;
 import com.example.searchimage.base.CommonAdapter;
 import com.example.searchimage.base.ViewHolder;
 import com.example.searchimage.imageutils.GetGalleriesListener;
@@ -122,7 +121,8 @@ public class GallryRandomeFragment extends Fragment implements OnClickListener, 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				GallryDetailsActivity.actionStart(getActivity(),galleryaAdapter.getItem((int) id).getId());
+//				GallryDetailsActivity.actionStart(getActivity(),galleryaAdapter.getItem((int) id).getId());
+				PullToRefreshViewPagerDetailsActivity.actionStart(getActivity(),galleryaAdapter.getItem((int) id).getId());
 				
 			}
 		});

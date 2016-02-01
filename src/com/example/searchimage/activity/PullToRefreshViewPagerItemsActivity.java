@@ -27,7 +27,7 @@ import com.example.searchimage.widget.ZoomImageView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
-public class PullToRefreshViewPagerActivity extends Activity implements
+public class PullToRefreshViewPagerItemsActivity extends Activity implements
 		OnRefreshListener<ViewPager> {
 
 	private PullToRefreshViewPager mPullToRefreshViewPager;
@@ -50,7 +50,7 @@ public class PullToRefreshViewPagerActivity extends Activity implements
 		vp.setOffscreenPageLimit(5);
 		vp.setAdapter(new SamplePagerAdapter());
 		vp.setCurrentItem((int) mSelectId);
-		mActivity=PullToRefreshViewPagerActivity.this;
+		mActivity=PullToRefreshViewPagerItemsActivity.this;
 	}
 
 	@Override
@@ -125,10 +125,9 @@ public class PullToRefreshViewPagerActivity extends Activity implements
 		}
 	}
 
-	public static void actionStart(FragmentActivity activity,
-			ArrayList<Picture> pictures, long selectId) {
+	public static void actionStart(Activity activity,ArrayList<Picture> pictures, long selectId) {
 		Intent intent = new Intent(MyApplication.context,
-				PullToRefreshViewPagerActivity.class);
+				PullToRefreshViewPagerItemsActivity.class);
 		intent.putExtra("pictures", pictures);
 		intent.putExtra("selectId", selectId);
 		activity.startActivity(intent);

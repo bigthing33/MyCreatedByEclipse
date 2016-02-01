@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.searchimage.MyApplication;
 import com.example.searchimage.R;
 import com.example.searchimage.activity.GallryDetailsActivity;
+import com.example.searchimage.activity.PullToRefreshViewPagerDetailsActivity;
 import com.example.searchimage.base.CommonAdapter;
 import com.example.searchimage.base.ViewHolder;
 import com.example.searchimage.imageutils.GetGalleriesListener;
@@ -119,7 +120,7 @@ public class GallryClassFragment extends Fragment implements OnClickListener, On
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				GallryDetailsActivity.actionStart(getActivity(),galleryaAdapter.getItem((int) id).getId());
+				PullToRefreshViewPagerDetailsActivity.actionStart(getActivity(),galleryaAdapter.getItem((int) id).getId());
 				
 			}
 		});

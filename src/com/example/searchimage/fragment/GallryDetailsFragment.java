@@ -16,15 +16,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.searchimage.MyApplication;
 import com.example.searchimage.R;
-import com.example.searchimage.activity.PullToRefreshViewPagerActivity;
+import com.example.searchimage.activity.PullToRefreshViewPagerItemsActivity;
 import com.example.searchimage.base.CommonAdapter;
 import com.example.searchimage.base.ViewHolder;
 import com.example.searchimage.imageutils.GetGallryDetailsListener;
-import com.example.searchimage.model.Gallery;
 import com.example.searchimage.model.GallryDetailsRespone;
 import com.example.searchimage.model.Picture;
 import com.example.searchimage.utils.LogUtil;
@@ -51,8 +49,7 @@ public class GallryDetailsFragment extends Fragment implements OnClickListener, 
 		@Override
 		public void erro(String erroString) {
 			isLoading = false;
-			int errorCode = 0;
-			String errorMessage = "加载失败，点击加载更多";
+//			String errorMessage = "加载失败，点击加载更多";
 			mPullRefreshListView.postDelayed(new Runnable() {
 				
 				@Override
@@ -118,7 +115,7 @@ public class GallryDetailsFragment extends Fragment implements OnClickListener, 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				PullToRefreshViewPagerActivity.actionStart(getActivity(),localGalleries,id);
+				PullToRefreshViewPagerItemsActivity.actionStart(getActivity(),localGalleries,id);
 			}
 		});
 		image_lv.setOnScrollListener(new OnScrollListener() {
@@ -174,7 +171,6 @@ public class GallryDetailsFragment extends Fragment implements OnClickListener, 
 		isForHead=true;
 		MyApplication.imageFetcherTianGouImp
 		.getImageDetailsByID(getArguments().getInt("id"), listener,isForHead);
-//		.getImageListByID(pageNum, MyConstants.PAGE_SIZE, getArguments().getInt("classifyId"), listener);
 	}
 	private void requestGallries(int id) {
 		if (isLoading) {
