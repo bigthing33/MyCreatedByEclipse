@@ -15,7 +15,7 @@ import com.example.searchimage.fragment.GallryRandomeFragment;
 import com.example.searchimage.utils.MyConstants;
 
 public class MainActivity extends SelectFragmentAcitvity implements OnClickListener {
-	private String selectTag=MyConstants.CLASSIES_IMAGE;
+	private String selectTag=MyConstants.RANDOME_IMAGE;
 	private Button news_btn;
 	private Button classies_btn;
 	private Button random_btn;

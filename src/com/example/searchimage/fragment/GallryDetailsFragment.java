@@ -24,6 +24,7 @@ import com.example.searchimage.activity.PullToRefreshViewPagerActivity;
 import com.example.searchimage.base.CommonAdapter;
 import com.example.searchimage.base.ViewHolder;
 import com.example.searchimage.imageutils.GetGallryDetailsListener;
+import com.example.searchimage.model.Gallery;
 import com.example.searchimage.model.GallryDetailsRespone;
 import com.example.searchimage.model.Picture;
 import com.example.searchimage.utils.LogUtil;
@@ -163,7 +164,7 @@ public class GallryDetailsFragment extends Fragment implements OnClickListener, 
 	@Override
 	public void onResume() {
 		super.onResume();
-//		LogUtil.e(TAG, "onResume"+getArguments().getInt("classifyId"));
+		// LogUtil.e(TAG, "onResume"+getArguments().getInt("classifyId"));
 	}
 	private void requestGallriesForHead() {
 		if (isLoading) {
@@ -191,18 +192,28 @@ public class GallryDetailsFragment extends Fragment implements OnClickListener, 
 		galleryaAdapter = new CommonAdapter<Picture>(getActivity(),
 				localGalleries, R.layout.item_image) {
 			@Override
-			public void convert(ViewHolder holder, Picture t, int position) {
+			public void convert(ViewHolder holder, Picture t, final int position) {
+				final MyImageLoader myImageLoader = new MyImageLoader();
 				TextView textView = holder.getView(R.id.item_text);
 				ImageView imageView = holder.getView(R.id.item_img);
-				textView.setText(localGalleries.get(position).getSrc());
 				ProgressBar progress_img = holder.getView(R.id.progress_img);
-				MyImageLoader myImageLoader=new MyImageLoader();
-				myImageLoader.mImageView=imageView;
-				myImageLoader.mProgress_img=progress_img;
+				TextView reload_tv = holder.getView(R.id.reload_tv);
+				reload_tv.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View arg0) {
+						myImageLoader.displayImage(MyUrl.TIANGOU_SERVICE+ localGalleries.get(position).getSrc());
+					}
+				});
+				myImageLoader.mReload_tv = reload_tv;
+				myImageLoader.mImageView = imageView;
+				myImageLoader.mProgress_img = progress_img;
 				myImageLoader.displayImage(MyUrl.TIANGOU_SERVICE+ localGalleries.get(position).getSrc());
+				textView.setText(position + 1+"");
+				// textView.setText(position+"");
 			}
 		};
-			image_lv.setAdapter(galleryaAdapter);
+		image_lv.setAdapter(galleryaAdapter);
 	}
 
 	public static GallryDetailsFragment getInstance(int id) {

@@ -11,9 +11,11 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.searchimage.MyApplication;
 import com.example.searchimage.R;
@@ -65,20 +67,28 @@ public class PullToRefreshViewPagerActivity extends Activity implements
 
 		@Override
 		public View instantiateItem(ViewGroup container, final int position) {
-//			ZoomImageView zoomImageView = new ZoomImageView(container.getContext());
-//			container.addView(zoomImageView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			
 			ViewGroup view = (ViewGroup) mActivity.getLayoutInflater().inflate(R.layout.item_pulltorefresh_viewpager, null);
-//			textView.setText(localGalleries.get(position).getSrc());
 			ZoomImageView zoomImageView = new ZoomImageView(container.getContext());
-			view.addView(zoomImageView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			ProgressBar progress_img=new ProgressBar(mActivity);
+			TextView reload_tv=new TextView(mActivity);
+			reload_tv.setText("加载失败点击重试");
+			
 			RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT); 
 			lp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE); 
-//			lp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+			view.addView(zoomImageView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			view.addView(progress_img, lp);
-//			ProgressBar progress_img = (ProgressBar) view.findViewById(R.id.progress_img);
-			MyImageLoader myImageLoader=new MyImageLoader();
+			view.addView(reload_tv, lp);
+			
+			final MyImageLoader myImageLoader=new MyImageLoader();
+			reload_tv.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					myImageLoader.displayImage(MyUrl.TIANGOU_SERVICE+ mPictures.get(position).getSrc());
+				}
+			});
+			myImageLoader.mReload_tv = reload_tv;
 			myImageLoader.mImageView=zoomImageView;
 			myImageLoader.mProgress_img=progress_img;
 			myImageLoader.displayImage(MyUrl.TIANGOU_SERVICE+ mPictures.get(position).getSrc());
@@ -101,7 +111,6 @@ public class PullToRefreshViewPagerActivity extends Activity implements
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			// Simulates a background job.
 			try {
 				Thread.sleep(4000);
 			} catch (InterruptedException e) {

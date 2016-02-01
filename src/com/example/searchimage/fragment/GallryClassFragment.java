@@ -49,12 +49,10 @@ public class GallryClassFragment extends Fragment implements OnClickListener, On
 		@Override
 		public void success(GetGalleriesRespone getGalleryListRespone,boolean isforhead) {
 			getGalleryListRespone.getTngou();
-			if (getGalleryListRespone.getTngou()==null) {
+			if (getGalleryListRespone.getTngou()==null||getGalleryListRespone.getTngou().size()<MyConstants.PAGE_SIZE) {
 				LogUtil.e(TAG, "请求的数据为空");
 				Toast.makeText(getActivity(), "最后一页啦", Toast.LENGTH_SHORT).show();
 				return;
-			}else if (getGalleryListRespone.getTngou().size()<MyConstants.PAGE_SIZE) {
-				Toast.makeText(getActivity(), "最后一页啦", Toast.LENGTH_SHORT).show();
 			}
 			if (isforhead) {
 				pageNum=1;
@@ -178,7 +176,6 @@ public class GallryClassFragment extends Fragment implements OnClickListener, On
 		isForHead=true;
 		MyApplication.imageFetcherTianGouImp
 		.getImageListByID(getArguments().getInt("classifyId"), pageNum, MyConstants.PAGE_SIZE,isForHead,listener);
-//		.getImageListByID(pageNum, MyConstants.PAGE_SIZE, getArguments().getInt("classifyId"), listener);
 	}
 	private void requestGallries(int paramterPagNum) {
 		if (isLoading) {
@@ -189,18 +186,26 @@ public class GallryClassFragment extends Fragment implements OnClickListener, On
 		isForHead=false;
 		MyApplication.imageFetcherTianGouImp
 		.getImageListByID(getArguments().getInt("classifyId"), pageNum, MyConstants.PAGE_SIZE,isForHead,listener);
-//		.getImageListByID(pageNum, MyConstants.PAGE_SIZE, getArguments().getInt("classifyId"), listener);
 		pageNum++;
 	}
 
 	protected void setImage_lvAdapter() {
 		galleryaAdapter = new CommonAdapter<Gallery>(getActivity(),localGalleries, R.layout.item_image) {
 			@Override
-			public void convert(ViewHolder holder, Gallery t, int position) {
-				 MyImageLoader myImageLoader=new MyImageLoader();
+			public void convert(ViewHolder holder, Gallery t, final int position) {
+				 final MyImageLoader myImageLoader=new MyImageLoader();
 				TextView textView = holder.getView(R.id.item_text);
 				ImageView imageView = holder.getView(R.id.item_img);
 				ProgressBar progress_img = holder.getView(R.id.progress_img);
+				TextView reload_tv = holder.getView(R.id.reload_tv);
+				reload_tv.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View arg0) {
+						myImageLoader.displayImage(MyUrl.TIANGOU_SERVICE+ localGalleries.get(position).getImg());
+					}
+				});
+				myImageLoader.mReload_tv=reload_tv;
 				myImageLoader.mImageView=imageView;
 				myImageLoader.mProgress_img=progress_img;
 				myImageLoader.displayImage(MyUrl.TIANGOU_SERVICE+ localGalleries.get(position).getImg());
@@ -216,7 +221,6 @@ public class GallryClassFragment extends Fragment implements OnClickListener, On
 		Bundle args = new Bundle();
 		args.putInt("classifyId", pos);
 		gallryItemFragment.setArguments(args);
-
 		return gallryItemFragment;
 	}
 

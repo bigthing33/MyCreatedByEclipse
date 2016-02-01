@@ -11,15 +11,23 @@
         <ImageView
             android:id="@+id/item_img"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/DIMEN_600PX"
+            android:layout_height="@dimen/DIMEN_700PX"
             android:layout_centerInParent="true"
             android:scaleType="centerCrop" />
 
         <ProgressBar
             android:id="@+id/progress_img"
-            android:layout_centerInParent="true"
             android:layout_width="@dimen/DIMEN_100PX"
-            android:layout_height="@dimen/DIMEN_100PX" />
+            android:layout_height="@dimen/DIMEN_100PX"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:id="@+id/reload_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="加载失败，点击重试"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <TextView

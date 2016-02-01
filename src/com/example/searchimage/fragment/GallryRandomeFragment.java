@@ -197,12 +197,22 @@ public class GallryRandomeFragment extends Fragment implements OnClickListener, 
 	protected void setImage_lvAdapter() {
 		galleryaAdapter = new CommonAdapter<Gallery>(getActivity(),
 				localGalleries, R.layout.item_image_random) {
-			private MyImageLoader myImageLoader=new MyImageLoader();
 			@Override
-			public void convert(ViewHolder holder, Gallery t, int position) {
+			public void convert(ViewHolder holder, Gallery t, final int position) {
+				final MyImageLoader myImageLoader=new MyImageLoader();
 				TextView textView = holder.getView(R.id.item_text);
 				ImageView imageView = holder.getView(R.id.item_img);
 				ProgressBar progress_img = holder.getView(R.id.progress_img);
+				TextView reload_tv = holder.getView(R.id.reload_tv);
+				reload_tv.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View arg0) {
+						myImageLoader.displayImage(MyUrl.TIANGOU_SERVICE+ localGalleries.get(position).getImg());
+						
+					}
+				});
+				myImageLoader.mReload_tv=reload_tv;
 				myImageLoader.mImageView=imageView;
 				myImageLoader.mProgress_img=progress_img;
 				myImageLoader.displayImage(MyUrl.TIANGOU_SERVICE+ localGalleries.get(position).getImg());
