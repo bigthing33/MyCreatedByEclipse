@@ -7,21 +7,19 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.StaticLayout;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.example.searchimage.MyApplication;
 import com.example.searchimage.R;
@@ -31,6 +29,7 @@ import com.example.searchimage.base.ViewHolder;
 import com.example.searchimage.imageutils.GetGallryDetailsListener;
 import com.example.searchimage.model.GallryDetailsRespone;
 import com.example.searchimage.model.Picture;
+import com.example.searchimage.utils.DialogUtils;
 import com.example.searchimage.utils.LogUtil;
 import com.example.searchimage.utils.MyImageLoader;
 import com.example.searchimage.utils.MyUrl;
@@ -105,7 +104,7 @@ public class PullToRefreshViewPagerDetailsActivity extends BaseActivity implemen
 		}
 	};
 	private static Activity mActivity;
-	private static CommonAdapter<Picture> galleryaAdapter;
+	private static CommonAdapter<Picture> picturesAdapter;
 	
 
 	@Override
@@ -141,9 +140,16 @@ public class PullToRefreshViewPagerDetailsActivity extends BaseActivity implemen
 			image_lv.setOnItemClickListener(new OnItemClickListener() {
 
 				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
+				public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
 					PullToRefreshViewPagerItemsActivity.actionStart(mActivity,localGalleries.get(position),id);
+				}
+			});
+			image_lv.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+				@Override
+				public boolean onItemLongClick(AdapterView<?> parent, View view,int position, long id) {
+					DialogUtils.showIsSavePictureDialog(mActivity,localGalleries.get(position).get((int) id));
+					return true;
 				}
 			});
 			TextView image_tv = (TextView) view.findViewById(R.id.image_tv);
@@ -167,7 +173,7 @@ public class PullToRefreshViewPagerDetailsActivity extends BaseActivity implemen
 	private static void setImage_lvAdapter(ListView image_lv, int position) {
 		final ArrayList<Picture> pictures=localGalleries.get(position);
 		
-		galleryaAdapter = new CommonAdapter<Picture>(mActivity,
+		picturesAdapter = new CommonAdapter<Picture>(mActivity,
 				pictures, R.layout.item_image) {
 			@Override
 			public void convert(ViewHolder holder, Picture t, final int position) {
@@ -190,7 +196,7 @@ public class PullToRefreshViewPagerDetailsActivity extends BaseActivity implemen
 				textView.setText(position + 1+"");
 			}
 		};
-		image_lv.setAdapter(galleryaAdapter);
+		image_lv.setAdapter(picturesAdapter);
 	
 	}
 	private void requestPicturesForHead(int id) {

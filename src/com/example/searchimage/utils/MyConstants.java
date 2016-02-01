@@ -49,6 +49,7 @@ public class MyConstants {
 	public static final String NEWS_IMAGE = "NEWS_IMAGE";
 	public static final String CLASSIES_IMAGE = "CLASSIES_IMAGE";
 	public static final String RANDOME_IMAGE = "RANDOME_IMAGE";
+	public static final String COLLECT_IMAGE = "COLLECT_IMAGE";
 
 
 

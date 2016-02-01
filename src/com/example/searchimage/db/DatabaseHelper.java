@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String DB_NAME = "searchimage.db";
 	public static final String IMAGE_TABLENAME = "Image";
+	public static final String PICTURE_TABLENAME = "picture";
 	private static final int VERSION = 1;
 	private static DatabaseHelper mDatabaseHelper = null;// 静态的引用
 
@@ -34,6 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				+ "id integer primary key autoincrement ," + "name text,"
 				+ "sort integer)");
 		db.execSQL("create table if not exists "+IMAGE_TABLENAME+"(id integer primary key autoincrement, Key text, ObjUrl text,FromUrl text,Desc text,Pictype text,searchTime text,searchTag text,savePath text)");
+		db.execSQL("create table if not exists "+PICTURE_TABLENAME+"(id integer primary key autoincrement, gallery integer, pictureId integer,src text,time text)");
 	}
 
 	@Override

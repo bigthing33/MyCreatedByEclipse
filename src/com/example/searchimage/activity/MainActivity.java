@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.example.searchimage.R;
 import com.example.searchimage.fragment.GallryClassesFragment;
+import com.example.searchimage.fragment.GallryCollectFragment;
 import com.example.searchimage.fragment.GallryRandomeFragment;
 import com.example.searchimage.utils.MyConstants;
 
@@ -36,6 +37,7 @@ public class MainActivity extends SelectFragmentAcitvity implements OnClickListe
 	protected HashMap<String, Fragment> createFragments() {
 		HashMap<String, Fragment> fragments=new HashMap<String, Fragment>();
 		fragments.put(MyConstants.CLASSIES_IMAGE, GallryClassesFragment.getInstance(MyConstants.CLASSIES_IMAGE));
+		fragments.put(MyConstants.COLLECT_IMAGE, GallryCollectFragment.getInstance(MyConstants.COLLECT_IMAGE));
 		fragments.put(MyConstants.RANDOME_IMAGE,GallryRandomeFragment.getInstance(0));
 		return fragments;
 	}
@@ -59,7 +61,7 @@ public class MainActivity extends SelectFragmentAcitvity implements OnClickListe
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.news_btn:
-			showFragmentByTag(MyConstants.NEWS_IMAGE);
+			showFragmentByTag(MyConstants.COLLECT_IMAGE);
 			break;
 		case R.id.classies_btn:
 			showFragmentByTag(MyConstants.CLASSIES_IMAGE);
