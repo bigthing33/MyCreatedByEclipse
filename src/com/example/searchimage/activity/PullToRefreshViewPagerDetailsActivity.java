@@ -141,7 +141,7 @@ public class PullToRefreshViewPagerDetailsActivity extends BaseActivity implemen
 
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-					PullToRefreshViewPagerItemsActivity.actionStart(mActivity,localGalleries.get(position),id);
+					PullToRefreshViewPagerItemsActivity.actionStart(mActivity,localGalleries.get(initItemposition),id);
 				}
 			});
 			image_lv.setOnItemLongClickListener(new OnItemLongClickListener() {
