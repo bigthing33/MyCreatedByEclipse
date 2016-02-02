@@ -31,7 +31,6 @@ public class GallryCollectFragment extends Fragment {
 		mViewPager = new ViewPager(getActivity());
 		mViewPager.setId(R.id.viewPager_imagecollect);
 		tag=getArguments().getString("tag");
-//		LogUtil.e(TAG, "pictures"+TianGouImageDB.getInstance(MyApplication.getcContext()).loadPictures().size());
 	}
 
 	@Override
@@ -40,15 +39,17 @@ public class GallryCollectFragment extends Fragment {
 		View view = inflater.inflate(R.layout.z_uselessfragment_gallrylist, null);
 		subFragmentContainer = (FrameLayout) view.findViewById(R.id.subFragmentContainer);
 		title = (TextView) view.findViewById(R.id.title);
-		title.setText("收藏的图片");
+		title.setText("收藏的图片1/2");
 		subFragmentContainer.addView(mViewPager);
 		mViewPager.setOffscreenPageLimit(2);// 设置缓存个数,最多三个
+		LogUtil.e(TAG, "onCreateView");
 		return view;
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		LogUtil.e(TAG, "onResume");
 		initViewPager();
 	}
 
@@ -69,15 +70,13 @@ public class GallryCollectFragment extends Fragment {
 					public Fragment getItem(int pos) {
 						switch (pos) {
 						case 0:
-							
-							return GallryClassFragment.getInstance(0);
+							return GallryCollectPictureFragment.getInstance();
 						case 1:
-							return GallryClassFragment.getInstance(1);
-							
+							return GallryCollectGallryFragment.getInstance();
 						default:
-							return GallryClassFragment.getInstance(0);
+							return GallryCollectPictureFragment.getInstance();
 						}
-							
+
 					}
 				};
 				
@@ -110,11 +109,10 @@ public class GallryCollectFragment extends Fragment {
 	private void switchItem(final int pos) {
 
 		if (pos== 0) {
-			title.setText("收藏的图片");
+			title.setText("收藏的图片1/2");
 		}else if (pos== 1) {
-			title.setText("收藏的相册");
+			title.setText("收藏的相册2/2");
 		}
-		LogUtil.e(TAG, pos+"setCurrentItem");
 		mViewPager.postDelayed(new Runnable() {
 			
 			@Override

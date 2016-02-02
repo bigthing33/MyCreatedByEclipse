@@ -12,6 +12,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -23,9 +24,10 @@ import com.example.searchimage.R;
 import com.example.searchimage.activity.PullToRefreshViewPagerDetailsActivity;
 import com.example.searchimage.base.CommonAdapter;
 import com.example.searchimage.base.ViewHolder;
-import com.example.searchimage.imageutils.GetGalleriesListener;
+import com.example.searchimage.listener.GetGalleriesListener;
 import com.example.searchimage.model.Gallery;
 import com.example.searchimage.model.GetGalleriesRespone;
+import com.example.searchimage.utils.DialogUtils;
 import com.example.searchimage.utils.LogUtil;
 import com.example.searchimage.utils.MyConstants;
 import com.example.searchimage.utils.MyImageLoader;
@@ -121,6 +123,16 @@ public class GallryClassFragment extends Fragment implements OnClickListener, On
 					int position, long id) {
 				PullToRefreshViewPagerDetailsActivity.actionStart(getActivity(),galleryaAdapter.getItem((int) id).getId());
 				
+			}
+		});
+		image_lv.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// 保存相册的操作
+				DialogUtils.showIsSaveGalleryDialog(getActivity(), galleryaAdapter.getItem((int) id));
+				return true;
 			}
 		});
 		image_lv.setOnScrollListener(new OnScrollListener() {

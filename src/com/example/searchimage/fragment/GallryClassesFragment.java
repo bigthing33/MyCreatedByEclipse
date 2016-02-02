@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.example.searchimage.MyApplication;
 import com.example.searchimage.R;
-import com.example.searchimage.imageutils.GetClassesListener;
+import com.example.searchimage.listener.GetClassesListener;
 import com.example.searchimage.model.Galleryclassify;
 import com.example.searchimage.model.GetGalleryclassRespone;
 import com.example.searchimage.utils.LogUtil;
@@ -137,7 +137,7 @@ public class GallryClassesFragment extends Fragment {
 
 		if (galleryclasses.get(pos) != null
 				&& galleryclasses.get(pos).getTitle() != null) {
-			title.setText(pos+1+"/"+galleryclasses.size()+galleryclasses.get(pos).getTitle());
+			title.setText(galleryclasses.get(pos).getTitle()+(pos+1)+"/"+galleryclasses.size());
 		}
 		LogUtil.e(TAG, pos+"setCurrentItem");
 		mViewPager.postDelayed(new Runnable() {

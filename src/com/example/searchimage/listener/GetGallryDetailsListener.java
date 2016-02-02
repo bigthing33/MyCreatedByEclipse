@@ -1,4 +1,4 @@
-package com.example.searchimage.imageutils;
+package com.example.searchimage.listener;
 
 import com.example.searchimage.model.GallryDetailsRespone;
 

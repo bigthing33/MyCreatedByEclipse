@@ -6,7 +6,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
+import com.example.searchimage.MyApplication;
+import com.example.searchimage.model.Gallery;
 import com.example.searchimage.model.Image;
 import com.example.searchimage.model.Picture;
 
@@ -43,32 +46,99 @@ public class TianGouImageDB {
 					db.delete(DatabaseHelper.PICTURE_TABLENAME, "src = ? ", new String[]{String.valueOf(picture.getSrc())});
 				}while (cursor.moveToNext());
 			
-			}else{
+			}
 				ContentValues values=new ContentValues();
 				values.put("gallery", picture.getGallery());
-				values.put("pictureId", picture.getGallery());
-				values.put("src", picture.getGallery());
+				values.put("pictureId", picture.getId());
+				values.put("src", picture.getSrc());
 				values.put("time", System.currentTimeMillis()+"");
 				db.insert(DatabaseHelper.PICTURE_TABLENAME, null, values);
 				
+		}
+		db.close();
+	}
+	/**
+	 * 将相册存储到数据库中
+	 */
+	public void saveGallry(Gallery gallery){
+		SQLiteDatabase db = dbHeleper.getWritableDatabase();
+		if(gallery!=null){
+			Cursor cursor =db.query(DatabaseHelper.GALLRY_TABLENAME, null, "gallryId = ? ", new String[]{String.valueOf(gallery.getId())}, null, null, "id"+" desc");
+			if(cursor.moveToFirst()){
+				//如果存在就删除掉
+				do{
+					db.delete(DatabaseHelper.GALLRY_TABLENAME, "gallryId = ? ", new String[]{String.valueOf(gallery.getId())});
+				}while (cursor.moveToNext());
+			}
+				ContentValues values=new ContentValues();
+				values.put("gallryId", gallery.getId());
+				values.put("galleryclass", gallery.getGalleryclass());
+				values.put("title", gallery.getTitle());
+				values.put("img", gallery.getImg());
+				values.put("count", gallery.getCount());
+				values.put("rcount", gallery.getRcount());
+				values.put("fcount", gallery.getFcount());
+				values.put("size", gallery.getSize());
+				values.put("time", System.currentTimeMillis()+"");
+				db.insert(DatabaseHelper.GALLRY_TABLENAME, null, values);
+		}
+		db.close();
+	}
+	/**
+	 * 将图片从数据库中删除
+	 */
+	public void deletePicture(Picture picture){
+		SQLiteDatabase db = dbHeleper.getWritableDatabase();
+		if(picture!=null){
+			Cursor cursor =db.query(DatabaseHelper.PICTURE_TABLENAME, null, "src = ? ", new String[]{String.valueOf(picture.getSrc())}, null, null, "id"+" desc");
+			if (cursor.moveToFirst()) {
+				// 如果存在就删除掉
+				do {
+					db.delete(DatabaseHelper.PICTURE_TABLENAME, "src = ? ",new String[] { String.valueOf(picture.getSrc()) });
+				} while (cursor.moveToNext());
+				Toast.makeText(MyApplication.getcContext(), "删除成功",Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(MyApplication.getcContext(), "无效图片",Toast.LENGTH_SHORT).show();
 			}
 		}
 		db.close();
 	}
 	/**
-	 * 加载所有的图片
+	 * 将相册从数据库中删除
+	 */
+	public void deleteGallery(Gallery gallery){
+		SQLiteDatabase db = dbHeleper.getWritableDatabase();
+		if(gallery!=null){
+			Cursor cursor =db.query(DatabaseHelper.GALLRY_TABLENAME, null, "gallryId = ? ", new String[]{String.valueOf(gallery.getId())}, null, null, "id"+" desc");
+			if (cursor.moveToFirst()) {
+				// 如果存在就删除掉
+				do {
+					db.delete(DatabaseHelper.GALLRY_TABLENAME, "gallryId = ? ",new String[] { String.valueOf(gallery.getId()) });
+				} while (cursor.moveToNext());
+				Toast.makeText(MyApplication.getcContext(), "删除成功",Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(MyApplication.getcContext(), "无效相册",Toast.LENGTH_SHORT).show();
+			}
+		}
+		db.close();
+	}
+	
+	/**
+	 * 加载所有收藏的图片
 	 * @return
 	 */
 	public ArrayList<Picture> loadPictures(){
 		ArrayList<Picture> pictures=new ArrayList<Picture>();
 		SQLiteDatabase db = dbHeleper.getWritableDatabase();
-		Cursor cursor = db.query(DatabaseHelper.PICTURE_TABLENAME, null, null, null, null, null, "time"+" asc");
+		Cursor cursor = db.query(DatabaseHelper.PICTURE_TABLENAME, null, null, null, null, null, "time"+" desc");
 		if(cursor.moveToFirst()){
-			Picture picture=new Picture();
-			picture.setGallery(cursor.getInt(cursor.getColumnIndex("gallery")));
-			picture.setId(cursor.getInt(cursor.getColumnIndex("pictureId")));
-			picture.setSrc(cursor.getString(cursor.getColumnIndex("src")));
-			pictures.add(picture);
+			do {
+				Picture picture=new Picture();
+				picture.setGallery(cursor.getInt(cursor.getColumnIndex("gallery")));
+				picture.setId(cursor.getInt(cursor.getColumnIndex("pictureId")));
+				picture.setSrc(cursor.getString(cursor.getColumnIndex("src")));
+				pictures.add(picture);
+			} while (cursor.moveToNext());
 		}
 		if (cursor!=null) {
 			cursor.close();
@@ -76,8 +146,37 @@ public class TianGouImageDB {
 		db.close();
 		return pictures;
 	}
+	
 	/**
-	 * 根据key和ObjUrl的值从数据库中取出图片对象
+	 * 加载所有收藏的相册
+	 * @return
+	 */
+	public ArrayList<Gallery> loadGalleries(){
+		ArrayList<Gallery> galleries=new ArrayList<Gallery>();
+		SQLiteDatabase db = dbHeleper.getWritableDatabase();
+		Cursor cursor = db.query(DatabaseHelper.GALLRY_TABLENAME, null, null, null, null, null, "time"+" desc");
+		if(cursor.moveToFirst()){
+			do {
+				Gallery gallery=new Gallery();
+				gallery.setId(cursor.getInt(cursor.getColumnIndex("gallryId")));
+				gallery.setGalleryclass(cursor.getInt(cursor.getColumnIndex("galleryclass")));
+				gallery.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+				gallery.setImg(cursor.getString(cursor.getColumnIndex("img")));
+				gallery.setCount(cursor.getInt(cursor.getColumnIndex("count")));
+				gallery.setFcount(cursor.getInt(cursor.getColumnIndex("rcount")));
+				gallery.setRcount(cursor.getInt(cursor.getColumnIndex("fcount")));
+				gallery.setSize(cursor.getInt(cursor.getColumnIndex("size")));
+				galleries.add(gallery);
+			} while (cursor.moveToNext());
+		}
+		if (cursor!=null) {
+			cursor.close();
+		}
+		db.close();
+		return galleries;
+	}
+	/**
+	 * 根据key和ObjUrl的值从数据库中取出图片对象(只取第一个)
 	 * @return
 	 */
 	public Image loadImage(Image image){

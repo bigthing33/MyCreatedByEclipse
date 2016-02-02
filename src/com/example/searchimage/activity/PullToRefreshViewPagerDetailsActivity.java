@@ -26,7 +26,7 @@ import com.example.searchimage.R;
 import com.example.searchimage.base.BaseActivity;
 import com.example.searchimage.base.CommonAdapter;
 import com.example.searchimage.base.ViewHolder;
-import com.example.searchimage.imageutils.GetGallryDetailsListener;
+import com.example.searchimage.listener.GetGallryDetailsListener;
 import com.example.searchimage.model.GallryDetailsRespone;
 import com.example.searchimage.model.Picture;
 import com.example.searchimage.utils.DialogUtils;
@@ -132,7 +132,7 @@ public class PullToRefreshViewPagerDetailsActivity extends BaseActivity implemen
 		}
 
 		@Override
-		public View instantiateItem(ViewGroup container, final int position) {
+		public View instantiateItem(ViewGroup container, final int initItemposition) {
 			
 			LogUtil.e(TAG, "instantiateItem");
 			ViewGroup view = (ViewGroup) mActivity.getLayoutInflater().inflate(R.layout.fragment_gallry_details, null);
@@ -148,13 +148,13 @@ public class PullToRefreshViewPagerDetailsActivity extends BaseActivity implemen
 
 				@Override
 				public boolean onItemLongClick(AdapterView<?> parent, View view,int position, long id) {
-					DialogUtils.showIsSavePictureDialog(mActivity,localGalleries.get(position).get((int) id));
+					DialogUtils.showIsSavePictureDialog(mActivity,localGalleries.get(initItemposition).get((int) id));
 					return true;
 				}
 			});
 			TextView image_tv = (TextView) view.findViewById(R.id.image_tv);
-			image_tv.setText(titles.get(position));
-			setImage_lvAdapter(image_lv,position);
+			image_tv.setText(titles.get(initItemposition));
+			setImage_lvAdapter(image_lv,initItemposition);
 			container.addView(view, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
             return view;
 		}

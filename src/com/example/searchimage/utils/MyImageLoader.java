@@ -44,6 +44,7 @@ public class MyImageLoader {
 			mReload_tv.setVisibility(View.GONE);
 			if (mImageView.getTag().equals(tag)) {
 				ImageView img = (ImageView) view;
+//				img.setImageBitmap(bitmap);
 				img.setImageResource(R.drawable.loaded);
 			}
 

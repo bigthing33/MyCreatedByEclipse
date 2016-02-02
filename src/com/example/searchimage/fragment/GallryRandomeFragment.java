@@ -23,7 +23,7 @@ import com.example.searchimage.R;
 import com.example.searchimage.activity.PullToRefreshViewPagerDetailsActivity;
 import com.example.searchimage.base.CommonAdapter;
 import com.example.searchimage.base.ViewHolder;
-import com.example.searchimage.imageutils.GetGalleriesListener;
+import com.example.searchimage.listener.GetGalleriesListener;
 import com.example.searchimage.model.Gallery;
 import com.example.searchimage.model.GetGalleriesRespone;
 import com.example.searchimage.utils.LogUtil;
