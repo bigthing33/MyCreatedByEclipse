@@ -40,8 +40,6 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
 		myWebView = (WebView) findViewById(R.id.webview);
 		setWebView();
 		initUI();
-
-		
 	}
     private void setWebView() {
     	WebSettings webSettings = myWebView.getSettings();
@@ -69,13 +67,11 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
     	/**
     	 * webview与JavaScript之间的交互
     	 */
-    	
     	//使能使用JavaScript
 		webSettings.setJavaScriptEnabled(true);
 		//addJavascriptInterface，使得js能够调用java代码
 		myWebView.addJavascriptInterface(new JsInteration(), "control");
-		myWebView.setWebChromeClient(new WebChromeClient() {
-		});
+		myWebView.setWebChromeClient(new WebChromeClient() {});
 		myWebView.setWebViewClient(new WebViewClient() {
 
 			@Override
@@ -85,12 +81,9 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
 //				javaUseJavaScript(myWebView);
 //				testEvaluateJavascript( myWebView);
 			}
-
 		});
 		webSettings.setDefaultTextEncodingName("utf-8");//设置加载网页的编码
-		myWebView
-		.loadUrl("file:///android_asset/js_java_interaction.html");
-		
+		myWebView.loadUrl("file:///android_asset/js_java_interaction.html");
 	}
 /**
  * 调用JavaScript方法获得返回值
@@ -99,7 +92,6 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
 	@SuppressLint("NewApi")
 	protected void testEvaluateJavascript(WebView myWebView2) {
 		myWebView.evaluateJavascript("getReturn(\""+"参数1"+"\")", new ValueCallback<String>() {
-			
 			@Override
 			public void onReceiveValue(String value) {
 				Log.i(TAG, "onReceiveValue value=" + value);
@@ -113,7 +105,6 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
 	 */
 	private void javaUseJavaScript(WebView webView) {
 		String call = "javascript:sayHello()";
-
 		// call = "javascript:alertMessage(\"" + "content" + "\")";
 		//
 		// call = "javascript:toastMessage(\"" + "content" + "\")";
@@ -127,13 +118,10 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
      *
      */
     public class JsInteration {
-        
-
 		@JavascriptInterface
         public void toastMessage(String message) {
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         }
-        
         @JavascriptInterface
         public void onSumResult(int result) {
             Log.i(TAG, "onSumResult result=" + result);
@@ -170,8 +158,6 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
     }
 	private class MyWebViewClient extends WebViewClient
     {
-		
-
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
 			Log.e(TAG, url+"  getHost:"+Uri.parse(url).getHost());

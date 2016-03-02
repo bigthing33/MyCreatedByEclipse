@@ -17,8 +17,10 @@ import com.example.testdemo.R.layout;
 import com.example.testdemo.base.BaseActivity;
 import com.example.testdemo.utils.HttpCallBackListener;
 import com.example.testdemo.utils.HttpUtil;
+import com.example.testdemo.utils.LogUtil;
 
 public class SendHttpRequestActivity extends BaseActivity implements OnClickListener {
+	protected static final String TAG = SendHttpRequestActivity.class.getSimpleName();
 	private EditText address_et;
 	private TextView result_tv;
 	private Button send_btn;
@@ -65,6 +67,13 @@ public class SendHttpRequestActivity extends BaseActivity implements OnClickList
 				msg.obj=e;
 				mHandler.sendMessage(msg);
 
+			}
+
+			@Override
+			public void onProgress(int finished) {
+				LogUtil.e(TAG, "finished"+finished);
+				// TODO Auto-generated method stub
+				
 			}
 		};
 
