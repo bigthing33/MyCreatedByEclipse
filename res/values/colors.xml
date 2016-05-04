@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="base_color">#f8b551</color>
+    <color name="bg_color_deepyellow">#f9b552</color>
+    <color name="base_color_half">#7ff8b551</color>
+    <color name="divider_color">#d2d2d2</color>
+    <color name="bg_color">#e5e5e5</color>
+    <color name="bg_profile_color">#fff0d9</color>
+    <color name="transparent_50_black">#00000000</color>
+    <color name="rb_bg_red">#ed6942</color>
+    <color name="title_color">#535353</color>
+    <color name="summary_color">#a0a0a0</color>
+    <color name="text_blue">#009fe9</color>
+    <color name="text_gray">#cecece</color>
+    <color name="image_blue">#1f77db</color>
+    <color name="fourm_red">#EB6876</color>
+    <color name="forum_gray">#666666</color>
+    <color name="forum_bg">#FFEFD5</color>
+    <color name="time_color">#707070</color>
+    <color name="report_bg">#e5e5e5</color>
+    <color name="content_color">#434343</color>
+    <color name="red_bg">#EF1F2F</color>
+    <color name="color_red_record">#e22337</color>
+    <color name="color_black_60">#66000000</color>
+    <color name="color_time_label">#fff0d9</color>
+    <color name="color_album_label">#F79256</color>
+    <color name="color_preload_audio">#F8FFCC</color>
+    <color name="froum_list_click_bg">#ebebeb</color>
+    <color name="main_tab_tv_color">#59493F</color>
+    <color name="tran_black_50">#70000000</color>
+    <color name="color_search_main_color">#F7B650</color>
+    <color name="color_sort_order_normal">#ABABAB</color>
+    <color name="color_sort_order_focus">#EB6876</color>
+    <color name="color_point_option_unselect">#B4B4B4</color>
+    <color name="color_point_setting">#F6B551</color>
+    <color name="color_point_name_normal">#6D6D6D</color>
+
+    <!-- tag -->
+    <color name="blue">#ff33b5e5</color>
+    <color name="color_f8b551">#f8b551</color>
+    <color name="color_fffefe">#fffefe</color>
+    <color name="color_1c1b1b">#1c1b1b</color>
+    <color name="color_010101">#010101</color>
+    <color name="color_313131">#313131</color>
+    <color name="color_626262">#626262</color>
+
+</resources>
