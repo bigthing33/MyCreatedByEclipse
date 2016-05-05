@@ -10,8 +10,8 @@ public class GallryDetailsRespone {
 	private int id;
 	private long time;
 	private String img;
-	private String rcount;
-	private String size;
+	private int rcount;
+	private int size;
 	private String title;
 	private String url;
 	private ArrayList<Picture> list;
@@ -58,16 +58,17 @@ public class GallryDetailsRespone {
 	public void setImg(String img) {
 		this.img = img;
 	}
-	public String getRcount() {
+
+	public int getRcount() {
 		return rcount;
 	}
-	public void setRcount(String rcount) {
+	public void setRcount(int rcount) {
 		this.rcount = rcount;
 	}
-	public String getSize() {
+	public int getSize() {
 		return size;
 	}
-	public void setSize(String size) {
+	public void setSize(int size) {
 		this.size = size;
 	}
 	public String getTitle() {

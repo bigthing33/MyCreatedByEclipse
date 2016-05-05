@@ -7,20 +7,24 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.cyq.mvshow.MyApplication;
 import com.cyq.mvshow.R;
+import com.cyq.mvshow.activity.PictureListsActivity;
 import com.cyq.mvshow.adapter.GalleryAdapter;
 import com.cyq.mvshow.db.TianGouImageDB;
 import com.cyq.mvshow.model.Gallery;
 import com.cyq.mvshow.utils.LogUtil;
 import com.cyq.mvshow.widget.TitleView;
 
-public class GalleryCollectFragment extends Fragment  {
+public class GalleryCollectFragment extends Fragment implements OnClickListener  {
 	private static final String TAG = GalleryCollectFragment.class.getSimpleName();
 	private TitleView titleView;
 	
@@ -63,12 +67,71 @@ public class GalleryCollectFragment extends Fragment  {
 		localGalleries=getCollectGallriesFromDB();
 		mGalleryAdapter.setGroup(localGalleries);
 		mGalleryAdapter.notifyDataSetChanged();
+		mGridView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+				if (mGalleryAdapter.isCollectModel()) {
+					//如果是收藏模式
+					if (mGalleryAdapter.selectGalleries.contains(localGalleries.get((int) id))) {
+						mGalleryAdapter.selectGalleries.remove(localGalleries.get((int) id));
+					}else {
+						mGalleryAdapter.selectGalleries.add(localGalleries.get((int) id));
+					}
+					mGalleryAdapter.notifyDataSetChanged();
+				}else{
+					//如果不是收藏模式，跳转到对应的图片专辑中
+					PictureListsActivity.actionStart(getActivity(),localGalleries.get((int) id).getId());
+				}
+				
+				
+			}
+		});
+		/*
+		 * 初始化foot_layout
+		 */
+		foot_layout=(LinearLayout) view.findViewById(R.id.foot_layout);
+		decollect_allselect=(LinearLayout) view.findViewById(R.id.decollect_allselect);
+		decollect_confrim=(LinearLayout) view.findViewById(R.id.decollect_confrim);
+		allSelect_tv=(TextView) view.findViewById(R.id.allSelect_tv);
+		decollect_allselect.setOnClickListener(this);
+		decollect_confrim.setOnClickListener(this);
+		foot_layout.setVisibility(View.GONE);
 		return view;
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+	}
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.decollect_allselect:
+			if (allSelect_tv.getText().equals("全选")) {
+				allSelect_tv.setText("全不选");
+				for (Gallery gallery : localGalleries) {
+					if (!mGalleryAdapter.selectGalleries.contains(gallery)) {
+						mGalleryAdapter.selectGalleries.add(gallery);
+					}
+				}
+			} else {
+				allSelect_tv.setText("全选");
+				mGalleryAdapter.selectGalleries.clear();
+			}
+			mGalleryAdapter.notifyDataSetChanged();
+			break;
+		case R.id.decollect_confrim:
+			for (Gallery gallery : mGalleryAdapter.selectGalleries) {
+				TianGouImageDB.getInstance(MyApplication.getcContext()).deleteGallery(gallery);
+				localGalleries.remove(gallery);
+			}
+			mGalleryAdapter.notifyDataSetChanged();
+			break;
+		default:
+			break;
+		}
+
 	}
 
 /**
@@ -96,7 +159,7 @@ public class GalleryCollectFragment extends Fragment  {
 					//点击的时候是收藏模式，那么变成正常模式
 					mGalleryAdapter.setCollectModel(false);
 					foot_layout.setVisibility(View.GONE);
-					titleView.setRightBtnBackground(R.drawable.menu_collect);
+					titleView.setRightBtnBackground(R.drawable.menu_collected);
 				}else{
 					//点击的时候是正常模式，则变成收藏模式
 					mGalleryAdapter.setCollectModel(true);

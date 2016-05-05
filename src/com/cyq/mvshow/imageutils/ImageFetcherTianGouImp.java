@@ -100,10 +100,10 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 			
 			@Override
 			public void onSuccess(int status, String responseString) {
-//						Log.e("SEARCH_TIANGOU_CLASSIFY", "onSuccess");
-//				Log.e("SEARCH_TIANGOU_CLASSIFY", responseString);
-			GallryDetailsRespone getGalleryListRespone = HandleResponse.handlevGetImageDetailsByID(responseString);
-				listener.success(getGalleryListRespone,isForHead);
+						// Log.e("SEARCH_TIANGOU_CLASSIFY", "onSuccess");
+						// Log.e("SEARCH_TIANGOU_CLASSIFY", responseString);
+						GallryDetailsRespone getGalleryListRespone = HandleResponse.handlevGetImageDetailsByID(responseString);
+						listener.success(getGalleryListRespone, isForHead);
 			}
 			
 			@Override

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.cyq.mvshow.MyApplication;
 import com.cyq.mvshow.R;
+import com.cyq.mvshow.activity.PictureListsActivity;
 import com.cyq.mvshow.adapter.GalleryAdapter;
 import com.cyq.mvshow.db.TianGouImageDB;
 import com.cyq.mvshow.listener.GetGalleriesListener;
@@ -62,7 +63,7 @@ public class GalleryRandomFragment extends Fragment implements OnRefreshListener
 		titleView=(TitleView) view.findViewById(R.id.titleView);
 		titleView.setLeftBtnVisibility(View.VISIBLE);
 		titleView.setRightBtnVisibility(View.VISIBLE);
-		titleView.setRightBtnBackground(R.drawable.menu_collect);
+		titleView.setRightBtnBackground(R.drawable.menu_collected);
 		titleView.setRightBtn2Visibility(View.GONE);
 		titleView.setRightBtnClickListener(titleViewBtnClick);
 		/*
@@ -87,7 +88,8 @@ public class GalleryRandomFragment extends Fragment implements OnRefreshListener
 					}
 					mGalleryAdapter.notifyDataSetChanged();
 				}else{
-					//如果不是收藏模式，跳转到对应的图片中
+					//如果不是收藏模式，跳转到对应的图片专辑中
+					PictureListsActivity.actionStart(getActivity(),localGalleries.get((int) id).getId());
 				}
 				
 				
@@ -108,11 +110,33 @@ public class GalleryRandomFragment extends Fragment implements OnRefreshListener
 		foot_layout.setVisibility(View.GONE);
 		return view;
 	}
-
 	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.collect_allselect:
+			if (allSelect_tv.getText().equals("全选")) {
+				allSelect_tv.setText("全不选");
+				for (Gallery gallery : localGalleries) {
+					if (!mGalleryAdapter.selectGalleries.contains(gallery)) {
+						mGalleryAdapter.selectGalleries.add(gallery);
+					}
+				}
+			} else {
+				allSelect_tv.setText("全选");
+				mGalleryAdapter.selectGalleries.clear();
+			}
+			mGalleryAdapter.notifyDataSetChanged();
+			break;
+		case R.id.collect_confrim:
+			for (Gallery gallery : mGalleryAdapter.selectGalleries) {
+				TianGouImageDB.getInstance(MyApplication.getcContext()).saveGallry(gallery);
+			}
+			break;
+
+		default:
+			break;
+		}
+		
 	}
 
 	@Override
@@ -155,7 +179,7 @@ public class GalleryRandomFragment extends Fragment implements OnRefreshListener
 					//点击的时候是收藏模式，那么变成正常模式
 					mGalleryAdapter.setCollectModel(false);
 					foot_layout.setVisibility(View.GONE);
-					titleView.setRightBtnBackground(R.drawable.menu_collect);
+					titleView.setRightBtnBackground(R.drawable.menu_collected);
 				}else{
 					//点击的时候是正常模式，则变成收藏模式
 					mGalleryAdapter.setCollectModel(true);
@@ -212,33 +236,6 @@ public class GalleryRandomFragment extends Fragment implements OnRefreshListener
 				}
 			}, 500);}
 	};
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.collect_allselect:
-			if (allSelect_tv.getText().equals("全选")) {
-				allSelect_tv.setText("全不选");
-				for (Gallery gallery : localGalleries) {
-					if (!mGalleryAdapter.selectGalleries.contains(gallery)) {
-						mGalleryAdapter.selectGalleries.add(gallery);
-					}
-				}
-			} else {
-				allSelect_tv.setText("全选");
-				mGalleryAdapter.selectGalleries.clear();
-			}
-			mGalleryAdapter.notifyDataSetChanged();
-			break;
-		case R.id.collect_confrim:
-			for (Gallery gallery : mGalleryAdapter.selectGalleries) {
-				TianGouImageDB.getInstance(MyApplication.getcContext()).saveGallry(gallery);
-			}
-			break;
 
-		default:
-			break;
-		}
-		
-	}
 
 }
