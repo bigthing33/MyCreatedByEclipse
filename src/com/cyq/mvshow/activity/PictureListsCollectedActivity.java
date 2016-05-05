@@ -31,8 +31,8 @@ import com.cyq.mvshow.widget.TitleView.OnBtnClickListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 
-public class PictureListsActivity extends BaseActivity implements OnRefreshListener2<ViewPager> {
-	public static final String TAG = PictureListsActivity.class.getSimpleName();
+public class PictureListsCollectedActivity extends BaseActivity implements OnRefreshListener2<ViewPager> {
+	public static final String TAG = PictureListsCollectedActivity.class.getSimpleName();
 	private static Activity mActivity;
 	private static ArrayList<GallryDetailsRespone> localGallries = new ArrayList<GallryDetailsRespone>();
 	private SamplePagerAdapter samplePagerAdapter;
@@ -48,7 +48,7 @@ public class PictureListsActivity extends BaseActivity implements OnRefreshListe
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mActivity = PictureListsActivity.this;
+		mActivity = PictureListsCollectedActivity.this;
 		setContentView(R.layout.activity_ptr_viewpager);
 		headId = getIntent().getIntExtra("id", 0);
 		footId = getIntent().getIntExtra("id", 0);
@@ -111,7 +111,7 @@ public class PictureListsActivity extends BaseActivity implements OnRefreshListe
 //	}
 
 	public static void actionStart(FragmentActivity fragmentActivity, int id) {
-		Intent intent = new Intent(fragmentActivity,PictureListsActivity.class);
+		Intent intent = new Intent(fragmentActivity,PictureListsCollectedActivity.class);
 		intent.putExtra("id", id);
 		fragmentActivity.startActivity(intent);
 	}

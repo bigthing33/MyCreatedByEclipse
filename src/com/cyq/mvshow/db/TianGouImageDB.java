@@ -10,7 +10,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.cyq.mvshow.MyApplication;
+import com.cyq.mvshow.listener.GetGallryDetailsListener;
 import com.cyq.mvshow.model.Gallery;
+import com.cyq.mvshow.model.GallryDetailsRespone;
 import com.cyq.mvshow.model.Image;
 import com.cyq.mvshow.model.Picture;
 import com.cyq.mvshow.utils.LogUtil;
@@ -35,6 +37,113 @@ public class TianGouImageDB {
 		}
 		return imageDB;
 	}
+	/**
+	 * 根据id将相册相册存储到数据库中,包括相册中的图片
+	 */
+	public void saveGallryDetailsRespone(int gallryId){
+		MyApplication.imageFetcherTianGouImp.getImageDetailsByID(gallryId, new GetGallryDetailsListener() {
+			
+			@Override
+			public void success(GallryDetailsRespone gallryDetailsRespone,boolean isForHead) {
+				saveGallryDetailsRespone(gallryDetailsRespone);
+			}
+			
+			@Override
+			public void erro(String erroString) {
+				// TODO Auto-generated method stub
+				
+			}
+		},false);
+	}
+	/**
+	 * 将相册存储到数据库中,包括相册中的图片
+	 */
+	public void saveGallryDetailsRespone(GallryDetailsRespone gallryDetailsRespone){
+		SQLiteDatabase db = dbHeleper.getWritableDatabase();
+		if(gallryDetailsRespone!=null){
+			Cursor cursor =db.query(DatabaseHelper.GALLRY_TABLENAME, null, "gallryId = ? ", new String[]{String.valueOf(gallryDetailsRespone.getId())}, null, null, "id"+" desc");
+			if(cursor.moveToFirst()){
+				//如果存在就删除掉
+				do{
+					db.delete(DatabaseHelper.GALLRY_TABLENAME, "gallryId = ? ", new String[]{String.valueOf(gallryDetailsRespone.getId())});
+				}while (cursor.moveToNext());
+			}
+				ContentValues values=new ContentValues();
+				values.put("gallryId", gallryDetailsRespone.getId());
+				values.put("galleryclass", gallryDetailsRespone.getGalleryclass());
+				values.put("title", gallryDetailsRespone.getTitle());
+				values.put("img", gallryDetailsRespone.getImg());
+				values.put("count", gallryDetailsRespone.getCount());
+				values.put("rcount", gallryDetailsRespone.getRcount());
+				values.put("fcount", gallryDetailsRespone.getFcount());
+				values.put("size", gallryDetailsRespone.getSize());
+				values.put("time", System.currentTimeMillis()+"");
+				db.insert(DatabaseHelper.GALLRY_TABLENAME, null, values);
+				LogUtil.i(TAG, "相册存储到数据库中,相册id:"+gallryDetailsRespone.getId());
+		}
+		db.close();
+		//保存图片
+		if (gallryDetailsRespone.getList()!=null&&gallryDetailsRespone.getList().size()>0) {
+			for (Picture picture : gallryDetailsRespone.getList()) {
+				savePicture(picture);
+			}
+		}
+	}
+	/**
+	 * 加载所有收藏的相册,包括图片
+	 * @return
+	 */
+	public ArrayList<GallryDetailsRespone> loadGallryDetailsRespone(){
+		ArrayList<GallryDetailsRespone> galleries=new ArrayList<GallryDetailsRespone>();
+		SQLiteDatabase db = dbHeleper.getWritableDatabase();
+		Cursor cursor = db.query(DatabaseHelper.GALLRY_TABLENAME, null, null, null, null, null, "time"+" desc");
+		if(cursor.moveToFirst()){
+			do {
+				GallryDetailsRespone gallryDetailsRespone=new GallryDetailsRespone();
+				gallryDetailsRespone.setId(cursor.getInt(cursor.getColumnIndex("gallryId")));
+				gallryDetailsRespone.setGalleryclass(cursor.getInt(cursor.getColumnIndex("galleryclass")));
+				gallryDetailsRespone.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+				gallryDetailsRespone.setImg(cursor.getString(cursor.getColumnIndex("img")));
+				gallryDetailsRespone.setCount(cursor.getInt(cursor.getColumnIndex("count")));
+				gallryDetailsRespone.setFcount(cursor.getInt(cursor.getColumnIndex("rcount")));
+				gallryDetailsRespone.setRcount(cursor.getInt(cursor.getColumnIndex("fcount")));
+				gallryDetailsRespone.setSize(cursor.getInt(cursor.getColumnIndex("size")));
+				gallryDetailsRespone.setList(loadPictures(cursor.getColumnIndex("gallryId"),db));
+				galleries.add(gallryDetailsRespone);
+			} while (cursor.moveToNext());
+		}
+		if (cursor!=null) {
+			cursor.close();
+		}
+		db.close();
+		return galleries;
+	}
+	/**
+	 * 根据相册Id加载收藏的相册,包括图片
+	 * @return
+	 */
+	public GallryDetailsRespone loadGallryDetailsRespone(int gallryId){
+		GallryDetailsRespone gallryDetailsRespone=new GallryDetailsRespone();
+		SQLiteDatabase db = dbHeleper.getWritableDatabase();
+		Cursor cursor = db.query(DatabaseHelper.GALLRY_TABLENAME, null, "gallryId = ? ", new String[]{String.valueOf(gallryId)}, null, null, "time"+" desc");
+		if(cursor.moveToFirst()){
+				gallryDetailsRespone.setId(cursor.getInt(cursor.getColumnIndex("gallryId")));
+				gallryDetailsRespone.setGalleryclass(cursor.getInt(cursor.getColumnIndex("galleryclass")));
+				gallryDetailsRespone.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+				gallryDetailsRespone.setImg(cursor.getString(cursor.getColumnIndex("img")));
+				gallryDetailsRespone.setCount(cursor.getInt(cursor.getColumnIndex("count")));
+				gallryDetailsRespone.setFcount(cursor.getInt(cursor.getColumnIndex("rcount")));
+				gallryDetailsRespone.setRcount(cursor.getInt(cursor.getColumnIndex("fcount")));
+				gallryDetailsRespone.setSize(cursor.getInt(cursor.getColumnIndex("size")));
+				gallryDetailsRespone.setList(loadPictures(gallryId,db));
+		}
+		if (cursor!=null) {
+			cursor.close();
+		}
+		db.close();
+		return gallryDetailsRespone;
+	}
+//--------------------------------------------------------以下是单个Gallery---------------------------------------------
 	
 	/**
 	 * 将相册存储到数据库中
@@ -198,6 +307,27 @@ public class TianGouImageDB {
 			cursor.close();
 		}
 		db.close();
+		return pictures;
+	}
+	/**
+	 * 根据相册ID加载收藏的图片
+	 * @return
+	 */
+	public ArrayList<Picture> loadPictures(int galleryId,SQLiteDatabase db){
+		ArrayList<Picture> pictures=new ArrayList<Picture>();
+		Cursor cursor = db.query(DatabaseHelper.PICTURE_TABLENAME, null, "gallery = ? ", new String[]{String.valueOf(galleryId)}, null, null, "time"+" desc");
+		if(cursor.moveToFirst()){
+			do {
+				Picture picture=new Picture();
+				picture.setGallery(cursor.getInt(cursor.getColumnIndex("gallery")));
+				picture.setId(cursor.getInt(cursor.getColumnIndex("pictureId")));
+				picture.setSrc(cursor.getString(cursor.getColumnIndex("src")));
+				pictures.add(picture);
+			} while (cursor.moveToNext());
+		}
+		if (cursor!=null) {
+			cursor.close();
+		}
 		return pictures;
 	}
 	/*
