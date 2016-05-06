@@ -12,9 +12,10 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="200dp"
         android:contentDescription="nothing"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"
+        android:src="@drawable/no_network" />
 
     <TextView
         android:id="@+id/title"
@@ -28,6 +29,23 @@
         android:singleLine="true"
         android:textColor="@color/base_color"
         android:textSize="@dimen/micro" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/DIMEN_60PX"
+        android:layout_height="@dimen/DIMEN_60PX"
+        android:layout_centerInParent="true"
+        android:visibility="gone" >
+    </ProgressBar>
+
+    <TextView
+        android:id="@+id/reload_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="点击重新加载"
+        android:visibility="gone" >
+    </TextView>
 
     <ImageView
         android:id="@+id/select_img"

@@ -157,7 +157,7 @@ public class PictureItemsActivity extends BaseActivity implements OnRefreshListe
 			ZoomImageView zoomImageView = new ZoomImageView(container.getContext());
 			ProgressBar progress_img=new ProgressBar(mActivity);
 			TextView reload_tv=new TextView(mActivity);
-			reload_tv.setText("加载失败点击重试");
+			reload_tv.setText("加载失败，点击重试");
 			
 			RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT); 
 			lp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE); 

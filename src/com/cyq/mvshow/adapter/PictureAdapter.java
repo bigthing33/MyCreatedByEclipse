@@ -7,19 +7,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cyq.mvshow.MyApplication;
 import com.cyq.mvshow.R;
 import com.cyq.mvshow.model.Picture;
+import com.cyq.mvshow.utils.MyImageLoader;
+import com.cyq.mvshow.utils.MyUrl;
 
 /**
  */
 public class PictureAdapter extends BaseGroupAdapter {
-
     private LayoutInflater mInflater;
 	private boolean isCollectModel;
 	public ArrayList<Picture> selectPictures = new ArrayList<Picture>();
+	public ArrayList<Picture> localPictures = new ArrayList<Picture>();
+	public ArrayList<StringBuilder> tags = new ArrayList<StringBuilder>();
+	
 	
 
     public boolean isCollectModel() {
@@ -31,7 +36,7 @@ public class PictureAdapter extends BaseGroupAdapter {
 	}
 
 	public PictureAdapter(Context context) {
-        super(context);
+		super(context);
         mInflater = LayoutInflater.from(context);
     }
 
@@ -44,19 +49,26 @@ public class PictureAdapter extends BaseGroupAdapter {
             orderHolder.titleView = (TextView) convertView.findViewById(R.id.title);
             orderHolder.imageView = (ImageView) convertView.findViewById(R.id.image);
             orderHolder.select_img=(ImageView) convertView.findViewById(R.id.select_img);
+            orderHolder.progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
+            orderHolder.reload_tv = (TextView) convertView.findViewById(R.id.reload_tv);
             convertView.setTag(orderHolder);
         } else {
             orderHolder = (ViewHolder) convertView.getTag();
         }
 
-
+        orderHolder.progressBar.setVisibility(View.GONE);
+        orderHolder.reload_tv.setVisibility(View.GONE);
         Picture picture = (Picture) getItem(position);
 //        orderHolder.titleView.setText(gallery.getTitle());
-//        MyApplication.imageLoader.getInstance().displayImage(MyUrl.TIANGOU_SERVICE+ gallery.getImg(), orderHolder.imageView);
         orderHolder.titleView.setText("图片");
-        if (orderHolder.imageView.getDrawable()==null) {
-        	MyApplication.imageLoader.getInstance().displayImage("erro", orderHolder.imageView);
-		}
+        if (tags.size()>position&&!(tags.get(position).toString().equals("下载失败"))) {
+        	//如果包含了下载失败说明下载过一次而且失败了，这时候图片无需重新加载
+        	MyImageLoader myImageLoader=new MyImageLoader();
+        	myImageLoader.setmImageView(orderHolder.imageView);
+        	myImageLoader.setmProgress_img(orderHolder.progressBar);
+        	myImageLoader.setmReload_tv(orderHolder.reload_tv);
+        	myImageLoader.displayPicture(MyUrl.TIANGOU_SERVICE+ picture.getSrc(),tags.get(position));
+        }
         if (isCollectModel) {
         	orderHolder.select_img.setVisibility(View.VISIBLE);
         	if (selectPictures.contains(picture)) {
@@ -71,15 +83,30 @@ public class PictureAdapter extends BaseGroupAdapter {
         return convertView;
     }
 
-    @Override
-    public void setGroup(ArrayList g) {
-        super.setGroup(g);
-    }
 
     static class ViewHolder {
         TextView titleView;
         ImageView imageView;
         ImageView select_img;
+        ProgressBar progressBar;
+        TextView reload_tv;
     }
+
+
+	@Override
+	public int getCount() {
+		
+		return localPictures.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		return localPictures.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
 
 }

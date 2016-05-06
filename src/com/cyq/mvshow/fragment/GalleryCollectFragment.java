@@ -30,7 +30,6 @@ public class GalleryCollectFragment extends Fragment implements OnClickListener 
 	
 	private GridView mGridView;
 	private GalleryAdapter mGalleryAdapter;
-	private ArrayList<Gallery> localGalleries;
 	
 	private LinearLayout foot_layout;
 	private LinearLayout decollect_allselect;
@@ -64,8 +63,7 @@ public class GalleryCollectFragment extends Fragment implements OnClickListener 
 		mGridView = (GridView) view.findViewById(R.id.mGridView);
 		mGalleryAdapter = new GalleryAdapter(getActivity());
 		mGridView.setAdapter(mGalleryAdapter);
-		localGalleries=getCollectGallriesFromDB();
-		mGalleryAdapter.setGroup(localGalleries);
+		mGalleryAdapter.localGalleries=getCollectGallriesFromDB();
 		mGalleryAdapter.notifyDataSetChanged();
 		mGridView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -73,15 +71,15 @@ public class GalleryCollectFragment extends Fragment implements OnClickListener 
 			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
 				if (mGalleryAdapter.isCollectModel()) {
 					//如果是收藏模式
-					if (mGalleryAdapter.selectGalleries.contains(localGalleries.get((int) id))) {
-						mGalleryAdapter.selectGalleries.remove(localGalleries.get((int) id));
+					if (mGalleryAdapter.selectGalleries.contains(mGalleryAdapter.localGalleries.get((int) id))) {
+						mGalleryAdapter.selectGalleries.remove(mGalleryAdapter.localGalleries.get((int) id));
 					}else {
-						mGalleryAdapter.selectGalleries.add(localGalleries.get((int) id));
+						mGalleryAdapter.selectGalleries.add(mGalleryAdapter.localGalleries.get((int) id));
 					}
 					mGalleryAdapter.notifyDataSetChanged();
 				}else{
 					//如果不是收藏模式，跳转到对应的图片专辑中
-					PictureListsActivity.actionStart(getActivity(),localGalleries.get((int) id).getId());
+					PictureListsActivity.actionStart(getActivity(),mGalleryAdapter.localGalleries.get((int) id).getId());
 				}
 				
 				
@@ -99,6 +97,15 @@ public class GalleryCollectFragment extends Fragment implements OnClickListener 
 		foot_layout.setVisibility(View.GONE);
 		return view;
 	}
+	
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (mGalleryAdapter!=null) {
+			mGalleryAdapter.localGalleries=getCollectGallriesFromDB();
+		}
+	}
 
 	@Override
 	public void onDestroy() {
@@ -110,7 +117,7 @@ public class GalleryCollectFragment extends Fragment implements OnClickListener 
 		case R.id.decollect_allselect:
 			if (allSelect_tv.getText().equals("全选")) {
 				allSelect_tv.setText("全不选");
-				for (Gallery gallery : localGalleries) {
+				for (Gallery gallery : mGalleryAdapter.localGalleries) {
 					if (!mGalleryAdapter.selectGalleries.contains(gallery)) {
 						mGalleryAdapter.selectGalleries.add(gallery);
 					}
@@ -124,7 +131,7 @@ public class GalleryCollectFragment extends Fragment implements OnClickListener 
 		case R.id.decollect_confrim:
 			for (Gallery gallery : mGalleryAdapter.selectGalleries) {
 				TianGouImageDB.getInstance(MyApplication.getcContext()).deleteGallery(gallery);
-				localGalleries.remove(gallery);
+				mGalleryAdapter.localGalleries.remove(gallery);
 			}
 			mGalleryAdapter.notifyDataSetChanged();
 			break;

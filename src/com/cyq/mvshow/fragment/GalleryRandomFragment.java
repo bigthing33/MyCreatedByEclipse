@@ -3,7 +3,6 @@ package com.cyq.mvshow.fragment;
 import java.util.ArrayList;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -39,8 +38,6 @@ public class GalleryRandomFragment extends Fragment implements OnRefreshListener
 	
 	private PullToRefreshGridView mPullToRefreshGridView;
 	private GalleryAdapter mGalleryAdapter;
-	private ArrayList<Gallery> localGalleries = new ArrayList<Gallery>();
-	
 	private LinearLayout foot_layout;
 	private LinearLayout collect_allselect;
 	private LinearLayout collect_confrim;
@@ -74,28 +71,27 @@ public class GalleryRandomFragment extends Fragment implements OnRefreshListener
 		mPullToRefreshGridView.setOnRefreshListener(this);
 		mGalleryAdapter = new GalleryAdapter(getActivity());
 		mPullToRefreshGridView.setAdapter(mGalleryAdapter);
-		mGalleryAdapter.setGroup(localGalleries);
 		mPullToRefreshGridView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
 				if (mGalleryAdapter.isCollectModel()) {
 					//如果是收藏模式
-					if (mGalleryAdapter.selectGalleries.contains(localGalleries.get((int) id))) {
-						mGalleryAdapter.selectGalleries.remove(localGalleries.get((int) id));
+					if (mGalleryAdapter.selectGalleries.contains(mGalleryAdapter.localGalleries.get((int) id))) {
+						mGalleryAdapter.selectGalleries.remove(mGalleryAdapter.localGalleries.get((int) id));
 					}else {
-						mGalleryAdapter.selectGalleries.add(localGalleries.get((int) id));
+						mGalleryAdapter.selectGalleries.add(mGalleryAdapter.localGalleries.get((int) id));
 					}
 					mGalleryAdapter.notifyDataSetChanged();
 				}else{
 					//如果不是收藏模式，跳转到对应的图片专辑中
-					PictureListsActivity.actionStart(getActivity(),localGalleries.get((int) id).getId());
+					PictureListsActivity.actionStart(getActivity(),mGalleryAdapter.localGalleries.get((int) id).getId());
 				}
 				
 				
 			}
 		});
-		if (localGalleries.isEmpty()) {
+		if (mGalleryAdapter.localGalleries.isEmpty()) {
 			requestGallries(1);
 		}
 		/*
@@ -116,7 +112,7 @@ public class GalleryRandomFragment extends Fragment implements OnRefreshListener
 		case R.id.collect_allselect:
 			if (allSelect_tv.getText().equals("全选")) {
 				allSelect_tv.setText("全不选");
-				for (Gallery gallery : localGalleries) {
+				for (Gallery gallery : mGalleryAdapter.localGalleries) {
 					if (!mGalleryAdapter.selectGalleries.contains(gallery)) {
 						mGalleryAdapter.selectGalleries.add(gallery);
 					}
@@ -209,7 +205,9 @@ public class GalleryRandomFragment extends Fragment implements OnRefreshListener
 						.show();
 			}
 			for (Gallery gallery : getGalleryListRespone.getTngou()) {
-				localGalleries.add(gallery);
+				mGalleryAdapter.localGalleries.add(gallery);
+				mGalleryAdapter.tags.add(new StringBuilder("初始态"));
+				LogUtil.e("tags.size", ("tags.size:"+mGalleryAdapter.tags.size()));
 			}
 			mPullToRefreshGridView.postDelayed(new Runnable() {
 

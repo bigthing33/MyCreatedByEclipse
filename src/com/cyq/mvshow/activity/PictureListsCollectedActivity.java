@@ -23,6 +23,7 @@ import com.cyq.mvshow.db.TianGouImageDB;
 import com.cyq.mvshow.listener.GetGallryDetailsListener;
 import com.cyq.mvshow.model.Gallery;
 import com.cyq.mvshow.model.GallryDetailsRespone;
+import com.cyq.mvshow.model.Picture;
 import com.cyq.mvshow.utils.DialogUtils;
 import com.cyq.mvshow.utils.LogUtil;
 import com.cyq.mvshow.widget.PullToRefreshViewPager;
@@ -251,7 +252,10 @@ public class PictureListsCollectedActivity extends BaseActivity implements OnRef
 			});
 			picturesAdapter = new PictureAdapter(mActivity);
 			image_lv.setAdapter(picturesAdapter);
-			picturesAdapter.setGroup(localGallries.get(initItemposition).getList());
+			picturesAdapter.localPictures=localGallries.get(initItemposition).getList();
+			for (Picture picture : localGallries.get(initItemposition).getList()) {
+				picturesAdapter.tags.add(new StringBuilder("初始态"));
+			}
 			container.addView(view, LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 			return view;
 		}

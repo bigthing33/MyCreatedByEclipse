@@ -23,6 +23,7 @@ import com.cyq.mvshow.db.TianGouImageDB;
 import com.cyq.mvshow.listener.GetGallryDetailsListener;
 import com.cyq.mvshow.model.Gallery;
 import com.cyq.mvshow.model.GallryDetailsRespone;
+import com.cyq.mvshow.model.Picture;
 import com.cyq.mvshow.utils.DialogUtils;
 import com.cyq.mvshow.utils.LogUtil;
 import com.cyq.mvshow.widget.PullToRefreshViewPager;
@@ -193,7 +194,7 @@ public class PictureListsActivity extends BaseActivity implements OnRefreshListe
 			image_lv.setOnItemLongClickListener(new OnItemLongClickListener() {
 				@Override
 				public boolean onItemLongClick(AdapterView<?> parent,View view, int position, long id) {
-					DialogUtils.showIsSavePictureDialog(mActivity,localGallries.get(initItemposition).getList().get((int) id));
+					DialogUtils.showIsSavePictureDialog(mActivity,picturesAdapter.localPictures.get((int) id));
 					return true;
 				}
 			});
@@ -250,8 +251,11 @@ public class PictureListsActivity extends BaseActivity implements OnRefreshListe
 				}
 			});
 			picturesAdapter = new PictureAdapter(mActivity);
+			for (Picture picture : localGallries.get(initItemposition).getList()) {
+				picturesAdapter.tags.add(new StringBuilder("初始态"));
+			}
+			picturesAdapter.localPictures=localGallries.get(initItemposition).getList();
 			image_lv.setAdapter(picturesAdapter);
-			picturesAdapter.setGroup(localGallries.get(initItemposition).getList());
 			container.addView(view, LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 			return view;
 		}

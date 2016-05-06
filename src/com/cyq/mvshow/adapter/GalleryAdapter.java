@@ -6,12 +6,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.cyq.mvshow.MyApplication;
 import com.cyq.mvshow.R;
 import com.cyq.mvshow.model.Gallery;
+import com.cyq.mvshow.utils.LogUtil;
+import com.cyq.mvshow.utils.MyImageLoader;
 
 /**
  */
@@ -20,6 +23,8 @@ public class GalleryAdapter extends BaseGroupAdapter {
     private LayoutInflater mInflater;
 	private boolean isCollectModel;
 	public ArrayList<Gallery> selectGalleries = new ArrayList<Gallery>();
+	public ArrayList<Gallery> localGalleries = new ArrayList<Gallery>();
+	public ArrayList<StringBuilder> tags = new ArrayList<StringBuilder>();
 	
 
     public boolean isCollectModel() {
@@ -31,7 +36,7 @@ public class GalleryAdapter extends BaseGroupAdapter {
 	}
 
 	public GalleryAdapter(Context context) {
-        super(context);
+		super(context);
         mInflater = LayoutInflater.from(context);
     }
 
@@ -48,15 +53,24 @@ public class GalleryAdapter extends BaseGroupAdapter {
         } else {
             orderHolder = (ViewHolder) convertView.getTag();
         }
-
-
+        orderHolder.select_img.setImageDrawable(null);
         Gallery gallery = (Gallery) getItem(position);
-//        orderHolder.titleView.setText(gallery.getTitle());
-//        MyApplication.imageLoader.getInstance().displayImage(MyUrl.TIANGOU_SERVICE+ gallery.getImg(), orderHolder.imageView);
+//      orderHolder.titleView.setText(gallery.getTitle());
         orderHolder.titleView.setText("图片");
-        if (orderHolder.imageView.getDrawable()==null) {
-        	MyApplication.imageLoader.getInstance().displayImage("erro", orderHolder.imageView);
+        if (tags.size()>position&&!tags.get(position).toString().equals("下载失败")) {
+        	//如果包含了下载失败说明下载过一次而且失败了，这时候图片无需重新加载
+        	MyImageLoader myImageLoader=new MyImageLoader();
+			ProgressBar progress_img=new ProgressBar(mContext);
+			TextView reload_tv=new TextView(mContext);
+			reload_tv.setText("加载失败点击重试");
+        	myImageLoader.setmImageView(orderHolder.imageView);
+        	myImageLoader.setmProgress_img(progress_img);
+        	myImageLoader.setmReload_tv(reload_tv);
+        	myImageLoader.setmImageView(orderHolder.imageView);
+        	myImageLoader.displayPicture(gallery.getImg(), tags.get(position));
+        	LogUtil.e("tags.get(position)", tags.get(position).toString());
 		}
+        
         if (isCollectModel) {
         	orderHolder.select_img.setVisibility(View.VISIBLE);
         	if (selectGalleries.contains(gallery)) {
@@ -71,15 +85,25 @@ public class GalleryAdapter extends BaseGroupAdapter {
         return convertView;
     }
 
-    @Override
-    public void setGroup(ArrayList g) {
-        super.setGroup(g);
-    }
-
     static class ViewHolder {
         TextView titleView;
         ImageView imageView;
         ImageView select_img;
     }
+
+	@Override
+	public int getCount() {
+		return localGalleries.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		return localGalleries.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
 
 }

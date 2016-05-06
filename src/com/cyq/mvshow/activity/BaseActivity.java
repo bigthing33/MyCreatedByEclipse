@@ -1,8 +1,5 @@
 package com.cyq.mvshow.activity;
 
-
-
-
 import com.cyq.mvshow.widget.TitleView;
 
 import android.os.Bundle;
