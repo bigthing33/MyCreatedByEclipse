@@ -194,7 +194,7 @@ public class PictureListsActivity extends BaseActivity implements OnRefreshListe
 			image_lv.setOnItemLongClickListener(new OnItemLongClickListener() {
 				@Override
 				public boolean onItemLongClick(AdapterView<?> parent,View view, int position, long id) {
-					DialogUtils.showIsSavePictureDialog(mActivity,picturesAdapter.localPictures.get((int) id));
+					DialogUtils.showIsSavePictureDialog(mActivity,picturesAdapter.getLocalPictures().get((int) id));
 					return true;
 				}
 			});
@@ -254,7 +254,7 @@ public class PictureListsActivity extends BaseActivity implements OnRefreshListe
 			for (Picture picture : localGallries.get(initItemposition).getList()) {
 				picturesAdapter.tags.add(new StringBuilder("初始态"));
 			}
-			picturesAdapter.localPictures=localGallries.get(initItemposition).getList();
+			picturesAdapter.setLocalPictures(localGallries.get(initItemposition).getList());
 			image_lv.setAdapter(picturesAdapter);
 			container.addView(view, LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 			return view;

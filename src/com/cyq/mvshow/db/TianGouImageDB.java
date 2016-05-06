@@ -123,19 +123,21 @@ public class TianGouImageDB {
 	 * @return
 	 */
 	public GallryDetailsRespone loadGallryDetailsRespone(int gallryId){
-		GallryDetailsRespone gallryDetailsRespone=new GallryDetailsRespone();
+		GallryDetailsRespone gallryDetailsRespone = null;
 		SQLiteDatabase db = dbHeleper.getWritableDatabase();
 		Cursor cursor = db.query(DatabaseHelper.GALLRY_TABLENAME, null, "gallryId = ? ", new String[]{String.valueOf(gallryId)}, null, null, "time"+" desc");
 		if(cursor.moveToFirst()){
-				gallryDetailsRespone.setId(cursor.getInt(cursor.getColumnIndex("gallryId")));
-				gallryDetailsRespone.setGalleryclass(cursor.getInt(cursor.getColumnIndex("galleryclass")));
-				gallryDetailsRespone.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-				gallryDetailsRespone.setImg(cursor.getString(cursor.getColumnIndex("img")));
-				gallryDetailsRespone.setCount(cursor.getInt(cursor.getColumnIndex("count")));
-				gallryDetailsRespone.setFcount(cursor.getInt(cursor.getColumnIndex("rcount")));
-				gallryDetailsRespone.setRcount(cursor.getInt(cursor.getColumnIndex("fcount")));
-				gallryDetailsRespone.setSize(cursor.getInt(cursor.getColumnIndex("size")));
-				gallryDetailsRespone.setList(loadPictures(gallryId,db));
+			    GallryDetailsRespone gallryDetails=new GallryDetailsRespone();
+			    gallryDetails.setId(cursor.getInt(cursor.getColumnIndex("gallryId")));
+			    gallryDetails.setGalleryclass(cursor.getInt(cursor.getColumnIndex("galleryclass")));
+			    gallryDetails.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+			    gallryDetails.setImg(cursor.getString(cursor.getColumnIndex("img")));
+			    gallryDetails.setCount(cursor.getInt(cursor.getColumnIndex("count")));
+			    gallryDetails.setFcount(cursor.getInt(cursor.getColumnIndex("rcount")));
+			    gallryDetails.setRcount(cursor.getInt(cursor.getColumnIndex("fcount")));
+			    gallryDetails.setSize(cursor.getInt(cursor.getColumnIndex("size")));
+			    gallryDetails.setList(loadPictures(gallryId,db));
+			    gallryDetailsRespone=gallryDetails;
 		}
 		if (cursor!=null) {
 			cursor.close();

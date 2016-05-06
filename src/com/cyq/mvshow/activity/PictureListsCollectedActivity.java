@@ -252,7 +252,7 @@ public class PictureListsCollectedActivity extends BaseActivity implements OnRef
 			});
 			picturesAdapter = new PictureAdapter(mActivity);
 			image_lv.setAdapter(picturesAdapter);
-			picturesAdapter.localPictures=localGallries.get(initItemposition).getList();
+			picturesAdapter.setLocalPictures(localGallries.get(initItemposition).getList());
 			for (Picture picture : localGallries.get(initItemposition).getList()) {
 				picturesAdapter.tags.add(new StringBuilder("初始态"));
 			}

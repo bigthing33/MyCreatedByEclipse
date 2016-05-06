@@ -5,6 +5,8 @@ import android.util.Log;
 import com.baidu.apistore.sdk.ApiCallBack;
 import com.baidu.apistore.sdk.ApiStoreSDK;
 import com.baidu.apistore.sdk.network.Parameters;
+import com.cyq.mvshow.MyApplication;
+import com.cyq.mvshow.db.TianGouImageDB;
 import com.cyq.mvshow.listener.GetClassesListener;
 import com.cyq.mvshow.listener.GetGalleriesListener;
 import com.cyq.mvshow.listener.GetGallryDetailsListener;
@@ -91,7 +93,7 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 					}
 				});
 	}
-	public void getImageDetailsByID(int id, final GetGallryDetailsListener listener, final boolean isForHead) {
+	public void getImageDetailsByID(final int id, final GetGallryDetailsListener listener, final boolean isForHead) {
 		Parameters para = new Parameters();
 		para.put("id", id + "");
 		LogUtil.e("getImageDetailsByID", id+"");
@@ -99,12 +101,14 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 				new ApiCallBack() {
 			
 			@Override
-			public void onSuccess(int status, String responseString) {
-						// Log.e("SEARCH_TIANGOU_CLASSIFY", "onSuccess");
-						// Log.e("SEARCH_TIANGOU_CLASSIFY", responseString);
+					public void onSuccess(int status, String responseString) {
+						LogUtil.e(" getImageDetailsByID", "onSuccess:"+id );
 						GallryDetailsRespone getGalleryListRespone = HandleResponse.handlevGetImageDetailsByID(responseString);
+						// 保存或替换数据库数据
+						TianGouImageDB.getInstance(MyApplication.context).saveGallryDetailsRespone(getGalleryListRespone);
+
 						listener.success(getGalleryListRespone, isForHead);
-			}
+					}
 			
 			@Override
 			public void onComplete() {
@@ -116,7 +120,12 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 					Exception e) {
 				Log.e("SEARCH_TIANGOU_LIST", "onError, status: " + status);
 				Log.e("SEARCH_TIANGOU_LIST","errMsg: " + (e == null ? "" : e.getMessage()));
-				listener.erro(responseString);
+				GallryDetailsRespone loadGallryDetailsRespone = TianGouImageDB.getInstance(MyApplication.context).loadGallryDetailsRespone(id);
+				if (loadGallryDetailsRespone!=null) {
+					listener.success(loadGallryDetailsRespone, isForHead);
+				}else {
+					listener.erro(responseString);
+				}
 			}
 		});
 	}

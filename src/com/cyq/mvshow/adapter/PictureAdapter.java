@@ -17,17 +17,29 @@ import com.cyq.mvshow.utils.MyImageLoader;
 import com.cyq.mvshow.utils.MyUrl;
 
 /**
+ * 图片适配器
  */
 public class PictureAdapter extends BaseGroupAdapter {
     private LayoutInflater mInflater;
 	private boolean isCollectModel;
 	public ArrayList<Picture> selectPictures = new ArrayList<Picture>();
-	public ArrayList<Picture> localPictures = new ArrayList<Picture>();
+	private ArrayList<Picture> localPictures = new ArrayList<Picture>();
 	public ArrayList<StringBuilder> tags = new ArrayList<StringBuilder>();
 	
 	
+	
 
-    public boolean isCollectModel() {
+    public ArrayList<Picture> getLocalPictures() {
+		return localPictures;
+	}
+
+	public void setLocalPictures(ArrayList<Picture> localPictures) {
+		if (localPictures!=null) {
+			this.localPictures = localPictures;
+		}
+	}
+
+	public boolean isCollectModel() {
 		return isCollectModel;
 	}
 
