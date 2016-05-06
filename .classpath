@@ -6,7 +6,6 @@
 	<classpathentry kind="lib" path="libs/ApiStoreSDK1.0.4.jar"/>
 	<classpathentry kind="lib" path="libs/gson-2.2.4.jar"/>
 	<classpathentry kind="lib" path="libs/universal-image-loader-1.9.5.jar"/>
-	<classpathentry kind="lib" path="libs/android-support-v4.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="output" path="bin/classes"/>
