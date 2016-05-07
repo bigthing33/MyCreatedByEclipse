@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.cyq.mvshow.MyApplication;
 import com.cyq.mvshow.R;
 import com.cyq.mvshow.model.Picture;
 import com.cyq.mvshow.utils.MyImageLoader;
@@ -56,7 +55,7 @@ public class PictureAdapter extends BaseGroupAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder orderHolder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_content_area, null);
+            convertView = mInflater.inflate(R.layout.item_picture, null);
             orderHolder = new ViewHolder();
             orderHolder.titleView = (TextView) convertView.findViewById(R.id.title);
             orderHolder.imageView = (ImageView) convertView.findViewById(R.id.image);
@@ -70,6 +69,7 @@ public class PictureAdapter extends BaseGroupAdapter {
 
         orderHolder.progressBar.setVisibility(View.GONE);
         orderHolder.reload_tv.setVisibility(View.GONE);
+        orderHolder.imageView.setImageDrawable(null);
         Picture picture = (Picture) getItem(position);
 //        orderHolder.titleView.setText(gallery.getTitle());
         orderHolder.titleView.setText("图片");

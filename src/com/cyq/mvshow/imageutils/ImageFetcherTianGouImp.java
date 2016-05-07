@@ -93,6 +93,12 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 					}
 				});
 	}
+	/**
+	 * 根据相册id加载组图数据
+	 * @param id
+	 * @param listener
+	 * @param isForHead
+	 */
 	public void getImageDetailsByID(final int id, final GetGallryDetailsListener listener, final boolean isForHead) {
 		Parameters para = new Parameters();
 		para.put("id", id + "");
@@ -104,11 +110,50 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 					public void onSuccess(int status, String responseString) {
 						LogUtil.e(" getImageDetailsByID", "onSuccess:"+id );
 						GallryDetailsRespone getGalleryListRespone = HandleResponse.handlevGetImageDetailsByID(responseString);
-						// 保存或替换数据库数据
-						TianGouImageDB.getInstance(MyApplication.context).saveGallryDetailsRespone(getGalleryListRespone);
-
 						listener.success(getGalleryListRespone, isForHead);
 					}
+			
+			@Override
+			public void onComplete() {
+				Log.e("SEARCH_TIANGOU_LIST", "onComplete");
+			}
+			
+			@Override
+			public void onError(int status, String responseString,
+					Exception e) {
+				Log.e("SEARCH_TIANGOU_LIST", "onError, status: " + status);
+				Log.e("SEARCH_TIANGOU_LIST","errMsg: " + (e == null ? "" : e.getMessage()));
+				GallryDetailsRespone loadGallryDetailsRespone = TianGouImageDB.getInstance(MyApplication.context).loadGallryDetailsRespone(id);
+				if (loadGallryDetailsRespone!=null) {
+					listener.success(loadGallryDetailsRespone, isForHead);
+				}else {
+					listener.erro(responseString);
+				}
+			}
+		});
+	}
+	/**
+	 * 根据相册id加载组图数据,并将数据保存到数据库中
+	 * @param id
+	 * @param listener
+	 * @param isForHead
+	 */
+	public void getAndSaveImageDetailsByID(final int id, final GetGallryDetailsListener listener, final boolean isForHead) {
+		Parameters para = new Parameters();
+		para.put("id", id + "");
+		LogUtil.e("getImageDetailsByID", id+"");
+		ApiStoreSDK.execute(MyUrl.SEARCH_TIANGOU_AtlasDetails, ApiStoreSDK.GET, para,
+				new ApiCallBack() {
+			
+			@Override
+			public void onSuccess(int status, String responseString) {
+				LogUtil.e(" getImageDetailsByID", "onSuccess:"+id );
+				GallryDetailsRespone getGalleryListRespone = HandleResponse.handlevGetImageDetailsByID(responseString);
+				// 保存或替换数据库数据
+				TianGouImageDB.getInstance(MyApplication.context).saveGallryDetailsRespone(getGalleryListRespone);
+				
+				listener.success(getGalleryListRespone, isForHead);
+			}
 			
 			@Override
 			public void onComplete() {

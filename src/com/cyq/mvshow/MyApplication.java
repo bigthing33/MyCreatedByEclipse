@@ -68,9 +68,9 @@ public class MyApplication extends Application {
 
 	private final static DisplayImageOptions getDefaultDisplayOption() {
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
-				.showImageOnLoading(null)
+				.showImageOnLoading(R.drawable.bg_white)
 				// 设置图片在下载期间显示的图片
-				.showImageForEmptyUri(null)
+				.showImageForEmptyUri(R.drawable.no_network)
 				// 设置图片Uri为空或是错误的时候显示的图片
 				.showImageOnFail(R.drawable.no_network)
 				// 设置图片加载/解码过程中错误时候显示的图片

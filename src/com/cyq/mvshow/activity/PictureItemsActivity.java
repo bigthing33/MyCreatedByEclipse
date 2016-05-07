@@ -2,6 +2,7 @@ package com.cyq.mvshow.activity;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,7 +35,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 public class PictureItemsActivity extends BaseActivity implements OnRefreshListener2<ViewPager> {
 
 	private PullToRefreshViewPager mPullToRefreshViewPager;
-	private static ArrayList<Picture> mPictures;
+//	private static ArrayList<Picture> mPictures;
+	private static GallryDetailsRespone mGallryDetailsRespone;
 	private SamplePagerAdapter samplePagerAdapter;
 	private ViewPager vp;
 	private static long mSelectId;
@@ -49,19 +52,19 @@ public class PictureItemsActivity extends BaseActivity implements OnRefreshListe
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ptr_viewpager);
-		mPictures = (ArrayList<Picture>) getIntent().getExtras().getSerializable("pictures");
+		mActivity=PictureItemsActivity.this;
+		
+		mGallryDetailsRespone = (GallryDetailsRespone) getIntent().getExtras().getSerializable("gallryDetailsRespone");
 		mSelectId = getIntent().getExtras().getLong("selectId");
-		headId=mPictures.get(0).getGallery();
-		footId=mPictures.get(0).getGallery();
+		headId=mGallryDetailsRespone.getId();
+		footId=mGallryDetailsRespone.getId();
 		mPullToRefreshViewPager = (PullToRefreshViewPager) findViewById(R.id.pull_refresh_viewpager);
 		mPullToRefreshViewPager.setOnRefreshListener(this);
-
-		 vp = mPullToRefreshViewPager.getRefreshableView();
+		vp = mPullToRefreshViewPager.getRefreshableView();
 		vp.setOffscreenPageLimit(5);
 		samplePagerAdapter = new SamplePagerAdapter();
 		vp.setAdapter(samplePagerAdapter);
 		vp.setCurrentItem((int) mSelectId);
-		mActivity=PictureItemsActivity.this;
 	}
 	@Override
 	public void onPullDownToRefresh(PullToRefreshBase<ViewPager> refreshView) {
@@ -99,9 +102,9 @@ public class PictureItemsActivity extends BaseActivity implements OnRefreshListe
 		public void success(GallryDetailsRespone gallryDetailsRespone,boolean isForHead) {
 			isLoading = false;
 			if (isForHead) {
-				mPictures.addAll(0, gallryDetailsRespone.getList());
+				mGallryDetailsRespone.getList().addAll(0, gallryDetailsRespone.getList());
 			} else {
-				mPictures.addAll(gallryDetailsRespone.getList());
+				mGallryDetailsRespone.getList().addAll(gallryDetailsRespone.getList());
 			}
 			if (samplePagerAdapter == null) {
 				samplePagerAdapter = new SamplePagerAdapter();
@@ -110,10 +113,10 @@ public class PictureItemsActivity extends BaseActivity implements OnRefreshListe
 				if (isForHead) {
 					samplePagerAdapter = new SamplePagerAdapter();
 					vp.setAdapter(samplePagerAdapter);
-					vp.setCurrentItem(gallryDetailsRespone.getList().size());
+					vp.setCurrentItem(gallryDetailsRespone.getList().size()-1);
 				} else {
 					samplePagerAdapter.notifyDataSetChanged();
-					vp.setCurrentItem(mPictures.size()-gallryDetailsRespone.getList().size());
+					vp.setCurrentItem(mGallryDetailsRespone.getList().size()-gallryDetailsRespone.getList().size());
 				}
 			}
 
@@ -147,36 +150,28 @@ public class PictureItemsActivity extends BaseActivity implements OnRefreshListe
 
 		@Override
 		public int getCount() {
-			return mPictures.size();
+			return mGallryDetailsRespone.getList().size();
 		}
 
+		@SuppressLint("NewApi")
 		@Override
 		public View instantiateItem(ViewGroup container, final int position) {
 			
 			ViewGroup view = (ViewGroup) mActivity.getLayoutInflater().inflate(R.layout.item_pulltorefresh_viewpager, null);
-			ZoomImageView zoomImageView = new ZoomImageView(container.getContext());
-			ProgressBar progress_img=new ProgressBar(mActivity);
-			TextView reload_tv=new TextView(mActivity);
-			reload_tv.setText("加载失败，点击重试");
+			TextView title=(TextView) view.findViewById(R.id.title);
+			ProgressBar progressbar=(ProgressBar) view.findViewById(R.id.progressbar);
+			title.setText(position+1+"");
 			
 			RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT); 
 			lp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE); 
+			
+			ZoomImageView zoomImageView = new ZoomImageView(container.getContext());
 			view.addView(zoomImageView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-			view.addView(progress_img, lp);
-			view.addView(reload_tv, lp);
 			
 			final MyImageLoader myImageLoader=new MyImageLoader();
-			reload_tv.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View arg0) {
-					myImageLoader.displayImage(MyUrl.TIANGOU_SERVICE+ mPictures.get(position).getSrc());
-				}
-			});
-			myImageLoader.mReload_tv = reload_tv;
 			myImageLoader.mImageView=zoomImageView;
-			myImageLoader.mProgress_img=progress_img;
-			myImageLoader.displayImage(MyUrl.TIANGOU_SERVICE+ mPictures.get(position).getSrc());
+			myImageLoader.setmProgress_img(progressbar);
+			myImageLoader.displayImage(MyUrl.TIANGOU_SERVICE+ mGallryDetailsRespone.getList().get(position).getSrc());
 			container.addView(view, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
             return view;
 		}
@@ -192,29 +187,11 @@ public class PictureItemsActivity extends BaseActivity implements OnRefreshListe
 		}
 	}
 
-//	private class GetDataTask extends AsyncTask<Void, Void, Void> {
-//
-//		@Override
-//		protected Void doInBackground(Void... params) {
-//			try {
-//				Thread.sleep(4000);
-//			} catch (InterruptedException e) {
-//			}
-//			return null;
-//		}
-//
-//		@Override
-//		protected void onPostExecute(Void result) {
-//			mPullToRefreshViewPager.onRefreshComplete();
-//			super.onPostExecute(result);
-//		}
-//	}
 
-	public static void actionStart(Activity activity,GallryDetailsRespone pictures, long selectId) {
+	public static void actionStart(Activity activity,GallryDetailsRespone gallryDetailsRespone, long selectId) {
 		//TODO 需要修改
-		Intent intent = new Intent(MyApplication.context,
-				PictureItemsActivity.class);
-		intent.putExtra("pictures", pictures.getList());
+		Intent intent = new Intent(MyApplication.context,PictureItemsActivity.class);
+		intent.putExtra("gallryDetailsRespone", gallryDetailsRespone);
 		intent.putExtra("selectId", selectId);
 		activity.startActivity(intent);
 	}

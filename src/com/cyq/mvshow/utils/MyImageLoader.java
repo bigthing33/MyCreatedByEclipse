@@ -21,11 +21,11 @@ public class MyImageLoader {
 
 
 	public void displayImage(String src) {
-		MyApplication.imageLoader.displayImage("erro", mImageView,mImageLoadingListener);
+		MyApplication.imageLoader.displayImage(src, mImageView,mImageLoadingListener);
 	}
 	public void displayPicture(String src,StringBuilder tag) {
 		mtag=tag;
-		MyApplication.imageLoader.displayImage("erro", mImageView,mImageLoadingListener);
+		MyApplication.imageLoader.displayImage(src, mImageView,mImageLoadingListener);
 	}
 
 	private class MyImageLoadingListener implements ImageLoadingListener {
@@ -48,7 +48,7 @@ public class MyImageLoader {
 		@Override
 		public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
 			if (mProgress_img!=null) {
-//				mProgress_img.setVisibility(View.GONE);
+				mProgress_img.setVisibility(View.GONE);
 			}
 			if (mReload_tv!=null) {
 				mReload_tv.setVisibility(View.VISIBLE);
@@ -66,7 +66,7 @@ public class MyImageLoader {
 			}
 			if (mImageView!=null&&mImageView.getTag().equals(tag)) {
 				ImageView img = (ImageView) view;
-				img.setImageBitmap(bitmap);
+//				img.setImageBitmap(bitmap);
 //				img.setImageResource(R.drawable.loaded);
 			}
 			replaceMtag("下载完成");

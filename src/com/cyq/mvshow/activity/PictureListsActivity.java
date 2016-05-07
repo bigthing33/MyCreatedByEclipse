@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
@@ -226,6 +227,7 @@ public class PictureListsActivity extends BaseActivity implements OnRefreshListe
 						if (TianGouImageDB.getInstance(mActivity).isContainGallery(localGallries.get(initItemposition).getId())) {
 							//说明已经收藏了，需要取消收藏
 							TianGouImageDB.getInstance(mActivity).deleteGallery(localGallries.get(initItemposition).getId());
+							Toast.makeText(mActivity, "取消了收藏", Toast.LENGTH_SHORT).show();
 						}else{
 							//收藏这个Gallery 
 							Gallery gallery = new Gallery();
@@ -238,6 +240,7 @@ public class PictureListsActivity extends BaseActivity implements OnRefreshListe
 							gallery.setSize(localGallries.get(initItemposition).getSize());
 							gallery.setTitle(localGallries.get(initItemposition).getTitle());
 							TianGouImageDB.getInstance(mActivity).saveGallry(gallery);
+							Toast.makeText(mActivity, "已收藏", Toast.LENGTH_SHORT).show();
 						}
 						if (TianGouImageDB.getInstance(mActivity).isContainGallery(localGallries.get(initItemposition).getId())) {
 							title.setRightBtnBackground(R.drawable.menu_collected);
