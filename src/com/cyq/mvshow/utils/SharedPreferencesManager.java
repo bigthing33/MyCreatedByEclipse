@@ -4,6 +4,7 @@ package com.cyq.mvshow.utils;
 import com.cyq.mvshow.MyApplication;
 import com.cyq.mvshow.model.GetGalleriesRespone;
 import com.cyq.mvshow.model.GetGalleryclassRespone;
+import com.cyq.mvshow.model.Set;
 import com.google.gson.Gson;
 
 /**
@@ -51,6 +52,28 @@ public class SharedPreferencesManager {
 					 GetGalleriesRespone.class);
 		}
 		return cacheDatas;
+	}
+	/**
+	 * 缓存设置
+	 * @param json
+	 */
+	public static void saveSet(Set set) {
+		String json=new Gson().toJson(set);
+		instanse.setContents("Set", json);
+	}
+	/**
+	 * 获取设置
+	 * @param json
+	 */
+	public static Set getSet() {
+		Set set = null;
+		if (instanse.getContents("Set", null)!=null) {
+			set = new Gson().fromJson(instanse.getContents("Set", null),Set.class);
+		}else{
+			set=new Set(0, "相册间轮播");
+			
+		}
+		return set;
 	}
 	
 }
