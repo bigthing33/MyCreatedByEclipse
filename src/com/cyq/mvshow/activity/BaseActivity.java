@@ -10,6 +10,5 @@ public class BaseActivity  extends FragmentActivity{
 	@Override
 	protected void onCreate( Bundle arg0) {
 		super.onCreate(arg0);
-
 	}
 }

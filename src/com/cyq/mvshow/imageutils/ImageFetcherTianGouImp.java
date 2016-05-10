@@ -20,6 +20,15 @@ import com.cyq.mvshow.utils.SharedPreferencesManager;
 
 
 public class ImageFetcherTianGouImp implements ImageFetcher {
+	/**
+	 * 获取最新图片
+	 * @param id 热点热词的id，
+	 * @param rows 返回图片个数
+	 * @param classify 分类id
+	 * @param isForHead 一个布尔值，会在listener的onSuccess方法里体现
+	 * @param listener 对外的接口
+	 * 会根据不同的id和分类id，在对外接口里提供不同的图片数据，这个方法里使用了Random来产生一个随机的id，分类id为0代表没有分类
+	 */
 
 	public void getGallriesNews( int id, int rows, int classify,final Boolean isForHead,final GetGalleriesListener listener) {
 		Parameters para = new Parameters();
@@ -56,9 +65,15 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 				});
 
 	}
-
-	public void getImageListByID(int id,  int page, int rows,
-			final boolean isForHead, final GetGalleriesListener listener) {
+/**
+ * 
+ * @param id 图片类型1-8
+ * @param page 页数
+ * @param rows 返回图片个数
+ * @param isForHead
+ * @param listener
+ */
+	public void getImageListByID(int id,  int page, int rows,final boolean isForHead, final GetGalleriesListener listener) {
 		Parameters para = new Parameters();
 		if (isForHead) {
 			para.put("page", 1+ "");// 返回的页数
@@ -73,8 +88,6 @@ public class ImageFetcherTianGouImp implements ImageFetcher {
 
 					@Override
 					public void onSuccess(int status, String responseString) {
-//						Log.e("SEARCH_TIANGOU_CLASSIFY", "onSuccess");
-//						Log.e("SEARCH_TIANGOU_CLASSIFY", responseString);
 						GetGalleriesRespone getGalleryListRespone = HandleResponse.handleGetGalleries(responseString);
 						listener.success(getGalleryListRespone,isForHead);
 					}
