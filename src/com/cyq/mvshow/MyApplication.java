@@ -7,7 +7,9 @@ import android.content.Context;
 
 import com.baidu.apistore.sdk.ApiStoreSDK;
 import com.cyq.mvshow.imageutils.ImageFetcherTianGouImp;
+import com.cyq.mvshow.model.Set;
 import com.cyq.mvshow.utils.MyImageLoader;
+import com.cyq.mvshow.utils.SharedPreferencesManager;
 
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
@@ -24,6 +26,7 @@ public class MyApplication extends Application {
 	public static Context context;
 	public static ImageLoader imageLoader;
 	public static ImageFetcherTianGouImp imageFetcherTianGouImp;
+	public static Set set;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -40,6 +43,10 @@ public class MyApplication extends Application {
 		 * apiStore的初始化
 		 */
 		ApiStoreSDK.init(this, "c80011105e9e420b1b5062e5ce435bf5");
+		/*
+		 * 设置的初始化
+		 */
+		set=SharedPreferencesManager.getSet();
 		super.onCreate();
 	}
 
