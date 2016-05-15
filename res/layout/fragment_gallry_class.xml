@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_alignParentTop="true"
-        my:title1="收藏" />
+        my:title1="分类美图" />
 
     <GridView
         android:id="@+id/mGridView"
@@ -32,7 +32,7 @@
         android:layout_height="@dimen/DIMEN_100PX"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:visibility="gone"
+        android:visibility="visible"
         android:weightSum="1" >
 
         <LinearLayout

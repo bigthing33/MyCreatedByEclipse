@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.widget.FrameLayout;
 
 import com.cyq.mvshow.R;
+import com.cyq.mvshow.fragment.GalleryClassFragment;
 import com.cyq.mvshow.fragment.GalleryCollectFragment;
 import com.cyq.mvshow.fragment.GalleryRandomFragment;
 import com.cyq.mvshow.widget.TitleView;
@@ -26,7 +27,7 @@ public class MainActivity extends BaseActivity {
 		mViewPager.setId(R.id.viewPager_imageclassify);
 		subFragmentContainer=(FrameLayout) findViewById(R.id.subFragmentContainer);
 		subFragmentContainer.addView(mViewPager);
-		mViewPager.setOffscreenPageLimit(0);// 设置缓存个数
+		mViewPager.setOffscreenPageLimit(2);// 设置缓存个数
 		initViewPager(mViewPager);
 	}
 
@@ -38,8 +39,10 @@ public class MainActivity extends BaseActivity {
 			public Fragment getItem(int index) {
 				switch (index) {
 				case 0:
-					return new GalleryRandomFragment();
+					return new GalleryClassFragment();
 				case 1:
+					return new GalleryRandomFragment();
+				case 2:
 					return new GalleryCollectFragment();
 
 				default:
@@ -50,7 +53,7 @@ public class MainActivity extends BaseActivity {
 
 			@Override
 			public int getCount() {
-				return 2;
+				return 3;
 			}
 			
 		});
