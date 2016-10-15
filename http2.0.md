@@ -128,7 +128,7 @@ HTTP 2.0 的出现，相比于 HTTP 1.x ，大幅度的提升了 web 性能。�
 在不改动 HTTP/1.x 的语义、方法、状态码、URI 以及首部字段….. 的情况下, HTTP/2 是如何做到「突破 HTTP1.1 的性能限制，改进传输性能，实现低延迟和高吞吐量」的 ?
 关键之一就是在 应用层(HTTP/2)和传输层(TCP or UDP)之间增加一个二进制分帧层。
 
-![二进制分帧](http://img.blog.csdn.net/20161015214247126)
+![这里写图片描述](http://img.blog.csdn.net/20161016000322188)
 
 HTTP/2 会将所有传输的信息分割为更小的消息和帧（frame）,并对它们采用二进制格式的编码 ，其中 HTTP1.x 的首部信息会被封装到 HEADER frame，而相应的 Request Body 则封装到 DATA frame 里面。
 
