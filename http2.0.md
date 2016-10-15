@@ -35,7 +35,8 @@ http请求和响应格式
 POST请求方式：可以在请求实体中向服务器发送数据，数据量不限大小。
  ② 请求头信息（key:value） 
 Accept：text/html,image/*  ——>通知服务器客户端所支持的数据类型
- Accept-Charset:ISO-8859-1  ——>通知服务器客户端所支持的编码方式 Accept-Encoding: gzip,compress  ——>通知服务器客户端所支持的数据压缩格式 
+Accept-Charset:ISO-8859-1  ——>通知服务器客户端所支持的编码方式 
+Accept-Encoding: gzip,compress  ——>通知服务器客户端所支持的数据压缩格式 
 Accept-Language: en-us,zh-cn ——>通知服务器客户端的语言环境 
 Host:www.baidu.com ——>通知服务器客户端请求的主机地址 
 If-Modified-since:Tue 11 Jul 2014 21:02:37 GMT ——>通知服务器资源的缓存时间 
@@ -49,26 +50,27 @@ Date：Tue 11 Jul 2014 21:02:37 GMT 客户端请求资源的当前时间
 ④ 请求实体（可选）：发送信息
 
  HTTP响应也分为四个部分（响应行、响应头信息、空行和响应实体） 
-① 响应行（协议版本、状态码和状态文字）
-② 响应头信息（key:value) 
+ ① 响应行（协议版本、状态码和状态文字）
+ ② 响应头信息（key:value) 
 Location:www.baidu.com ——>配合302通知客户端重定向的资源地址
  Server：Apache Tomcat ——>通知客户端服务器的类型 
- Content-Encoding:gzip ——>通知客户端数据的压缩格式 Content-length:80 ——>通知客户端回送数据的长度 
-Content-language:zh-cn ——>通知客户端回送数据的语言环境 
-Content-type:text/html;charset=GBK2312 ——>通知客户端回送数据的类型 
-Last-Modified: Tue 11 Jul 2014 21:02:37 GMT ——>通知客户端资源最后的缓存时间 
-Content-Disposition: attachement;filename=aaa.zip ——>通知客户端以下载方式打开请求资源 
-Transfer-Encoding:chuncked ——>通知客户端回送数据按照块传送 
-Set-Cookie:SS=QO=5Lb;path=/search 
-Etag:W/0384384093489023843  ——>通知客户端回送数据生成的唯一标识
+ Content-Encoding:gzip ——>通知客户端数据的压缩格式
+ Content-length:80 ——>通知客户端回送数据的长度 
+ Content-language:zh-cn ——>通知客户端回送数据的语言环境 
+ Content-type:text/html;charset=GBK2312 ——>通知客户端回送数据的类型 
+ Last-Modified: Tue 11 Jul 2014 21:02:37 GMT ——>通知客户端资源最后的缓存时间 
+ Content-Disposition: attachement;filename=aaa.zip ——>通知客户端以下载方式打开请求资源 
+ Transfer-Encoding:chuncked ——>通知客户端回送数据按照块传送 
+ Set-Cookie:SS=QO=5Lb;path=/search 
+ Etag:W/0384384093489023843  ——>通知客户端回送数据生成的唯一标识
  Expires:-1 ——>通知客户端回送数据缓存多长时间 
-Cache-Control:no-Cache ——>通知客户端回送数据无需缓存
+ Cache-Control:no-Cache ——>通知客户端回送数据无需缓存
  Pragma:no-Cache ——>通知客户端回送数据无需缓存 
-Connection:close/Keep-Alive 服务器请求完毕之后需要断开连接（close）；保持连接（Keep-Alive） 
-Date：Tue 11 Jul 2014 21:02:37 GMT 服务器请求资源的当前时间  
-③ 空行，响应头和响应实体之间用一个空行隔开，没有请求实体时，空行仍不能
+ Connection:close/Keep-Alive 服务器请求完毕之后需要断开连接（close）；保持连接（Keep-Alive） 
+ Date：Tue 11 Jul 2014 21:02:37 GMT 服务器请求资源的当前时间  
+ ③ 空行，响应头和响应实体之间用一个空行隔开，没有请求实体时，空行仍不能
 省 
-④ 响应实体（也可能没有）
+ ④ 响应实体（也可能没有）
 
 一个http请求实例
 
