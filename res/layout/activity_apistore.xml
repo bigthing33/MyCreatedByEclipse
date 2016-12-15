@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/searchImg_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="房子" />
+
+    <Button
+        android:id="@+id/searchImg_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="百度搜索图片" />
+    <Button
+        android:id="@+id/searchImgTiangouClassfy_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="天狗搜索图片分类" />
+    <Button
+        android:id="@+id/searchImgTiangouList_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="天狗搜索图片列表" />
+    <Button
+        android:id="@+id/searchImgTiangouAtlasDetails_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="天狗搜索图库详情" />
+    <Button
+        android:id="@+id/searchImgTiangouAtlasNews_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="天狗搜索最新图库" />
+
+    <TextView
+        android:id="@+id/searchImgResult_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="返回结果" />
+
+
+
+</LinearLayout>

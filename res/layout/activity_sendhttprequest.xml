@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/sample_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发送一个网络请求" />
+
+    <EditText
+        android:id="@+id/address_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="请求地址"
+         />
+
+    <Button
+        android:id="@+id/send_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发送" />
+
+    <TextView
+        android:id="@+id/result_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="结果显示" />
+
+</LinearLayout>

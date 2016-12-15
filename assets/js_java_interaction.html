@@ -1,0 +1,40 @@
+<html>
+ <head>
+
+    <title>这是标题</title>
+
+    <meta name="content-type" content="text/html; charset=utf-8">
+
+    <meta http-equlv="Content-Type" content="text/html;charset=utf-8">
+
+
+<script type="text/javascript">
+    function sayHello() {
+        alert("Hello")
+    }
+
+    function alertMessage(message) {
+        alert(message)
+    }
+
+    function toastMessage(message) {
+        window.control.toastMessage(message)
+    }
+
+    function sumToJava(number1, number2){
+       window.control.onSumResult(number1 + number2)
+    }
+    function getReturn(message) {
+        return 1;
+    }
+    function showInJava(){
+       window.control.showToastl("java你好，我来自html")
+    }
+</script>
+</ head>
+Java-Javascript Interaction In Android
+<body>
+<button type="button" onclick="alert('Welcome!')">点击这里</button>
+<button type="button" onclick="showInJava()">显示一个吐司</button>
+</body>
+</html>
