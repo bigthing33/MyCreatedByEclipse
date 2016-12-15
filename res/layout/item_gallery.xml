@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/list_selector"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="1dp" >
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:contentDescription="nothing"
+        android:scaleType="fitXY"
+        android:src="@drawable/no_network" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp"
+        android:alpha="0.5"
+        android:background="@color/background_floating_material_dark"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="@color/base_color"
+        android:textSize="@dimen/micro" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/DIMEN_60PX"
+        android:layout_height="@dimen/DIMEN_60PX"
+        android:layout_centerInParent="true"
+        android:visibility="gone" >
+    </ProgressBar>
+
+    <TextView
+        android:id="@+id/reload_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="点击重新加载"
+        android:visibility="gone" >
+    </TextView>
+
+    <ImageView
+        android:id="@+id/select_img"
+        android:layout_width="@dimen/DIMEN_45PX"
+        android:layout_height="@dimen/DIMEN_45PX"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/DIMEN_5PX"
+        android:layout_marginTop="@dimen/DIMEN_5PX"
+        android:src="@drawable/pr_unselected"
+        android:visibility="gone" />
+
+</RelativeLayout>

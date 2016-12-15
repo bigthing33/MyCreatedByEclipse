@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/DIMEN_130PX"
+    android:background="@drawable/title_background"
+    android:gravity="center_vertical" >
+
+    <Button
+        android:id="@+id/head_left_btn"
+        android:layout_width="@dimen/DIMEN_80PX"
+        android:layout_height="@dimen/DIMEN_80PX"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/DIMEN_20PX"
+        android:background="@drawable/ic_action_back" />
+
+    <TextView
+        android:id="@+id/head_title_tv"
+        android:layout_width="@dimen/DIMEN_320PX"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxWidth="@dimen/DIMEN_400PX"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="25sp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/myProgressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/head_title_tv"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/head_right_btn"
+        android:layout_width="@dimen/DIMEN_60PX"
+        android:layout_height="@dimen/DIMEN_60PX"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/DIMEN_30PX"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/head_right_btn2"
+        android:layout_width="@dimen/DIMEN_60PX"
+        android:layout_height="@dimen/DIMEN_60PX"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/DIMEN_30PX"
+        android:layout_toLeftOf="@id/head_right_btn"
+        android:background="@drawable/icon_his"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/msg_unreaddot"
+        android:layout_width="@dimen/DIMEN_18PX"
+        android:layout_height="@dimen/DIMEN_18PX"
+        android:layout_alignTop="@id/head_right_btn2"
+        android:layout_marginRight="@dimen/DIMEN_25PX"
+        android:layout_toLeftOf="@id/head_right_btn"
+        android:src="@drawable/dot_unread"
+        android:visibility="gone" />
+
+</RelativeLayout>

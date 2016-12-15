@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res/com.cyq.mvshow"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.cyq.mvshow.widget.TitleView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentTop="true"
+        my:title1="设置" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="1. 设置图片轮播时间" />
+
+    <RadioGroup
+        android:id="@+id/mPlayTimeSetRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:orientation="vertical" >
+
+        <RadioButton
+            android:id="@+id/manuallyPlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="手动轮播" />
+
+        <RadioButton
+            android:id="@+id/autoPlay5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5秒轮播" />
+
+        <RadioButton
+            android:id="@+id/autoPlay10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="10秒轮播" />
+
+        <RadioButton
+            android:id="@+id/autoPlay15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="15秒轮播" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="2. 设置图片轮播类型" />
+
+    <RadioGroup
+        android:id="@+id/mPlayTypeSetRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:orientation="vertical" >
+
+        <RadioButton
+            android:id="@+id/outPlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="相册间轮播" />
+
+        <RadioButton
+            android:id="@+id/innerPlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="相册内轮播" />
+    </RadioGroup>
+
+</LinearLayout>
