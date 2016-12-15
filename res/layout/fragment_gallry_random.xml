@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+
+
+    <com.handmark.pulltorefresh.library.PullToRefreshGridView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/image_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="100dp"
+        android:gravity="fill"
+        android:numColumns="2"
+        android:horizontalSpacing="1dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="1dp"
+        ptr:ptrMode="both" />
+    <!-- ptr:ptrDrawable="@drawable/android" /> -->
+
+</LinearLayout>
