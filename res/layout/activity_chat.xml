@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" 
+    android:background="@drawable/chat_background"
+    android:orientation="vertical"
+    >
+
+   <!--  <TextView
+        android:id="@+id/answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerInside"
+        android:cropToPadding="true"
+        android:layout_above="@+id/edit_send"
+        android:textSize="20sp"
+        android:alpha="0.6"
+        android:text="亲，你有什么想对我说的吗,什么都可以哦，只要你问，我就会回答你，我无所不能。"
+        android:background="@drawable/message_left"
+        
+         /> -->
+         <ListView 
+             android:id="@+id/msg_list_view"
+             android:layout_width="match_parent"
+             android:layout_height="0dp"
+             android:layout_weight="1"
+             android:divider="#0000">
+             
+         </ListView>
+    <LinearLayout
+        android:id="@+id/edit_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal"
+        android:weightSum="1">
+    <EditText 
+        android:id="@+id/question"
+        android:layout_width="0dp"
+        android:layout_weight="0.8"
+        android:layout_height="wrap_content"
+        />
+    <Button 
+        android:id="@+id/send"
+        android:layout_width="0dp"
+        android:layout_weight="0.2"
+        android:layout_height="wrap_content"
+        android:text="发送"
+        />
+    </LinearLayout>
+
+</LinearLayout>
